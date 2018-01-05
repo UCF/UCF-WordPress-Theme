@@ -1,0 +1,183 @@
+.header-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.header-content-flexfix {
+  // Reset flex rules so that child elements behave more predictably
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.header-content-inner {
+  width: 100%;
+
+  .container {
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+    }
+  }
+}
+
+.header-media {
+  height: 100%;
+  position: relative;
+
+  @include media-breakpoint-down(xs) {
+    min-height: ($header-img-xs-height / $header-img-xs-width) * 100vw;
+  }
+}
+
+.header-media-default {
+  @include media-breakpoint-up(sm) {
+    min-height: 500px;
+  }
+}
+
+.header-media-fullscreen {
+  @include media-breakpoint-up(sm) {
+    min-height: calc(90vh - #{$ucf-header-height});
+  }
+}
+
+.header-media-background-wrap {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.header-media-background {
+  height: 100%;
+  width: 100%;
+}
+
+.header-title {
+  display: block;
+  font-family: $font-family-slab-serif;
+  font-size: 8.75vw;
+  font-weight: 400;
+  line-height: 1;
+  margin: 0;
+  padding: .5rem .75rem;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 2.75rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: 3.25rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 4.25rem;
+    padding-bottom: .75rem;
+    padding-top: .75rem;
+  }
+}
+
+.header-subtitle {
+  display: block;
+  font-family: $font-family-slab-serif;
+  font-size: 4.25vw;
+  font-weight: 400;
+  line-height: $line-height-base;
+  margin: 0;
+  padding: .25rem .75rem;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 1.25rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 1.4rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+  }
+
+  .weather.theme-default {
+    color: $white;
+
+    .wi {
+      color: $brand-primary;
+    }
+  }
+}
+
+.header-gradient {
+  @include gradient-y(rgba($black, .5), transparent);
+}
+
+.navbar-custom {
+  z-index: 3;
+
+  .navbar-toggler.collapsed {
+    .navbar-toggler-text {
+      text-shadow: $nav-text-shadow;
+    }
+  }
+
+  // Selector depth required to match Bootstrap/Athena selectors
+  // scss-lint:disable NestingDepth SelectorDepth
+  .navbar-collapse {
+    @include media-breakpoint-down(md) {
+      background-color: transparentize(darken($brand-default, 25%), .025);
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: $nav-height;
+      z-index: 1;
+    }
+
+    @include media-breakpoint-down(xs) {
+      left: -$navbar-padding-x;
+      right: -$navbar-padding-x;
+    }
+
+    &.collapse.show,
+    &.collapsing {
+      border-top: 0 solid transparent;
+    }
+  }
+
+  .navbar-nav {
+    @include media-breakpoint-down(md) {
+      margin-left: 0;
+      margin-right: 0;
+      padding: $grid-gutter-width-base / 2;
+    }
+
+    @include media-breakpoint-up(lg) {
+      width: 100%;
+    }
+
+    .nav-link {
+      text-shadow: $nav-text-shadow;
+
+      @include media-breakpoint-only(lg) {
+        font-size: .7rem;
+      }
+
+      &:hover,
+      &:active {
+        background-color: rgba(0, 0, 0, .9);
+        color: $white;
+      }
+    }
+  }
+  // scss-lint:enable NestingDepth SelectorDepth
+}
+
+// Pushes .header-content up enough to prevent overlap with the
+// media background's video controls.
+.header-media-controlfix {
+  @include media-breakpoint-up(sm) {
+    height: 4.5rem;
+    pointer-events: none;
+  }
+}
