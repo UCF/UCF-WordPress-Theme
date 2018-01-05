@@ -28,7 +28,6 @@ function __init__() {
 
 
 	register_nav_menu( 'header-menu', __( 'Header Menu' ) );
-	register_nav_menu( 'footer-menu', __( 'Footer Menu' ) );
 }
 
 add_action( 'after_setup_theme', '__init__' );
@@ -56,10 +55,7 @@ add_action( 'customize_register', 'define_customizer_sections' );
 function define_customizer_fields( $wp_customize ) {
 	// Web Fonts
 	$wp_customize->add_setting(
-		'cloud_typography_key',
-		array(
-			'default' => get_theme_mod_default( 'cloud_typography_key' )
-		)
+		'cloud_typography_key'
 	);
 
 	$wp_customize->add_control(
@@ -77,10 +73,7 @@ function define_customizer_fields( $wp_customize ) {
 
 	// Analytics
 	$wp_customize->add_setting(
-		'gw_verify',
-		array(
-			'default' => get_theme_mod_default( 'gw_verify' )
-		)
+		'gw_verify'
 	);
 
 	$wp_customize->add_control(
@@ -94,10 +87,7 @@ function define_customizer_fields( $wp_customize ) {
 	);
 
 	$wp_customize->add_setting(
-		'gtm_id',
-		array(
-			'default' => get_theme_mod_default( 'gtm_id' )
-		)
+		'gtm_id'
 	);
 
 	$wp_customize->add_control(
@@ -111,10 +101,7 @@ function define_customizer_fields( $wp_customize ) {
 	);
 
 	$wp_customize->add_setting(
-		'chartbeat_uid',
-		array(
-			'default' => get_theme_mod_default( 'chartbeat_uid' )
-		)
+		'chartbeat_uid'
 	);
 
 	$wp_customize->add_control(
@@ -128,10 +115,7 @@ function define_customizer_fields( $wp_customize ) {
 	);
 
 	$wp_customize->add_setting(
-		'chartbeat_domain',
-		array(
-			'default' => get_theme_mod_default( 'chartbeat_domain' )
-		)
+		'chartbeat_domain'
 	);
 
 	$wp_customize->add_control(

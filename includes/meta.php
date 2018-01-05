@@ -13,7 +13,7 @@ function enqueue_frontend_assets() {
 
 	wp_enqueue_style( 'style', THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
-	if ( $fontkey = get_theme_mod_or_default( 'cloud_typography_key' ) ) {
+	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
 		wp_enqueue_style( 'webfont', $fontkey );
 	}
 
@@ -46,7 +46,7 @@ function add_meta_tags() {
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <?php
-$gw_verify = get_theme_mod_or_default( 'gw_verify' );
+$gw_verify = get_theme_mod( 'gw_verify' );
 if ( $gw_verify ):
 ?>
 <meta name="google-site-verification" content="<?php echo htmlentities( $gw_verify ); ?>">
@@ -90,8 +90,8 @@ add_filter( 'clean_url', 'add_id_to_ucfhb', 10, 1 );
  * the customizer.
  **/
 function add_chartbeat() {
-	$uid = get_theme_mod_or_default( 'chartbeat_uid' );
-	$domain = get_theme_mod_or_default( 'chartbeat_domain' );
+	$uid = get_theme_mod( 'chartbeat_uid' );
+	$domain = get_theme_mod( 'chartbeat_domain' );
 
 	if ( $uid && $domain ) {
 ?>
@@ -129,7 +129,7 @@ add_action( 'wp_footer', 'add_chartbeat' );
  * GTM ID is set in the customizer.
  **/
 function google_tag_manager_dl() {
-	$gtm_id = get_theme_mod_or_default( 'gtm_id' );
+	$gtm_id = get_theme_mod( 'gtm_id' );
 	if ( $gtm_id ) :
 ?>
 <script>
@@ -147,7 +147,7 @@ add_action( 'wp_head', 'google_tag_manager_dl', 2 );
  * set in the customizer.
  **/
 function google_tag_manager() {
-	$gtm_id = get_theme_mod_or_default( 'gtm_id' );
+	$gtm_id = get_theme_mod( 'gtm_id' );
 	if ( $gtm_id ) :
 ?>
 <!-- Google Tag Manager -->
@@ -168,7 +168,7 @@ add_action( 'wp_head', 'google_tag_manager', 3 );
  * Prints the Google Tag Manager noscript snippet using the GTM ID in Theme Options.
  **/
 function google_tag_manager_noscript() {
-	$gtm_id = get_theme_mod_or_default( 'gtm_id' );
+	$gtm_id = get_theme_mod( 'gtm_id' );
 	if ( $gtm_id ) :
 ?>
 <!-- Google Tag Manager (noscript) -->

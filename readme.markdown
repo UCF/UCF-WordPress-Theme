@@ -12,19 +12,17 @@ These plugins *must* be activated for the theme to function properly.
 * Advanced Custom Fields PRO
 
 ### Supported Plugins
-These plugins provide features that are extended or modified by the theme; however, they are not technically required on sites using this theme.
+The plugins listed below are extended upon in this theme--this may include custom layouts for feeds, style modifications, etc.  These plugins are not technically required on sites running this theme, and shouldn't be activated on sites that don't require their features.  A plugin does not have to be listed here to be compatible with this theme.
 * UCF Academic Calendar Plugin
 * UCF Alert Plugin
 * UCF Charts Plugin
 * UCF College Custom Taxonomy
 * UCF Degree Custom Post Type
-* UCF Degree Search Plugin
 * UCF Departments Taxonomy
 * UCF Events
 * UCF Footer
 * UCF News
 * UCF Pegasus List Shortcode
-* UCF Post List Shortcode
 * UCF Section
 * UCF Social Plugin
 * UCF Spotlight

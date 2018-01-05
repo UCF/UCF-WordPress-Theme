@@ -9,7 +9,6 @@
   "globals": {
     "Cookies": true,
     "UCFWP": true,
-    "UCFDegreeSearch": true,
     "Bloodhound": true
   },
   "extends": "eslint:recommended",
