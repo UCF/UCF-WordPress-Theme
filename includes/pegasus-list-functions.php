@@ -1,11 +1,16 @@
 <?php
 
-if ( class_exists( 'UCF_Pegasus_List_Common' ) ) {
+/**
+ * Add custom Pegasus List layout - Featured Issue layout
+ **/
+
+// Before
+if ( !function_exists( '' ) ) {
 
 	/**
 	 * Featured Issue Pegasus List Layout
 	 **/
-	function featured_pegasus_list_before( $content, $items, $args ) {
+	function ucfwp_pegasus_list_display_featured_before( $content, $items, $args ) {
 		ob_start();
 	?>
 		<div class="ucf-pegasus-list ucf-pegasus-list-featured">
@@ -13,10 +18,14 @@ if ( class_exists( 'UCF_Pegasus_List_Common' ) ) {
 		return ob_get_clean();
 	}
 
-	add_filter( 'ucf_pegasus_list_display_featured_before', 'featured_pegasus_list_before', 10, 3 );
+	add_filter( 'ucf_pegasus_list_display_featured_before', 'ucfwp_pegasus_list_display_featured_before', 10, 3 );
 
+}
 
-	function featured_pegasus_list_content( $content, $items, $args ) {
+// Content
+if ( !function_exists( 'ucfwp_pegasus_list_display_featured_content' ) ) {
+
+	function ucfwp_pegasus_list_display_featured_content( $content, $items, $args ) {
 		$first       = array_shift( $items );
 		$issue_url   = $first->link;
 		$issue_title = $first->title->rendered;
@@ -116,10 +125,14 @@ if ( class_exists( 'UCF_Pegasus_List_Common' ) ) {
 		return ob_get_clean();
 	}
 
-	add_filter( 'ucf_pegasus_list_display_featured_content', 'featured_pegasus_list_content', 10, 3 );
+	add_filter( 'ucf_pegasus_list_display_featured_content', 'ucfwp_pegasus_list_display_featured_content', 10, 3 );
 
+}
 
-	function featured_pegasus_list_after( $content, $items, $args ) {
+// After
+if ( !function_exists( 'ucfwp_pegasus_list_display_featured_after' ) ) {
+
+	function ucfwp_pegasus_list_display_featured_after( $content, $items, $args ) {
 		ob_start();
 	?>
 		</div>
@@ -127,11 +140,18 @@ if ( class_exists( 'UCF_Pegasus_List_Common' ) ) {
 		return ob_get_clean();
 	}
 
-	add_filter( 'ucf_pegasus_list_display_featured_after', 'featured_pegasus_list_after', 10, 3 );
+	add_filter( 'ucf_pegasus_list_display_featured_after', 'ucfwp_pegasus_list_display_featured_after', 10, 3 );
 
+}
+
+
+/**
+ * Register custom plugin layouts
+ **/
+if ( !function_exists( 'ucfwp_pegasus_add_layout' ) ) {
 
 	function ucfwp_pegasus_add_layout( $layouts ) {
-		if ( ! isset( $layouts['main_site'] ) ) {
+		if ( ! isset( $layouts['featured'] ) ) {
 			$layouts['featured'] = 'Featured Issue Layout';
 		}
 

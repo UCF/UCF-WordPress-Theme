@@ -1,22 +1,31 @@
 <?php
 
-if ( class_exists( 'UCF_Alert_Common' ) ) {
+/**
+ * Set required settings changes for UCF-Alert-Plugin
+ **/
+update_option( 'ucf_alert_include_css', false ); // Athena Theme rolls its own alert layout/styles
+update_option( 'ucf_alert_include_js', true ); // Athena Theme uses vanilla UCF-Alert-Plugin js
+update_option( 'ucf_alert_include_js_deps', false ); // Athena Theme includes js-cookie; see below
 
-	/**
-	 * Add custom alert layout
-	 **/
+if ( !function_exists( 'ucfwp_alert_js_deps' ) ) {
 
-	function ucfwp_alert_get_layouts( $layouts ) {
-		$layouts = array_merge(
-			$layouts,
-			array(
-				'faicon' => 'Icon Layout'
-			)
-		);
-		return $layouts;
+	function ucfwp_alert_js_deps() {
+		// js-cookie is included in script.min.js; make sure
+		// UCF-Alert-Plugin can use it:
+		return array( 'jquery', 'script' );
 	}
 
-	add_filter( 'ucf_alert_get_layouts', 'ucfwp_alert_get_layouts' );
+	add_filter( 'ucf_alert_script_deps', 'ucfwp_alert_js_deps', 10, 0 );
+
+}
+
+
+/**
+ * Add custom alert layout - "Icon" layout
+ **/
+
+// Before
+if ( !function_exists( 'ucfwp_alert_display_faicon_before' ) ) {
 
 	function ucfwp_alert_display_faicon_before( $content, $args ) {
 		$id = UCF_Alert_Common::get_alert_wrapper_id();
@@ -30,6 +39,11 @@ if ( class_exists( 'UCF_Alert_Common' ) ) {
 	}
 
 	add_filter( 'ucf_alert_display_faicon_before', 'ucfwp_alert_display_faicon_before', 10, 2 );
+
+}
+
+// Content
+if ( !function_exists( 'ucfwp_alert_display_faicon' ) ) {
 
 	function ucfwp_alert_display_faicon( $content, $args ) {
 		ob_start();
@@ -65,6 +79,11 @@ if ( class_exists( 'UCF_Alert_Common' ) ) {
 
 	add_filter( 'ucf_alert_display_faicon', 'ucfwp_alert_display_faicon', 10, 2 );
 
+}
+
+// After
+if ( !function_exists( 'ucfwp_alert_display_faicon_after' ) ) {
+
 	function ucfwp_alert_display_faicon_after( $content, $args ) {
 		ob_start();
 	?>
@@ -76,28 +95,38 @@ if ( class_exists( 'UCF_Alert_Common' ) ) {
 
 	add_filter( 'ucf_alert_display_faicon_after', 'ucfwp_alert_display_faicon_after', 10, 2 );
 
+}
 
-	/**
-	 * Set required settings changes for UCF-Alert-Plugin
-	 **/
-	update_option( 'ucf_alert_include_css', false ); // Athena Theme rolls its own alert layout/styles
-	update_option( 'ucf_alert_include_js', true ); // Athena Theme uses vanilla UCF-Alert-Plugin js
-	update_option( 'ucf_alert_include_js_deps', false ); // Athena Theme includes js-cookie; see below
 
-	function ucfwp_alert_js_deps() {
-		// js-cookie is included in script.min.js; make sure
-		// UCF-Alert-Plugin can use it:
-		return array( 'jquery', 'script' );
+/**
+ * Register custom UCF Alert plugin layouts
+ **/
+if ( !function_exists( 'ucfwp_alert_get_layouts' ) ) {
+
+	function ucfwp_alert_get_layouts( $layouts ) {
+		$layouts = array_merge(
+			$layouts,
+			array(
+				'faicon' => 'Icon Layout'
+			)
+		);
+		return $layouts;
 	}
-	add_filter( 'ucf_alert_script_deps', 'ucfwp_alert_js_deps', 10, 0 );
+
+	add_filter( 'ucf_alert_get_layouts', 'ucfwp_alert_get_layouts' );
+
+}
 
 
-	/**
-	 * Hook into the header template to display the alert
-	 **/
+/**
+ * Hook into the header template to display the alert
+ **/
+if ( !function_exists( 'ucfwp_display_alert' ) ) {
+
 	function ucfwp_display_alert() {
 		echo UCF_Alert_Common::display_alert( 'faicon', array() );
 	}
+
 	add_filter( 'after_body_open', 'ucfwp_display_alert', 1 );
 
 }

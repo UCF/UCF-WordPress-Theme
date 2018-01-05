@@ -1,10 +1,13 @@
 <?php
-if ( class_exists( 'UCF_Section_Common' ) ) {
 
-	/**
-	 * Section markup override
-	 **/
-	function add_section_markup_before( $content, $section, $class, $title, $section_id ) {
+/**
+ * Section markup override
+ **/
+
+// Before
+if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
+
+	function ucfwp_section_markup_before( $content, $section, $class, $title, $section_id ) {
 		// Retrieve background image sizes
 		$bg_image_sm_id = get_field( 'section_background_image', $section->ID );    // -sm+
 		$bg_image_xs_id = get_field( 'section_background_image_xs', $section->ID ); // -xs only
@@ -54,10 +57,14 @@ if ( class_exists( 'UCF_Section_Common' ) ) {
 		return ob_get_clean();
 	}
 
-	add_filter( 'ucf_section_display_before', 'add_section_markup_before', 10, 5 );
+	add_filter( 'ucf_section_display_before', 'ucfwp_section_markup_before', 10, 5 );
 
+}
 
-	function add_section_markup( $output, $section ) {
+// Content
+if ( !function_exists( 'ucfwp_section_markup' ) ) {
+
+	function ucfwp_section_markup( $output, $section ) {
 		$container = get_field( 'section_add_content_container', $section->ID );
 
 		ob_start();
@@ -71,6 +78,6 @@ if ( class_exists( 'UCF_Section_Common' ) ) {
 		return ob_get_clean();
 	}
 
-	add_filter( 'ucf_section_display', 'add_section_markup', 10, 2 );
+	add_filter( 'ucf_section_display', 'ucfwp_section_markup', 10, 2 );
 
 }

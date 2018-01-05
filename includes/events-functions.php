@@ -1,10 +1,13 @@
 <?php
-if ( class_exists( 'UCF_Events_Common' ) ) {
 
-	/**
-	 * Events - classic layout overrides
-	 **/
-	function mainsite_events_display_classic( $content, $items, $args, $display_type ) {
+/**
+ * Events - classic layout overrides
+ **/
+
+// Content
+if ( !function_exists( 'ucfwp_events_display_classic' ) ) {
+
+	function ucfwp_events_display_classic( $content, $items, $args, $display_type ) {
 		if ( $items && ! is_array( $items ) ) { $items = array( $items ); }
 		ob_start();
 	?>
@@ -45,6 +48,6 @@ if ( class_exists( 'UCF_Events_Common' ) ) {
 		return ob_get_clean();
 	}
 
-	add_filter( 'ucf_events_display_classic', 'mainsite_events_display_classic', 11, 4 );
+	add_filter( 'ucf_events_display_classic', 'ucfwp_events_display_classic', 11, 4 );
 
 }
