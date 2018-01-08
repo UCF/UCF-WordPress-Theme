@@ -4,20 +4,24 @@
  **/
 
 /**
- * Gets the header image for pages.
+ * Gets the header image for pages and taxonomy terms that have page header
+ * images enabled.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return array A set of Attachment IDs, one sized for use on -sm+ screens, and another for -xs
  **/
-function get_header_images( $obj ) {
-	$obj_id = get_object_id( $obj );
-	$field_id = get_object_field_id( $obj );
+function ucfwp_get_header_images( $obj ) {
+	$obj_id = ucfwp_get_object_id( $obj );
+	$field_id = ucfwp_get_object_field_id( $obj );
 
 	$retval = array(
 		'header_image'    => '',
 		'header_image_xs' => ''
 	);
 
-	if ( $obj instanceof WP_Post && $obj->post_type === 'degree' ) {
-		$retval = degree_backup_headers( $obj );
-	}
+	$retval = apply_filters( 'ucfwp_get_header_images_before', $retval, $obj );
 
 	if ( $obj_header_image = get_field( 'page_header_image', $field_id ) ) {
 		$retval['header_image'] = $obj_header_image;
@@ -26,37 +30,43 @@ function get_header_images( $obj ) {
 		$retval['header_image_xs'] = $obj_header_image_xs;
 	}
 
+	$retval = apply_filters( 'ucfwp_get_header_images_after', $retval, $obj );
+
 	if ( $retval['header_image'] ) {
 		return $retval;
 	}
 	return false;
 }
 
-function degree_backup_headers( $post ) {
-	$college = wp_get_post_terms( $post->ID, 'colleges' );
-
-	if ( is_array( $college ) ) {
-		$college = $college[0];
-	}
-
-	return array(
-		'header_image'    => get_field( 'page_header_image', 'colleges_' . $college->term_id ),
-		'header_image_xs' => get_field( 'page_header_image_xs', 'colleges_' . $college->term_id )
-	);
-}
-
 
 /**
- * Gets the header video sources for pages.
+ * Gets the header video sources for pages and taxonomy terms that have page
+ * header videos enabled.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return array A set of Attachment IDs corresponding to available video filetypes
  **/
-function get_header_videos( $obj ) {
-	$obj_id = get_object_id( $obj );
-	$field_id = get_object_field_id( $obj );
+function ucfwp_get_header_videos( $obj ) {
+	$obj_id = ucfwp_get_object_id( $obj );
+	$field_id = ucfwp_get_object_field_id( $obj );
 
 	$retval = array(
-		'webm' => get_field( 'page_header_webm', $field_id ),
-		'mp4'  => get_field( 'page_header_mp4', $field_id )
+		'webm' => '',
+		'mp4'  => ''
 	);
+
+	$retval = apply_filters( 'ucfwp_get_header_videos_before', $retval, $obj );
+
+	if ( $obj_header_video_mp4 = get_field( 'page_header_mp4', $field_id ) ) {
+		$retval['mp4'] = $obj_header_video_mp4;
+	}
+	if ( $obj_header_video_webm = get_field( 'page_header_webm', $field_id ) ) {
+		$retval['webm'] = $obj_header_video_webm;
+	}
+
+	$retval = apply_filters( 'ucfwp_get_header_videos_after', $retval, $obj );
 
 	$retval = array_filter( $retval );
 
@@ -64,17 +74,23 @@ function get_header_videos( $obj ) {
 	if ( isset( $retval['mp4'] ) ) {
 		return $retval;
 	}
-
 	return false;
 }
 
 
 /**
- * Returns title text for use in the page header.
+ * Returns texturized title text for use in the page header.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return string Header title text
  **/
- function get_header_title( $obj ) {
-	$field_id = get_object_field_id( $obj );
+ function ucfwp_get_header_title( $obj ) {
+	$field_id = ucfwp_get_object_field_id( $obj );
 	$title = '';
+
+	$title = apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
 
 	if ( is_tax() || is_category() || is_tag() ) {
 		$title = $obj->name;
@@ -88,16 +104,31 @@ function get_header_videos( $obj ) {
 		$title = do_shortcode( $custom_header_title );
 	}
 
+	$title = apply_filters( 'ucfwp_get_header_title_after', $title, $obj );
+
 	return wptexturize( $title );
 }
 
 
 /**
- * Returns subtitle text for use in the page header.
+ * Returns texturized subtitle text for use in the page header.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return string Header subtitle text
  **/
-function get_header_subtitle( $obj ) {
-	$field_id = get_object_field_id( $obj );
-	return wptexturize( do_shortcode( get_field( 'page_header_subtitle', $field_id ) ) );
+function ucfwp_get_header_subtitle( $obj ) {
+	$field_id = ucfwp_get_object_field_id( $obj );
+	$subtitle = '';
+
+	$subtitle = apply_filters( 'ucfwp_get_header_subtitle_before', $subtitle, $obj );
+
+	$subtitle = do_shortcode( get_field( 'page_header_subtitle', $field_id ) );
+
+	$subtitle = apply_filters( 'ucfwp_get_header_title_after', $subtitle, $obj );
+
+	return wptexturize( $subtitle );
 }
 
 
@@ -106,9 +137,14 @@ function get_header_subtitle( $obj ) {
  * Defaults to 'title' if the option isn't set.
  * Will force return a different value if the user screwed up (e.g. specified
  * "subtitle" but didn't provide a subtitle value).
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return string Option value for the designated page header h1
  **/
-function get_header_h1_option( $obj ) {
-	$field_id = get_object_field_id( $obj );
+function ucfwp_get_header_h1_option( $obj ) {
+	$field_id = ucfwp_get_object_field_id( $obj );
 	$subtitle = get_field( 'page_header_subtitle', $field_id ) ?: '';
 	$h1       = get_field( 'page_header_h1', $field_id ) ?: 'title';
 
@@ -120,7 +156,15 @@ function get_header_h1_option( $obj ) {
 }
 
 
-function get_nav_markup( $image=true ) {
+/**
+ * Returns HTML markup for the primary site navigation.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param bool $image Whether or not a media background is present in the page header.
+ * @return string Nav HTML
+ **/
+function ucfwp_get_nav_markup( $image=true ) {
 	ob_start();
 ?>
 	<nav class="navbar navbar-toggleable-md navbar-custom py-2<?php echo $image ? ' py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3 py-lg-4'; ?>" role="navigation">
@@ -151,11 +195,16 @@ function get_nav_markup( $image=true ) {
 /**
  * Returns markup for page header title + subtitles within headers that use a
  * media background.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return string HTML for the page title + subtitle
  **/
-function get_header_content_title_subtitle( $obj ) {
-	$title         = get_header_title( $obj );
-	$subtitle      = get_header_subtitle( $obj );
-	$h1            = get_header_h1_option( $obj );
+function ucfwp_get_header_content_title_subtitle( $obj ) {
+	$title         = ucfwp_get_header_title( $obj );
+	$subtitle      = ucfwp_get_header_subtitle( $obj );
+	$h1            = ucfwp_get_header_h1_option( $obj );
 	$title_elem    = ( $h1 === 'title' ) ? 'h1' : 'span';
 	$subtitle_elem = ( $h1 === 'subtitle' ) ? 'h1' : 'span';
 
@@ -185,9 +234,14 @@ function get_header_content_title_subtitle( $obj ) {
 
 /**
  * Returns markup for page header custom content.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return string HTML for the custom page header contents
  **/
-function get_header_content_custom( $obj ) {
-	$field_id = get_object_field_id( $obj );
+function ucfwp_get_header_content_custom( $obj ) {
+	$field_id = ucfwp_get_object_field_id( $obj );
 	$content = get_field( 'page_header_content', $field_id );
 
 	ob_start();
@@ -206,11 +260,18 @@ function get_header_content_custom( $obj ) {
 
 /**
  * Returns the markup for page headers with media backgrounds.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @param array $videos Assoc. array of video Attachment IDs for use in page header media background
+ * @param array $images Assoc. array of image Attachment IDs for use in page header media background
+ * @return string HTML for the page header
  **/
-function get_header_media_markup( $obj, $videos, $images ) {
-	$field_id   = get_object_field_id( $obj );
-	$videos     = $videos ?: get_header_videos( $obj );
-	$images     = $images ?: get_header_images( $obj );
+function ucfwp_get_header_media_markup( $obj, $videos, $images ) {
+	$field_id   = ucfwp_get_object_field_id( $obj );
+	$videos     = $videos ?: ucfwp_get_header_videos( $obj );
+	$images     = $images ?: ucfwp_get_header_images( $obj );
 	$video_loop = get_field( 'page_header_video_loop', $field_id );
 	$header_content_type = get_field( 'page_header_content_type', $field_id );
 	$header_height       = get_field( 'page_header_height', $field_id );
@@ -225,14 +286,14 @@ function get_header_media_markup( $obj, $videos, $images ) {
 				// Display the media background (video + picture)
 
 				if ( $videos ) {
-					echo get_media_background_video( $videos, $video_loop );
+					echo ucfwp_get_media_background_video( $videos, $video_loop );
 				}
 				if ( $images ) {
 					$bg_image_srcs = array();
 					switch ( $header_height ) {
 						case 'header-media-fullscreen':
-							$bg_image_srcs = get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
-							$bg_image_src_xs = get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
+							$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
+							$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
 
 							if ( isset( $bg_image_src_xs['xs'] ) ) {
 								$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
@@ -240,10 +301,10 @@ function get_header_media_markup( $obj, $videos, $images ) {
 
 							break;
 						default:
-							$bg_image_srcs = get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
+							$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
 							break;
 					}
-					echo get_media_background_picture( $bg_image_srcs );
+					echo ucfwp_get_media_background_picture( $bg_image_srcs );
 				}
 				?>
 			</div>
@@ -251,7 +312,7 @@ function get_header_media_markup( $obj, $videos, $images ) {
 
 		<?php
 		// Display the site nav
-		if ( !$exclude_nav ) { echo get_nav_markup(); }
+		if ( !$exclude_nav ) { echo ucfwp_get_nav_markup(); }
 		?>
 
 		<?php
@@ -261,10 +322,10 @@ function get_header_media_markup( $obj, $videos, $images ) {
 			<div class="header-content-flexfix">
 				<?php
 				if ( $header_content_type === 'custom' ) {
-					echo get_header_content_custom( $obj );
+					echo ucfwp_get_header_content_custom( $obj );
 				}
 				else {
-					echo get_header_content_title_subtitle( $obj );
+					echo ucfwp_get_header_content_title_subtitle( $obj );
 				}
 				?>
 			</div>
@@ -286,14 +347,19 @@ function get_header_media_markup( $obj, $videos, $images ) {
 
 /**
  * Returns the default markup for page headers without a media background.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param object $obj A WP_Post or WP_Term object
+ * @return string HTML for the page header
  **/
- function get_header_default_markup( $obj ) {
-	$title               = get_header_title( $obj );
-	$subtitle            = get_header_subtitle( $obj );
-	$field_id            = get_object_field_id( $obj );
+ function ucfwp_get_header_default_markup( $obj ) {
+	$title               = ucfwp_get_header_title( $obj );
+	$subtitle            = ucfwp_get_header_subtitle( $obj );
+	$field_id            = ucfwp_get_object_field_id( $obj );
 	$header_content_type = get_field( 'page_header_content_type', $field_id );
 	$exclude_nav         = get_field( 'page_header_exclude_nav', $field_id );
-	$h1                  = get_header_h1_option( $obj );
+	$h1                  = ucfwp_get_header_h1_option( $obj );
 	$title_elem          = ( $h1 === 'title' ) ? 'h1' : 'span';
 	$subtitle_elem       = ( $h1 === 'subtitle' ) ? 'h1' : 'p';
 
@@ -305,11 +371,11 @@ function get_header_media_markup( $obj, $videos, $images ) {
 
 	ob_start();
 ?>
-	<?php if ( !$exclude_nav ) { echo get_nav_markup( false ); } ?>
+	<?php if ( !$exclude_nav ) { echo ucfwp_get_nav_markup( false ); } ?>
 
 	<?php
 	if ( $header_content_type === 'custom' ):
-		echo get_header_content_custom( $obj );
+		echo ucfwp_get_header_content_custom( $obj );
 	elseif ( $title ):
 	?>
 	<div class="container">
@@ -329,17 +395,17 @@ function get_header_media_markup( $obj, $videos, $images ) {
 }
 
 
-function get_header_markup() {
+function ucfwp_get_header_markup() {
 	$obj = get_queried_object();
 
-	$videos = get_header_videos( $obj );
-	$images = get_header_images( $obj );
+	$videos = ucfwp_get_header_videos( $obj );
+	$images = ucfwp_get_header_images( $obj );
 
 	if ( $videos || $images ) {
-		echo get_header_media_markup( $obj, $videos, $images );
+		echo ucfwp_get_header_media_markup( $obj, $videos, $images );
 	}
 	else {
-		echo get_header_default_markup( $obj );
+		echo ucfwp_get_header_default_markup( $obj );
 	}
 }
 

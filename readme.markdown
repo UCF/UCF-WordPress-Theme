@@ -18,7 +18,6 @@ The plugins listed below are extended upon in this theme--this may include custo
 * UCF Charts Plugin
 * UCF College Custom Taxonomy
 * UCF Degree Custom Post Type
-* UCF Departments Taxonomy
 * UCF Events
 * UCF Footer
 * UCF News
@@ -26,7 +25,6 @@ The plugins listed below are extended upon in this theme--this may include custo
 * UCF Section
 * UCF Social Plugin
 * UCF Spotlight
-* UCF Tuition and Fees
 * UCF Weather Shortcode
 * Yoast SEO
 

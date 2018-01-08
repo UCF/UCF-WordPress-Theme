@@ -14,17 +14,17 @@
  * @param string $img_size_prefix Prefix for a set of image sizes
  * @return array
  **/
-function get_media_background_picture_srcs( $attachment_xs_id, $attachment_sm_id, $img_size_prefix ) {
+function ucfwp_get_media_background_picture_srcs( $attachment_xs_id, $attachment_sm_id, $img_size_prefix ) {
 	$bg_images = array();
 
 	if ( $attachment_sm_id ) {
 		$bg_images = array_merge(
 			$bg_images,
 			array(
-				'xl' => get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-xl' ),
-				'lg' => get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-lg' ),
-				'md' => get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-md' ),
-				'sm' => get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-sm' )
+				'xl' => ucfwp_get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-xl' ),
+				'lg' => ucfwp_get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-lg' ),
+				'md' => ucfwp_get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-md' ),
+				'sm' => ucfwp_get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix . '-sm' )
 			)
 		);
 
@@ -32,7 +32,7 @@ function get_media_background_picture_srcs( $attachment_xs_id, $attachment_sm_id
 		if ( !$attachment_xs_id ) {
 			$bg_images = array_merge(
 				$bg_images,
-				array( 'xs' => get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix ) )
+				array( 'xs' => ucfwp_get_attachment_src_by_size( $attachment_sm_id, $img_size_prefix ) )
 			);
 		}
 
@@ -45,7 +45,7 @@ function get_media_background_picture_srcs( $attachment_xs_id, $attachment_sm_id
 	if ( $attachment_xs_id ) {
 		$bg_images = array_merge(
 			$bg_images,
-			array( 'xs' => get_attachment_src_by_size( $attachment_xs_id, $img_size_prefix ) )
+			array( 'xs' => ucfwp_get_attachment_src_by_size( $attachment_xs_id, $img_size_prefix ) )
 		);
 	}
 
@@ -62,7 +62,7 @@ function get_media_background_picture_srcs( $attachment_xs_id, $attachment_sm_id
  * @param array $srcs Array of image urls that correspond to <source> src vals. Expects output from get_media_background_picture_srcs()
  * @return string
  **/
-function get_media_background_picture( $srcs ) {
+function ucfwp_get_media_background_picture( $srcs ) {
 	ob_start();
 
 	if ( isset( $srcs['fallback'] ) ) :
@@ -109,7 +109,7 @@ function get_media_background_picture( $srcs ) {
  * @param array $videos Array of video urls that correspond to <source> src vals
  * @return string
  **/
-function get_media_background_video( $videos, $loop=false ) {
+function ucfwp_get_media_background_video( $videos, $loop=false ) {
 	ob_start();
 ?>
 	<video class="hidden-xs-down media-background media-background-video object-fit-cover" autoplay muted <?php if ( $loop ) { ?>loop<?php } ?>>

@@ -7,7 +7,7 @@
 /**
  * Enqueue front-end css and js.
  **/
-function enqueue_frontend_assets() {
+function ucfwp_enqueue_frontend_assets() {
 	$theme = wp_get_theme();
 	$theme_version = $theme->get( 'Version' );
 
@@ -34,13 +34,13 @@ function enqueue_frontend_assets() {
 	) );
 }
 
-add_action( 'wp_enqueue_scripts', 'enqueue_frontend_assets' );
+add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_frontend_assets' );
 
 
 /**
  * Meta tags to insert into the document head.
  **/
-function add_meta_tags() {
+function ucfwp_add_meta_tags() {
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -54,7 +54,7 @@ if ( $gw_verify ):
 <?php
 }
 
-add_action( 'wp_head', 'add_meta_tags', 1 );
+add_action( 'wp_head', 'ucfwp_add_meta_tags', 1 );
 
 
 /**
@@ -89,7 +89,7 @@ add_filter( 'clean_url', 'add_id_to_ucfhb', 10, 1 );
  * Prints Chartbeat tracking code in the footer if a UID and Domain are set in
  * the customizer.
  **/
-function add_chartbeat() {
+function ucfwp_add_chartbeat() {
 	$uid = get_theme_mod( 'chartbeat_uid' );
 	$domain = get_theme_mod( 'chartbeat_domain' );
 
@@ -121,14 +121,14 @@ function add_chartbeat() {
 	}
 }
 
-add_action( 'wp_footer', 'add_chartbeat' );
+add_action( 'wp_footer', 'ucfwp_add_chartbeat' );
 
 
 /**
  * Prints the Google Tag Manager data layer snippet in the document head if a
  * GTM ID is set in the customizer.
  **/
-function google_tag_manager_dl() {
+function ucfwp_google_tag_manager_dl() {
 	$gtm_id = get_theme_mod( 'gtm_id' );
 	if ( $gtm_id ) :
 ?>
@@ -139,14 +139,14 @@ function google_tag_manager_dl() {
 	endif;
 }
 
-add_action( 'wp_head', 'google_tag_manager_dl', 2 );
+add_action( 'wp_head', 'ucfwp_google_tag_manager_dl', 2 );
 
 
 /**
  * Prints the Google Tag Manager script tag in the document head if a GTM ID is
  * set in the customizer.
  **/
-function google_tag_manager() {
+function ucfwp_google_tag_manager() {
 	$gtm_id = get_theme_mod( 'gtm_id' );
 	if ( $gtm_id ) :
 ?>
@@ -161,13 +161,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	endif;
 }
 
-add_action( 'wp_head', 'google_tag_manager', 3 );
+add_action( 'wp_head', 'ucfwp_google_tag_manager', 3 );
 
 
 /**
  * Prints the Google Tag Manager noscript snippet using the GTM ID in Theme Options.
  **/
-function google_tag_manager_noscript() {
+function ucfwp_google_tag_manager_noscript() {
 	$gtm_id = get_theme_mod( 'gtm_id' );
 	if ( $gtm_id ) :
 ?>
@@ -179,13 +179,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	endif;
 }
 
-add_action( 'after_body_open', 'google_tag_manager_noscript', 0 );
+add_action( 'after_body_open', 'ucfwp_google_tag_manager_noscript', 0 );
 
 
 /**
  * Sets a default favicon if a site icon is not already set.
  */
-function add_favicon_default() {
+function ucfwp_add_favicon_default() {
 	if ( !has_site_icon() ):
 ?>
 <link rel="shortcut icon" href="<?php echo UCFWP_THEME_URL . '/favicon.ico'; ?>" />
@@ -193,13 +193,13 @@ function add_favicon_default() {
 	endif;
 }
 
-add_filter( 'wp_head', 'add_favicon_default' );
+add_filter( 'wp_head', 'ucfwp_add_favicon_default' );
 
 
 /**
- * Generates a title based on context page is viewed.  Stolen from Thematic
+ * Generates a title based on context page is viewed.  Borrowed from Thematic
  **/
-function header_title( $title, $separator ) {
+function ucfwp_header_title( $title, $separator ) {
 	$site_name = get_bloginfo( 'name' );
 	if ( is_single() ) {
 		$content = single_post_title( '', false );
@@ -257,4 +257,4 @@ function header_title( $title, $separator ) {
 	return $doctitle;
 }
 
-add_filter( 'wp_title', 'header_title', 10, 2 );
+add_filter( 'wp_title', 'ucfwp_header_title', 10, 2 );
