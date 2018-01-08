@@ -157,7 +157,61 @@ function ucfwp_get_header_h1_option( $obj ) {
 
 
 /**
- * Returns HTML markup for the primary site navigation.
+ * Returns inner navbar markup for ucf.edu's primary site navigation.
+ *
+ * @since 1.0.0
+ * @author Jo Dickson
+ * @return string HTML markup
+ */
+if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
+	function ucfwp_get_mainsite_menu() {
+		global $wp_customize;
+		$customizing    = isset( $wp_customize );
+		$feed_url       = 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23';
+		$transient_name = 'ucfwp_mainsite_nav_json';
+		$result         = get_transient( $transient_name );
+
+		if ( empty( $result ) || $customizing ) {
+			$response = wp_remote_get( $feed_url, array( 'timeout' => 15 ) );
+			$response_code = wp_remote_retrieve_response_code( $response );
+
+			if ( is_array( $response ) && is_int( $response_code ) && $response_code < 400 ) {
+				$result = json_decode( wp_remote_retrieve_body( $response ) );
+			}
+			else {
+				$result = false;
+			}
+
+			if ( ! $customizing ) {
+				set_transient( $transient_name, $result, (60 * 60 * 24) );
+			}
+		}
+
+		if ( !$result ) { return ''; }
+		$menu = $result;
+
+		ob_start();
+	?>
+	<div class="collapse navbar-collapse" id="header-menu">
+		<ul id="menu-header-menu" class="nav navbar-nav nav-fill navbar-nav-mainsite">
+			<?php foreach ( $menu->items as $item ): ?>
+			<li class="menu-item nav-item">
+				<a href="<?php echo $item->url; ?>" target="<?php echo $item->target; ?>" class="nav-link">
+					<?php echo $item->title; ?>
+				</a>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<?php
+		return ob_get_clean();
+	}
+}
+
+
+/**
+ * Returns HTML markup for the primary site navigation.  Falls back to the
+ * ucf.edu primary navigation if a header menu is not set.
  *
  * @author Jo Dickson
  * @since 1.0.0
@@ -174,16 +228,21 @@ function ucfwp_get_nav_markup( $image=true ) {
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<?php
+			if ( has_nav_menu( 'header-menu' ) ) {
 				wp_nav_menu( array(
-					'theme_location'  => 'header-menu',
-					'depth'           => 1,
 					'container'       => 'div',
 					'container_class' => 'collapse navbar-collapse',
 					'container_id'    => 'header-menu',
-					'menu_class'      => 'nav navbar-nav nav-fill',
+					'depth'           => 2,
 					'fallback_cb'     => 'bs4Navwalker::fallback',
+					'menu_class'      => 'nav navbar-nav nav-fill',
+					'theme_location'  => 'header-menu',
 					'walker'          => new bs4Navwalker()
 				) );
+			}
+			else {
+				echo ucfwp_get_mainsite_menu();
+			}
 			?>
 		</div>
 	</nav>

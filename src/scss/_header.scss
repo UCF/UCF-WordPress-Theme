@@ -156,6 +156,12 @@
       width: 100%;
     }
 
+    .nav-item:last-child {
+      @include media-breakpoint-up(lg) {
+        margin-right: -$grid-gutter-width-base;
+      }
+    }
+
     .nav-link {
       text-shadow: $nav-text-shadow;
 
@@ -166,6 +172,21 @@
       &:hover,
       &:active {
         background-color: rgba(0, 0, 0, .9);
+        color: $white;
+      }
+    }
+  }
+
+  .navbar-nav-mainsite {
+    .nav-item:last-child .nav-link {
+      background-color: $brand-primary;
+      color: $black;
+      text-shadow: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $black;
         color: $white;
       }
     }
