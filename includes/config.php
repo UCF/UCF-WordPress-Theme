@@ -3,14 +3,14 @@
  * Handle all theme configuration here
  **/
 
-define( 'THEME_URL', get_stylesheet_directory_uri() );
-define( 'THEME_STATIC_URL', THEME_URL . '/static' );
-define( 'THEME_CSS_URL', THEME_STATIC_URL . '/css' );
-define( 'THEME_JS_URL', THEME_STATIC_URL . '/js' );
-define( 'THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
+define( 'UCFWP_THEME_URL', get_stylesheet_directory_uri() );
+define( 'UCFWP_THEME_STATIC_URL', UCFWP_THEME_URL . '/static' );
+define( 'UCFWP_THEME_CSS_URL', UCFWP_THEME_STATIC_URL . '/css' );
+define( 'UCFWP_THEME_JS_URL', UCFWP_THEME_STATIC_URL . '/js' );
+define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
 
 
-function __init__() {
+function ucfwp_init() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 	add_theme_support( 'title-tag' );
@@ -30,29 +30,29 @@ function __init__() {
 	register_nav_menu( 'header-menu', __( 'Header Menu' ) );
 }
 
-add_action( 'after_setup_theme', '__init__' );
+add_action( 'after_setup_theme', 'ucfwp_init' );
 
 
-function define_customizer_sections( $wp_customize ) {
+function ucfwp_define_customizer_sections( $wp_customize ) {
 	$wp_customize->add_section(
-		THEME_CUSTOMIZER_PREFIX . 'webfonts',
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'webfonts',
 		array(
 			'title' => 'Web Fonts'
 		)
 	);
 
 	$wp_customize->add_section(
-		THEME_CUSTOMIZER_PREFIX . 'analytics',
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics',
 		array(
 			'title' => 'Analytics'
 		)
 	);
 }
 
-add_action( 'customize_register', 'define_customizer_sections' );
+add_action( 'customize_register', 'ucfwp_define_customizer_sections' );
 
 
-function define_customizer_fields( $wp_customize ) {
+function ucfwp_define_customizer_fields( $wp_customize ) {
 	// Web Fonts
 	$wp_customize->add_setting(
 		'cloud_typography_key'
@@ -67,7 +67,7 @@ function define_customizer_fields( $wp_customize ) {
 								tag provided; e.g. "//cloud.typography.com/000000/000000/css/fonts.css".</strong><br><br>NOTE: Make sure the Cloud.Typography
 								project has been configured to deliver fonts to this site\'s domain.<br>
 								See the <a target="_blank" href="http://www.typography.com/cloud/user-guide/managing-domains">Cloud.Typography docs on managing domains</a> for more info.',
-			'section'     => THEME_CUSTOMIZER_PREFIX . 'webfonts'
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'webfonts'
 		)
 	);
 
@@ -82,7 +82,7 @@ function define_customizer_fields( $wp_customize ) {
 			'type'        => 'text',
 			'label'       => 'Google WebMaster Verification',
 			'description' => 'Example: <em>9Wsa3fspoaoRE8zx8COo48-GCMdi5Kd-1qFpQTTXSIw</em>',
-			'section'     => THEME_CUSTOMIZER_PREFIX . 'analytics'
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
 		)
 	);
 
@@ -96,7 +96,7 @@ function define_customizer_fields( $wp_customize ) {
 			'type'        => 'text',
 			'label'       => 'Google Tag Manager Container ID',
 			'description' => 'The ID for the container in Google Tag Manager that represents this site.',
-			'section'     => THEME_CUSTOMIZER_PREFIX . 'analytics'
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
 		)
 	);
 
@@ -110,7 +110,7 @@ function define_customizer_fields( $wp_customize ) {
 			'type'        => 'text',
 			'label'       => 'Chartbeat UID',
 			'description' => 'Example: <em>1842</em>',
-			'section'     => THEME_CUSTOMIZER_PREFIX . 'analytics'
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
 		)
 	);
 
@@ -124,25 +124,25 @@ function define_customizer_fields( $wp_customize ) {
 			'type'        => 'text',
 			'label'       => 'Chartbeat Domain',
 			'description' => 'Example: <em>some.domain.com</em>',
-			'section'     => THEME_CUSTOMIZER_PREFIX . 'analytics'
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
 		)
 	);
 }
 
-add_action( 'customize_register', 'define_customizer_fields' );
+add_action( 'customize_register', 'ucfwp_define_customizer_fields' );
 
 
 /**
  * Allow extra file types to be uploaded to the media library.
  **/
-function custom_mimes( $mimes ) {
+function ucfwp_custom_mimes( $mimes ) {
 	$mimes['svg'] = 'image/svg+xml';
 	$mimes['json'] = 'application/json';
 
 	return $mimes;
 }
 
-add_filter( 'upload_mimes', 'custom_mimes' );
+add_filter( 'upload_mimes', 'ucfwp_custom_mimes' );
 
 
 /**
@@ -275,7 +275,7 @@ remove_filter( 'the_excerpt', 'wpautop' );
  *
  * http://betterwp.net/wordpress-tips/disable-some-wordpress-pages/
  **/
-function kill_unused_templates() {
+function ucfwp_kill_unused_templates() {
 	global $wp_query, $post;
 
 	if ( is_author() || is_attachment() || is_day() || is_search() || is_feed() ) {
@@ -284,4 +284,4 @@ function kill_unused_templates() {
 	}
 }
 
-add_action( 'template_redirect', 'kill_unused_templates' );
+add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );

@@ -47,7 +47,7 @@ if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
 
 		$title = ! empty( $title ) ? ' data-section-link-title="' . $title . '" role="region" aria-label="' . $title . '"' : '';
 
-		$section_id = ! empty( $section_id ) ? ' id="' . $section_id . '"' : '';
+		$section_id = ! empty( $section_id ) ? 'id="' . $section_id . '" ' : '';
 
 		ob_start();
 	?>

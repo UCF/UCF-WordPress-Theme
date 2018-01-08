@@ -6,7 +6,7 @@
 
   const $btns = $('.media-background-video-toggle');
   const $videos = $('.media-background-video');
-  const cookieName = 'ucfedu-autoplay-bg-videos';
+  const cookieName = 'ucfwp-autoplay-bg-videos';
   const cookieSettings = {
     expires: 365,
     domain: UCFWP.domain

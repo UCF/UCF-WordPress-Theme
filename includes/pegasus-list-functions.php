@@ -5,7 +5,7 @@
  **/
 
 // Before
-if ( !function_exists( '' ) ) {
+if ( !function_exists( 'ucfwp_pegasus_list_display_featured_before' ) ) {
 
 	/**
 	 * Featured Issue Pegasus List Layout

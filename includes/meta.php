@@ -11,7 +11,7 @@ function enqueue_frontend_assets() {
 	$theme = wp_get_theme();
 	$theme_version = $theme->get( 'Version' );
 
-	wp_enqueue_style( 'style', THEME_CSS_URL . '/style.min.css', null, $theme_version );
+	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
 	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
 		wp_enqueue_style( 'webfont', $fontkey );
@@ -25,7 +25,7 @@ function enqueue_frontend_assets() {
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
 	wp_enqueue_script( 'wp-a11y' );
 	wp_enqueue_script( 'tether', 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', null, null, true );
-	wp_enqueue_script( 'script', THEME_JS_URL . '/script.min.js', array( 'jquery', 'tether' ), $theme_version, true );
+	wp_enqueue_script( 'script', UCFWP_THEME_JS_URL . '/script.min.js', array( 'jquery', 'tether' ), $theme_version, true );
 
 	// Add localized script variables to the document
 	$site_url = parse_url( get_site_url() );
@@ -188,7 +188,7 @@ add_action( 'after_body_open', 'google_tag_manager_noscript', 0 );
 function add_favicon_default() {
 	if ( !has_site_icon() ):
 ?>
-<link rel="shortcut icon" href="<?php echo THEME_URL . '/favicon.ico'; ?>" />
+<link rel="shortcut icon" href="<?php echo UCFWP_THEME_URL . '/favicon.ico'; ?>" />
 <?php
 	endif;
 }
