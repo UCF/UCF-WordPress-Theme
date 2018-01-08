@@ -6,7 +6,6 @@
 
 // Content
 if ( !function_exists( 'ucfwp_events_display_classic' ) ) {
-
 	function ucfwp_events_display_classic( $content, $items, $args, $display_type ) {
 		if ( $items && ! is_array( $items ) ) { $items = array( $items ); }
 		ob_start();
@@ -47,7 +46,5 @@ if ( !function_exists( 'ucfwp_events_display_classic' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_events_display_classic', 'ucfwp_events_display_classic', 11, 4 );
-
 }
+add_filter( 'ucf_events_display_classic', 'ucfwp_events_display_classic', 11, 4 );

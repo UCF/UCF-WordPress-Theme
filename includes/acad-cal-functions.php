@@ -6,18 +6,14 @@
 
 // Before
 if ( !function_exists( 'ucfwp_academic_calendar_modern_before' ) ) {
-
 	function ucfwp_academic_calendar_modern_before( $content, $items, $args ) {
 		return '<div class="academic-calendar-container">';
 	}
-
-	add_filter( 'ucf_acad_cal_display_modern_before', 'ucfwp_academic_calendar_modern_before', 10, 3 );
-
 }
+add_filter( 'ucf_acad_cal_display_modern_before', 'ucfwp_academic_calendar_modern_before', 10, 3 );
 
 // Title
 if ( !function_exists( 'ucfwp_academic_calendar_modern_title' ) ) {
-
 	function ucfwp_academic_calendar_modern_title( $content, $items, $args ) {
 		$title = isset( $args['title'] ) ? $args['title'] : 'Academic Calendar';
 
@@ -27,14 +23,11 @@ if ( !function_exists( 'ucfwp_academic_calendar_modern_title' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_acad_cal_display_modern_title', 'ucfwp_academic_calendar_modern_title', 10, 3 );
-
 }
+add_filter( 'ucf_acad_cal_display_modern_title', 'ucfwp_academic_calendar_modern_title', 10, 3 );
 
 // Content
 if ( !function_exists( 'ucfwp_academic_calendar_modern_content' ) ) {
-
 	function ucfwp_academic_calendar_modern_content( $content, $items, $args, $fallback_message ) {
 		ob_start();
 	?>
@@ -79,14 +72,11 @@ if ( !function_exists( 'ucfwp_academic_calendar_modern_content' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_acad_cal_display_modern', 'ucfwp_academic_calendar_modern_content', 10, 4 );
-
 }
+add_filter( 'ucf_acad_cal_display_modern', 'ucfwp_academic_calendar_modern_content', 10, 4 );
 
 // Custom date formatting
 if ( !function_exists( 'ucfwp_academic_calendar_format_date' ) ) {
-
 	function ucfwp_academic_calendar_format_date( $start_date, $end_date ) {
 		$start_date = strtotime( $start_date );
 		$end_date = strtotime( $end_date );
@@ -110,26 +100,21 @@ if ( !function_exists( 'ucfwp_academic_calendar_format_date' ) ) {
 		<?php
 		return ob_get_clean();
 	}
-
 }
 
 // After
 if ( !function_exists( 'ucfwp_academic_calendar_modern_after' ) ) {
-
 	function ucfwp_academic_calendar_modern_after( $content, $items, $args ) {
 		return '</div>';
 	}
-
-	add_filter( 'ucf_acad_cal_display_modern_after', 'ucfwp_academic_calendar_modern_after', 10, 3 );
-
 }
+add_filter( 'ucf_acad_cal_display_modern_after', 'ucfwp_academic_calendar_modern_after', 10, 3 );
 
 
 /**
  * Register custom Academic Calendar plugin layouts
  **/
 if ( !function_exists( 'ucfwp_academic_calendar_add_layout' ) ) {
-
 	function ucfwp_academic_calendar_add_layout( $layouts ) {
 		if ( ! isset( $layouts['modern'] ) ) {
 			$layouts['modern'] = 'Modern Layout';
@@ -137,7 +122,5 @@ if ( !function_exists( 'ucfwp_academic_calendar_add_layout' ) ) {
 
 		return $layouts;
 	}
-
-	add_filter( 'ucf_acad_cal_get_layouts', 'ucfwp_academic_calendar_add_layout', 10, 1 );
-
 }
+add_filter( 'ucf_acad_cal_get_layouts', 'ucfwp_academic_calendar_add_layout', 10, 1 );

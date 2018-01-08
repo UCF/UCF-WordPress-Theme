@@ -6,7 +6,6 @@
 
 // Before
 if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
-
 	function ucfwp_section_markup_before( $content, $section, $class, $title, $section_id ) {
 		// Retrieve background image sizes
 		$bg_image_sm_id = get_field( 'section_background_image', $section->ID );    // -sm+
@@ -56,14 +55,11 @@ if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_section_display_before', 'ucfwp_section_markup_before', 10, 5 );
-
 }
+add_filter( 'ucf_section_display_before', 'ucfwp_section_markup_before', 10, 5 );
 
 // Content
 if ( !function_exists( 'ucfwp_section_markup' ) ) {
-
 	function ucfwp_section_markup( $output, $section ) {
 		$container = get_field( 'section_add_content_container', $section->ID );
 
@@ -77,7 +73,5 @@ if ( !function_exists( 'ucfwp_section_markup' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_section_display', 'ucfwp_section_markup', 10, 2 );
-
 }
+add_filter( 'ucf_section_display', 'ucfwp_section_markup', 10, 2 );

@@ -6,10 +6,6 @@
 
 // Before
 if ( !function_exists( 'ucfwp_pegasus_list_display_featured_before' ) ) {
-
-	/**
-	 * Featured Issue Pegasus List Layout
-	 **/
 	function ucfwp_pegasus_list_display_featured_before( $content, $items, $args ) {
 		ob_start();
 	?>
@@ -17,14 +13,11 @@ if ( !function_exists( 'ucfwp_pegasus_list_display_featured_before' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_pegasus_list_display_featured_before', 'ucfwp_pegasus_list_display_featured_before', 10, 3 );
-
 }
+add_filter( 'ucf_pegasus_list_display_featured_before', 'ucfwp_pegasus_list_display_featured_before', 10, 3 );
 
 // Content
 if ( !function_exists( 'ucfwp_pegasus_list_display_featured_content' ) ) {
-
 	function ucfwp_pegasus_list_display_featured_content( $content, $items, $args ) {
 		$first       = array_shift( $items );
 		$issue_url   = $first->link;
@@ -124,14 +117,11 @@ if ( !function_exists( 'ucfwp_pegasus_list_display_featured_content' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_pegasus_list_display_featured_content', 'ucfwp_pegasus_list_display_featured_content', 10, 3 );
-
 }
+add_filter( 'ucf_pegasus_list_display_featured_content', 'ucfwp_pegasus_list_display_featured_content', 10, 3 );
 
 // After
 if ( !function_exists( 'ucfwp_pegasus_list_display_featured_after' ) ) {
-
 	function ucfwp_pegasus_list_display_featured_after( $content, $items, $args ) {
 		ob_start();
 	?>
@@ -139,17 +129,14 @@ if ( !function_exists( 'ucfwp_pegasus_list_display_featured_after' ) ) {
 	<?php
 		return ob_get_clean();
 	}
-
-	add_filter( 'ucf_pegasus_list_display_featured_after', 'ucfwp_pegasus_list_display_featured_after', 10, 3 );
-
 }
+add_filter( 'ucf_pegasus_list_display_featured_after', 'ucfwp_pegasus_list_display_featured_after', 10, 3 );
 
 
 /**
  * Register custom plugin layouts
  **/
 if ( !function_exists( 'ucfwp_pegasus_add_layout' ) ) {
-
 	function ucfwp_pegasus_add_layout( $layouts ) {
 		if ( ! isset( $layouts['featured'] ) ) {
 			$layouts['featured'] = 'Featured Issue Layout';
@@ -157,7 +144,5 @@ if ( !function_exists( 'ucfwp_pegasus_add_layout' ) ) {
 
 		return $layouts;
 	}
-
-	add_filter( 'ucf_pegasus_list_get_layouts', 'ucfwp_pegasus_add_layout', 10, 1 );
-
 }
+add_filter( 'ucf_pegasus_list_get_layouts', 'ucfwp_pegasus_add_layout', 10, 1 );
