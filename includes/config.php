@@ -3,7 +3,7 @@
  * Handle all theme configuration here
  **/
 
-define( 'UCFWP_THEME_URL', get_stylesheet_directory_uri() );
+define( 'UCFWP_THEME_URL', get_template_directory_uri() );
 define( 'UCFWP_THEME_STATIC_URL', UCFWP_THEME_URL . '/static' );
 define( 'UCFWP_THEME_CSS_URL', UCFWP_THEME_STATIC_URL . '/css' );
 define( 'UCFWP_THEME_JS_URL', UCFWP_THEME_STATIC_URL . '/js' );
