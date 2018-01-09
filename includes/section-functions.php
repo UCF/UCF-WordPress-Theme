@@ -10,7 +10,7 @@ if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
 		// Retrieve background image sizes
 		$bg_image_sm_id = get_field( 'section_background_image', $section->ID );    // -sm+
 		$bg_image_xs_id = get_field( 'section_background_image_xs', $section->ID ); // -xs only
-		$bg_images = get_media_background_picture_srcs( $bg_image_xs_id, $bg_image_sm_id, 'bg-img' );
+		$bg_images = ucfwp_get_media_background_picture_srcs( $bg_image_xs_id, $bg_image_sm_id, 'bg-img' );
 
 		// Retrieve color classes/custom definitions
 		$bg_color = get_field( 'section_background_color', $section->ID );
@@ -51,7 +51,7 @@ if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
 		ob_start();
 	?>
 		<section <?php echo $section_id; ?>class="<?php echo $section_classes; ?>" style="<?php echo $style_attrs; ?>"<?php echo $title; ?>>
-		<?php echo get_media_background_picture( $bg_images ); ?>
+		<?php echo ucfwp_get_media_background_picture( $bg_images ); ?>
 	<?php
 		return ob_get_clean();
 	}
