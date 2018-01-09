@@ -30,7 +30,7 @@ The plugins listed below are extended upon in this theme--this may include custo
 
 
 ## Configuration
-* Ensure that menus have been created and assigned to the Header Menu and Footer Menu locations.
+* If your site requires primary navigation, create a menu and assign it to the Header Menu location.  If no Header Menu is set, ucf.edu's primary navigation will be used.
 * Import field groups (`dev/acf-fields.json`) using the ACF importer under Custom Fields > Tools.
 * Ensure that webfonts have been properly configured to a [Cloud.Typography](https://www.typography.com/cloud/welcome/) CSS Key that [allows access to your environment](https://dashboard.typography.com/user-guide/managing-domains).
 * Create and set a static front page under Settings > Reading.
@@ -47,7 +47,7 @@ Note that compiled, minified css and js files are included within the repo.  Cha
 * gulp
 
 ### Instructions
-1. Clone the Main-Site-Theme repo into your development environment, within your WordPress installation's `themes/` directory: `git clone https://github.com/UCF/Main-Site-Theme.git`
+1. Clone the UCF-WordPress-Theme repo into your development environment, within your WordPress installation's `themes/` directory: `git clone https://github.com/UCF/UCF-WordPress-Theme.git`
 2. `cd` into the Main-Site-Theme directory, and run `npm install` to install required packages for development into `node_modules/` within the repo
 3. Copy `gulp-config.template.json`, make any desired changes, and save as `gulp-config.json`.
 3. Run `gulp default` to process front-end assets.
