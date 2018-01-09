@@ -7,6 +7,7 @@ define( 'UCFWP_THEME_URL', get_template_directory_uri() );
 define( 'UCFWP_THEME_STATIC_URL', UCFWP_THEME_URL . '/static' );
 define( 'UCFWP_THEME_CSS_URL', UCFWP_THEME_STATIC_URL . '/css' );
 define( 'UCFWP_THEME_JS_URL', UCFWP_THEME_STATIC_URL . '/js' );
+define( 'UCFWP_THEME_IMG_URL', UCFWP_THEME_STATIC_URL . '/img' );
 define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
 
 
