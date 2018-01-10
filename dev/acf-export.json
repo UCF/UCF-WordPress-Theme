@@ -614,25 +614,6 @@
                 "max_height": "",
                 "max_size": "",
                 "mime_types": ""
-            },
-            {
-                "key": "field_58f8d09f1abb6",
-                "label": "Add Content Container",
-                "name": "section_add_content_container",
-                "type": "true_false",
-                "instructions": "If checked, the content will be wrapped in a container.",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "message": "",
-                "default_value": 1,
-                "ui": 0,
-                "ui_on_text": "",
-                "ui_off_text": ""
             }
         ],
         "location": [
