@@ -58,20 +58,3 @@ if ( !function_exists( 'ucfwp_section_markup_before' ) ) {
 }
 add_filter( 'ucf_section_display_before', 'ucfwp_section_markup_before', 10, 5 );
 
-// Content
-if ( !function_exists( 'ucfwp_section_markup' ) ) {
-	function ucfwp_section_markup( $output, $section ) {
-		$container = get_field( 'section_add_content_container', $section->ID );
-
-		ob_start();
-	?>
-		<?php if ( $container ) : ?>
-			<div class="container"><?php echo apply_filters( 'the_content', $section->post_content ); ?></div>
-		<?php else : ?>
-			<?php echo apply_filters( 'the_content', $section->post_content ); ?>
-		<?php endif; ?>
-	<?php
-		return ob_get_clean();
-	}
-}
-add_filter( 'ucf_section_display', 'ucfwp_section_markup', 10, 2 );

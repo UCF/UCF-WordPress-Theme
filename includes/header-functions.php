@@ -454,9 +454,15 @@ function ucfwp_get_header_media_markup( $obj, $videos, $images ) {
 }
 
 
+/**
+ * Returns header markup for the current post or term.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @return string HTML for the page header
+ **/
 function ucfwp_get_header_markup() {
-	$obj = get_queried_object();
-
+	$obj    = get_queried_object();
 	$videos = ucfwp_get_header_videos( $obj );
 	$images = ucfwp_get_header_images( $obj );
 
@@ -465,6 +471,24 @@ function ucfwp_get_header_markup() {
 	}
 	else {
 		echo ucfwp_get_header_default_markup( $obj );
+	}
+}
+
+
+/**
+ * Returns subnavigation markup for the current post or term.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @return string HTML for the page header
+ **/
+function ucfwp_get_subnav_markup() {
+	$obj            = get_queried_object();
+	$field_id       = ucfwp_get_object_field_id( $obj );
+	$include_subnav = get_field( 'page_header_include_subnav', $field_id );
+
+	if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
+		echo do_shortcode( '[section-menu]' );
 	}
 }
 

@@ -13,4 +13,6 @@
 			<?php echo ucfwp_get_header_markup(); ?>
 		</header>
 
-		<main class="site-main" id="content" tabindex="-1">
+		<main class="site-main">
+			<?php echo ucfwp_get_subnav_markup(); ?>
+			<div class="site-content" id="content" tabindex="-1">

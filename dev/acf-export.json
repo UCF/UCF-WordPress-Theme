@@ -196,25 +196,6 @@
                 "delay": 0
             },
             {
-                "key": "field_5a0dead0cd525",
-                "label": "Exclude Primary Site Navigation",
-                "name": "page_header_exclude_nav",
-                "type": "true_false",
-                "instructions": "Controls whether or not the primary site navigation should be displayed at the top of the page.",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "message": "Exclude site navigation",
-                "default_value": 0,
-                "ui": 0,
-                "ui_on_text": "",
-                "ui_off_text": ""
-            },
-            {
                 "key": "field_590ca453f6655",
                 "label": "Header Size",
                 "name": "",
@@ -390,6 +371,60 @@
                 "ui": 0,
                 "ui_on_text": "",
                 "ui_off_text": ""
+            },
+            {
+                "key": "field_5a564fecfb51d",
+                "label": "Navigation",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0
+            },
+            {
+                "key": "field_5a0dead0cd525",
+                "label": "Exclude Primary Site Navigation",
+                "name": "page_header_exclude_nav",
+                "type": "true_false",
+                "instructions": "Controls whether or not the primary site navigation should be displayed at the top of the page.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Exclude site navigation",
+                "default_value": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
+            },
+            {
+                "key": "field_5a56501afb51e",
+                "label": "Include Subnavigation",
+                "name": "page_header_include_subnav",
+                "type": "true_false",
+                "instructions": "Enable this setting to display an affixed subnavigation bar below the page header.  Requires the Automatic Sections Menu plugin to be activated, and for at least one section within the page's content to be configured to appear in the navbar.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Include subnavigation",
+                "default_value": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
             }
         ],
         "location": [
@@ -404,14 +439,14 @@
                 {
                     "param": "post_type",
                     "operator": "==",
-                    "value": "degree"
+                    "value": "post"
                 }
             ],
             [
                 {
                     "param": "taxonomy",
                     "operator": "==",
-                    "value": "colleges"
+                    "value": "all"
                 }
             ]
         ],
