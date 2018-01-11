@@ -9,6 +9,7 @@ define( 'UCFWP_THEME_CSS_URL', UCFWP_THEME_STATIC_URL . '/css' );
 define( 'UCFWP_THEME_JS_URL', UCFWP_THEME_STATIC_URL . '/js' );
 define( 'UCFWP_THEME_IMG_URL', UCFWP_THEME_STATIC_URL . '/img' );
 define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
+define( 'UCFWP_MAINSITE_NAV_URL', 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23' );
 
 
 function ucfwp_init() {
@@ -36,6 +37,14 @@ add_action( 'after_setup_theme', 'ucfwp_init' );
 
 function ucfwp_define_customizer_sections( $wp_customize ) {
 	$wp_customize->add_section(
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'nav_settings',
+		array(
+			'title' => 'Navigation Settings',
+			'panel' => 'nav_menus'
+		)
+	);
+
+	$wp_customize->add_section(
 		UCFWP_THEME_CUSTOMIZER_PREFIX . 'webfonts',
 		array(
 			'title' => 'Web Fonts'
@@ -54,6 +63,24 @@ add_action( 'customize_register', 'ucfwp_define_customizer_sections' );
 
 
 function ucfwp_define_customizer_fields( $wp_customize ) {
+	// Menus
+	$wp_customize->add_setting(
+		'mainsite_nav_url',
+		array(
+			'default' => UCFWP_MAINSITE_NAV_URL
+		)
+	);
+
+	$wp_customize->add_control(
+		'mainsite_nav_url',
+		array(
+			'type'        => 'text',
+			'label'       => 'ucf.edu Primary Navigation JSON',
+			'description' => 'URL that points to a JSON feed of ucf.edu\'s primary navigation data.',
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'nav_settings'
+		)
+	);
+
 	// Web Fonts
 	$wp_customize->add_setting(
 		'cloud_typography_key'

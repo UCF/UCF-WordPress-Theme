@@ -63,3 +63,25 @@ function ucfwp_get_attachment_src_by_size( $id, $size ) {
 	}
 	return $attachment;
 }
+
+
+/**
+ * Returns a JSON object from the provided URL.  Detects undesirable status
+ * codes and returns false if the response doesn't look valid.
+ *
+ * @since 1.0.0
+ * @author Jo Dickson
+ * @param string $url URL that points to a JSON object/feed
+ * @return mixed JSON-decoded object or false on failure
+ */
+function ucfwp_fetch_json( $url ) {
+	$response      = wp_remote_get( $url, array( 'timeout' => 15 ) );
+	$response_code = wp_remote_retrieve_response_code( $response );
+	$result        = false;
+
+	if ( is_array( $response ) && is_int( $response_code ) && $response_code < 400 ) {
+		$result = json_decode( wp_remote_retrieve_body( $response ) );
+	}
+
+	return $result;
+}

@@ -21,7 +21,7 @@ function ucfwp_get_header_images( $obj ) {
 		'header_image_xs' => ''
 	);
 
-	$retval = apply_filters( 'ucfwp_get_header_images_before', $retval, $obj );
+	$retval = (array) apply_filters( 'ucfwp_get_header_images_before', $retval, $obj );
 
 	if ( $obj_header_image = get_field( 'page_header_image', $field_id ) ) {
 		$retval['header_image'] = $obj_header_image;
@@ -30,9 +30,9 @@ function ucfwp_get_header_images( $obj ) {
 		$retval['header_image_xs'] = $obj_header_image_xs;
 	}
 
-	$retval = apply_filters( 'ucfwp_get_header_images_after', $retval, $obj );
+	$retval = (array) apply_filters( 'ucfwp_get_header_images_after', $retval, $obj );
 
-	if ( $retval['header_image'] ) {
+	if ( isset( $retval['header_image'] ) && $retval['header_image'] ) {
 		return $retval;
 	}
 	return false;
@@ -57,7 +57,7 @@ function ucfwp_get_header_videos( $obj ) {
 		'mp4'  => ''
 	);
 
-	$retval = apply_filters( 'ucfwp_get_header_videos_before', $retval, $obj );
+	$retval = (array) apply_filters( 'ucfwp_get_header_videos_before', $retval, $obj );
 
 	if ( $obj_header_video_mp4 = get_field( 'page_header_mp4', $field_id ) ) {
 		$retval['mp4'] = $obj_header_video_mp4;
@@ -66,7 +66,7 @@ function ucfwp_get_header_videos( $obj ) {
 		$retval['webm'] = $obj_header_video_webm;
 	}
 
-	$retval = apply_filters( 'ucfwp_get_header_videos_after', $retval, $obj );
+	$retval = (array) apply_filters( 'ucfwp_get_header_videos_after', $retval, $obj );
 
 	$retval = array_filter( $retval );
 
@@ -90,7 +90,7 @@ function ucfwp_get_header_videos( $obj ) {
 	$field_id = ucfwp_get_object_field_id( $obj );
 	$title = '';
 
-	$title = apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
+	$title = (string) apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
 
 	if ( is_tax() || is_category() || is_tag() ) {
 		$title = $obj->name;
@@ -104,7 +104,7 @@ function ucfwp_get_header_videos( $obj ) {
 		$title = do_shortcode( $custom_header_title );
 	}
 
-	$title = apply_filters( 'ucfwp_get_header_title_after', $title, $obj );
+	$title = (string) apply_filters( 'ucfwp_get_header_title_after', $title, $obj );
 
 	return wptexturize( $title );
 }
@@ -122,11 +122,11 @@ function ucfwp_get_header_subtitle( $obj ) {
 	$field_id = ucfwp_get_object_field_id( $obj );
 	$subtitle = '';
 
-	$subtitle = apply_filters( 'ucfwp_get_header_subtitle_before', $subtitle, $obj );
+	$subtitle = (string) apply_filters( 'ucfwp_get_header_subtitle_before', $subtitle, $obj );
 
 	$subtitle = do_shortcode( get_field( 'page_header_subtitle', $field_id ) );
 
-	$subtitle = apply_filters( 'ucfwp_get_header_title_after', $subtitle, $obj );
+	$subtitle = (string) apply_filters( 'ucfwp_get_header_title_after', $subtitle, $obj );
 
 	return wptexturize( $subtitle );
 }
@@ -167,19 +167,18 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
 	function ucfwp_get_mainsite_menu( $image=true ) {
 		global $wp_customize;
 		$customizing    = isset( $wp_customize );
-		$feed_url       = 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23';
+		$feed_url       = get_theme_mod( 'mainsite_nav_url' ) ?: UCFWP_MAINSITE_NAV_URL;
 		$transient_name = 'ucfwp_mainsite_nav_json';
 		$result         = get_transient( $transient_name );
 
 		if ( empty( $result ) || $customizing ) {
-			$response = wp_remote_get( $feed_url, array( 'timeout' => 15 ) );
-			$response_code = wp_remote_retrieve_response_code( $response );
+			// Try fetching the theme mod value or default
+			$result = ucfwp_fetch_json( $feed_url );
 
-			if ( is_array( $response ) && is_int( $response_code ) && $response_code < 400 ) {
-				$result = json_decode( wp_remote_retrieve_body( $response ) );
-			}
-			else {
-				$result = false;
+			// If the theme mod value failed and it's not what we set as our
+			// default, try again using the default
+			if ( !$result && $feed_url !== UCFWP_MAINSITE_NAV_URL ) {
+				$result = ucfwp_fetch_json( UCFWP_MAINSITE_NAV_URL );
 			}
 
 			if ( ! $customizing ) {
