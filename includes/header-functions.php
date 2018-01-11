@@ -232,14 +232,14 @@ function ucfwp_get_nav_markup( $image=true ) {
 	if ( has_nav_menu( 'header-menu' ) ) {
 ?>
 	<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation">
-		<div class="container">
-			<div class="navbar-brand mr-lg-5"><a href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a></div>
+		<div class="container d-flex flex-row flex-nowrap justify-content-between">
+			<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
 			<button class="navbar-toggler ml-auto align-self-start collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-text">Navigation</span>
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<?php
-			$container_class = 'collapse navbar-collapse mx-auto';
+			$container_class = 'collapse navbar-collapse';
 			if ( !$image ) {
 				$container_class = $container_class . ' align-self-lg-stretch';
 			}

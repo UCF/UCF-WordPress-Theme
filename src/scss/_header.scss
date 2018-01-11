@@ -121,7 +121,7 @@
   z-index: 3;
 
   .navbar-toggler {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     max-width: 100%;
     width: auto;
 
@@ -179,21 +179,19 @@
 // Styles for a site-specific nav
 .navbar-custom {
   .navbar-brand {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
+    flex: 0 1 auto;
     white-space: normal;
-
-    > a {
-      color: inherit;
-    }
   }
 
   .navbar-collapse {
     @include media-breakpoint-up(lg) {
       flex: 0 1 auto;
-      max-width: 100%;
+      max-width: 70%;
       width: auto;
+    }
+
+    @include media-breakpoint-up(xl) {
+      max-width: 75%;
     }
   }
 }
