@@ -113,17 +113,25 @@
   @include gradient-y(rgba($black, .5), transparent);
 }
 
-.navbar-custom {
+// Styles for both the main site's primary navigation and a site-specific nav.
+// Selector depth required to match Bootstrap/Athena selectors
+// scss-lint:disable NestingDepth SelectorDepth
+.navbar-custom,
+.navbar-mainsite {
   z-index: 3;
 
-  .navbar-toggler.collapsed {
-    .navbar-toggler-text {
-      text-shadow: $nav-text-shadow;
+  .navbar-toggler {
+    flex: 0 1 auto;
+    max-width: 100%;
+    width: auto;
+
+    &.collapsed {
+      .navbar-toggler-text {
+        text-shadow: $nav-text-shadow;
+      }
     }
   }
 
-  // Selector depth required to match Bootstrap/Athena selectors
-  // scss-lint:disable NestingDepth SelectorDepth
   .navbar-collapse {
     @include media-breakpoint-down(md) {
       background-color: transparentize(darken($brand-default, 25%), .025);
@@ -152,16 +160,6 @@
       padding: $grid-gutter-width-base / 2;
     }
 
-    @include media-breakpoint-up(lg) {
-      width: 100%;
-    }
-
-    .nav-item:last-child {
-      @include media-breakpoint-up(lg) {
-        margin-right: -$grid-gutter-width-base;
-      }
-    }
-
     .nav-link {
       text-shadow: $nav-text-shadow;
 
@@ -176,23 +174,58 @@
       }
     }
   }
+}
 
-  .navbar-nav-mainsite {
-    .nav-item:last-child .nav-link {
-      background-color: $brand-primary;
-      color: $black;
-      text-shadow: none;
+// Styles for a site-specific nav
+.navbar-custom {
+  .navbar-brand {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+    white-space: normal;
 
-      &:hover,
-      &:focus,
-      &:active {
-        background-color: $black;
-        color: $white;
+    > a {
+      color: inherit;
+    }
+  }
+
+  .navbar-collapse {
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 auto;
+      max-width: 100%;
+      width: auto;
+    }
+  }
+}
+
+// Styles specific to the main site's nav
+.navbar-mainsite {
+  .navbar-nav {
+    @include media-breakpoint-up(lg) {
+      width: 100%;
+    }
+
+    .nav-item:last-child {
+      @include media-breakpoint-up(lg) {
+        margin-right: -$grid-gutter-width-base;
+      }
+
+      .nav-link {
+        background-color: $brand-primary;
+        color: $black;
+        text-shadow: none;
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: $black;
+          color: $white;
+        }
       }
     }
   }
-  // scss-lint:enable NestingDepth SelectorDepth
 }
+// scss-lint:enable NestingDepth SelectorDepth
 
 // Pushes .header-content up enough to prevent overlap with the
 // media background's video controls.

@@ -164,7 +164,7 @@ function ucfwp_get_header_h1_option( $obj ) {
  * @return string HTML markup
  */
 if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
-	function ucfwp_get_mainsite_menu() {
+	function ucfwp_get_mainsite_menu( $image=true ) {
 		global $wp_customize;
 		$customizing    = isset( $wp_customize );
 		$feed_url       = 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23';
@@ -192,17 +192,25 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
 
 		ob_start();
 	?>
-	<div class="collapse navbar-collapse" id="header-menu">
-		<ul id="menu-header-menu" class="nav navbar-nav nav-fill navbar-nav-mainsite">
-			<?php foreach ( $menu->items as $item ): ?>
-			<li class="menu-item nav-item">
-				<a href="<?php echo $item->url; ?>" target="<?php echo $item->target; ?>" class="nav-link">
-					<?php echo $item->title; ?>
-				</a>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
+	<nav class="navbar navbar-toggleable-md navbar-mainsite py-2<?php echo $image ? ' py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3 py-lg-4'; ?>" role="navigation">
+		<div class="container">
+			<button class="navbar-toggler ml-auto collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-text">Navigation</span>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="header-menu">
+				<ul id="menu-header-menu" class="nav navbar-nav nav-fill">
+					<?php foreach ( $menu->items as $item ): ?>
+					<li class="menu-item nav-item">
+						<a href="<?php echo $item->url; ?>" target="<?php echo $item->target; ?>" class="nav-link">
+							<?php echo $item->title; ?>
+						</a>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+	</nav>
 	<?php
 		return ob_get_clean();
 	}
@@ -220,33 +228,40 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
  **/
 function ucfwp_get_nav_markup( $image=true ) {
 	ob_start();
+
+	if ( has_nav_menu( 'header-menu' ) ) {
 ?>
-	<nav class="navbar navbar-toggleable-md navbar-custom py-2<?php echo $image ? ' py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3 py-lg-4'; ?>" role="navigation">
+	<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation">
 		<div class="container">
-			<button class="navbar-toggler ml-auto mr-0 collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
+			<div class="navbar-brand mr-lg-5"><a href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a></div>
+			<button class="navbar-toggler ml-auto align-self-start collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-text">Navigation</span>
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<?php
-			if ( has_nav_menu( 'header-menu' ) ) {
-				wp_nav_menu( array(
-					'container'       => 'div',
-					'container_class' => 'collapse navbar-collapse',
-					'container_id'    => 'header-menu',
-					'depth'           => 2,
-					'fallback_cb'     => 'bs4Navwalker::fallback',
-					'menu_class'      => 'nav navbar-nav nav-fill',
-					'theme_location'  => 'header-menu',
-					'walker'          => new bs4Navwalker()
-				) );
+			$container_class = 'collapse navbar-collapse mx-auto';
+			if ( !$image ) {
+				$container_class = $container_class . ' align-self-lg-stretch';
 			}
-			else {
-				echo ucfwp_get_mainsite_menu();
-			}
+			wp_nav_menu( array(
+				'container'       => 'div',
+				'container_class' => $container_class,
+				'container_id'    => 'header-menu',
+				'depth'           => 2,
+				'fallback_cb'     => 'bs4Navwalker::fallback',
+				'menu_class'      => 'nav navbar-nav ml-md-auto',
+				'theme_location'  => 'header-menu',
+				'walker'          => new bs4Navwalker()
+			) );
 			?>
 		</div>
 	</nav>
 <?php
+	}
+	else {
+		echo ucfwp_get_mainsite_menu( $image );
+	}
+
 	return ob_get_clean();
 }
 
