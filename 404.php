@@ -2,8 +2,8 @@
 
 <?php get_header(); ?>
 
-<article id="page-not-found">
-	<div class="container mb-5">
+<article id="page-not-found" class="mt-4 mt-sm-5 mb-5">
+	<div class="container">
 		<?php
 		$page = get_page_by_title( '404' );
 		$content = '';
