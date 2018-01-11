@@ -489,7 +489,15 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
  **/
 if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 	function ucfwp_get_header_markup() {
-		$obj    = get_queried_object();
+		$obj = get_queried_object();
+
+		if ( !$obj && is_404() ) {
+			$page = get_page_by_title( '404' );
+			if ( $page && $page->post_status === 'publish' ) {
+				$obj = $page;
+			}
+		}
+
 		$videos = ucfwp_get_header_videos( $obj );
 		$images = ucfwp_get_header_images( $obj );
 
@@ -512,7 +520,15 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
  **/
 if ( !function_exists( 'ucfwp_get_subnav_markup' ) ) {
 	function ucfwp_get_subnav_markup() {
-		$obj            = get_queried_object();
+		$obj = get_queried_object();
+
+		if ( !$obj && is_404() ) {
+			$page = get_page_by_title( '404' );
+			if ( $page && $page->post_status === 'publish' ) {
+				$obj = $page;
+			}
+		}
+
 		$field_id       = ucfwp_get_object_field_id( $obj );
 		$include_subnav = get_field( 'page_header_include_subnav', $field_id );
 

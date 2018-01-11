@@ -1,8 +1,9 @@
 <?php @header( 'HTTP/1.1 404 Not found', true, 404 ); ?>
 
-<?php get_header(); the_post();?>
-<article role="main" id="page-not-found">
-	<div class="container">
+<?php get_header(); ?>
+
+<article id="page-not-found">
+	<div class="container mb-5">
 		<?php
 		$page = get_page_by_title( '404' );
 		$content = '';
@@ -41,4 +42,5 @@
 		<?php endif; ?>
 	</div>
 </article>
+
 <?php get_footer();?>
