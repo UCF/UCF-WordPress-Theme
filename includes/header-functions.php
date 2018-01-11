@@ -71,7 +71,7 @@ function ucfwp_get_header_videos( $obj ) {
 	$retval = array_filter( $retval );
 
 	// MP4 must be available to display video successfully cross-browser
-	if ( isset( $retval['mp4'] ) ) {
+	if ( isset( $retval['mp4'] ) && $retval['mp4'] ) {
 		return $retval;
 	}
 	return false;
@@ -143,16 +143,18 @@ function ucfwp_get_header_subtitle( $obj ) {
  * @param object $obj A WP_Post or WP_Term object
  * @return string Option value for the designated page header h1
  **/
-function ucfwp_get_header_h1_option( $obj ) {
-	$field_id = ucfwp_get_object_field_id( $obj );
-	$subtitle = get_field( 'page_header_subtitle', $field_id ) ?: '';
-	$h1       = get_field( 'page_header_h1', $field_id ) ?: 'title';
+if ( !function_exists( 'ucfwp_get_header_h1_option' ) ) {
+	function ucfwp_get_header_h1_option( $obj ) {
+		$field_id = ucfwp_get_object_field_id( $obj );
+		$subtitle = get_field( 'page_header_subtitle', $field_id ) ?: '';
+		$h1       = get_field( 'page_header_h1', $field_id ) ?: 'title';
 
-	if ( $h1 === 'subtitle' && trim( $subtitle ) === '' ) {
-		$h1 = 'title';
+		if ( $h1 === 'subtitle' && trim( $subtitle ) === '' ) {
+			$h1 = 'title';
+		}
+
+		return $h1;
 	}
-
-	return $h1;
 }
 
 
@@ -225,43 +227,45 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
  * @param bool $image Whether or not a media background is present in the page header.
  * @return string Nav HTML
  **/
-function ucfwp_get_nav_markup( $image=true ) {
-	ob_start();
+if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
+	function ucfwp_get_nav_markup( $image=true ) {
+		ob_start();
 
-	if ( has_nav_menu( 'header-menu' ) ) {
-?>
-	<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation">
-		<div class="container d-flex flex-row flex-nowrap justify-content-between">
-			<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
-			<button class="navbar-toggler ml-auto align-self-start collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-text">Navigation</span>
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<?php
-			$container_class = 'collapse navbar-collapse';
-			if ( !$image ) {
-				$container_class = $container_class . ' align-self-lg-stretch';
-			}
-			wp_nav_menu( array(
-				'container'       => 'div',
-				'container_class' => $container_class,
-				'container_id'    => 'header-menu',
-				'depth'           => 2,
-				'fallback_cb'     => 'bs4Navwalker::fallback',
-				'menu_class'      => 'nav navbar-nav ml-md-auto',
-				'theme_location'  => 'header-menu',
-				'walker'          => new bs4Navwalker()
-			) );
-			?>
-		</div>
-	</nav>
-<?php
-	}
-	else {
-		echo ucfwp_get_mainsite_menu( $image );
-	}
+		if ( has_nav_menu( 'header-menu' ) ) {
+	?>
+		<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation">
+			<div class="container d-flex flex-row flex-nowrap justify-content-between">
+				<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
+				<button class="navbar-toggler ml-auto align-self-start collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-text">Navigation</span>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<?php
+				$container_class = 'collapse navbar-collapse';
+				if ( !$image ) {
+					$container_class = $container_class . ' align-self-lg-stretch';
+				}
+				wp_nav_menu( array(
+					'container'       => 'div',
+					'container_class' => $container_class,
+					'container_id'    => 'header-menu',
+					'depth'           => 2,
+					'fallback_cb'     => 'bs4Navwalker::fallback',
+					'menu_class'      => 'nav navbar-nav ml-md-auto',
+					'theme_location'  => 'header-menu',
+					'walker'          => new bs4Navwalker()
+				) );
+				?>
+			</div>
+		</nav>
+	<?php
+		}
+		else {
+			echo ucfwp_get_mainsite_menu( $image );
+		}
 
-	return ob_get_clean();
+		return ob_get_clean();
+	}
 }
 
 
@@ -274,34 +278,36 @@ function ucfwp_get_nav_markup( $image=true ) {
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the page title + subtitle
  **/
-function ucfwp_get_header_content_title_subtitle( $obj ) {
-	$title         = ucfwp_get_header_title( $obj );
-	$subtitle      = ucfwp_get_header_subtitle( $obj );
-	$h1            = ucfwp_get_header_h1_option( $obj );
-	$title_elem    = ( $h1 === 'title' ) ? 'h1' : 'span';
-	$subtitle_elem = ( $h1 === 'subtitle' ) ? 'h1' : 'span';
+if ( !function_exists( 'ucfwp_get_header_content_title_subtitle' ) ) {
+	function ucfwp_get_header_content_title_subtitle( $obj ) {
+		$title         = ucfwp_get_header_title( $obj );
+		$subtitle      = ucfwp_get_header_subtitle( $obj );
+		$h1            = ucfwp_get_header_h1_option( $obj );
+		$title_elem    = ( $h1 === 'title' ) ? 'h1' : 'span';
+		$subtitle_elem = ( $h1 === 'subtitle' ) ? 'h1' : 'span';
 
-	ob_start();
+		ob_start();
 
-	if ( $title ):
-?>
-	<div class="header-content-inner align-self-start pt-4 pt-sm-0 align-self-sm-center">
-		<div class="container">
-			<div class="d-inline-block bg-primary-t-1">
-				<<?php echo $title_elem; ?> class="header-title"><?php echo $title; ?></<?php echo $title_elem; ?>>
+		if ( $title ):
+	?>
+		<div class="header-content-inner align-self-start pt-4 pt-sm-0 align-self-sm-center">
+			<div class="container">
+				<div class="d-inline-block bg-primary-t-1">
+					<<?php echo $title_elem; ?> class="header-title"><?php echo $title; ?></<?php echo $title_elem; ?>>
+				</div>
+				<?php if ( $subtitle ) : ?>
+				<div class="clearfix"></div>
+				<div class="d-inline-block bg-inverse">
+					<<?php echo $subtitle_elem; ?> class="header-subtitle"><?php echo $subtitle; ?></<?php echo $subtitle_elem; ?>>
+				</div>
+				<?php endif; ?>
 			</div>
-			<?php if ( $subtitle ) : ?>
-			<div class="clearfix"></div>
-			<div class="d-inline-block bg-inverse">
-				<<?php echo $subtitle_elem; ?> class="header-subtitle"><?php echo $subtitle; ?></<?php echo $subtitle_elem; ?>>
-			</div>
-			<?php endif; ?>
 		</div>
-	</div>
-<?php
-	endif;
+	<?php
+		endif;
 
-	return ob_get_clean();
+		return ob_get_clean();
+	}
 }
 
 
@@ -313,21 +319,23 @@ function ucfwp_get_header_content_title_subtitle( $obj ) {
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the custom page header contents
  **/
-function ucfwp_get_header_content_custom( $obj ) {
-	$field_id = ucfwp_get_object_field_id( $obj );
-	$content = get_field( 'page_header_content', $field_id );
+if ( !function_exists( 'ucfwp_get_header_content_custom' ) ) {
+	function ucfwp_get_header_content_custom( $obj ) {
+		$field_id = ucfwp_get_object_field_id( $obj );
+		$content = get_field( 'page_header_content', $field_id );
 
-	ob_start();
-?>
-	<div class="header-content-inner">
-<?php
-	if ( $content ) {
-		echo $content;
+		ob_start();
+	?>
+		<div class="header-content-inner">
+	<?php
+		if ( $content ) {
+			echo $content;
+		}
+	?>
+		</div>
+	<?php
+		return ob_get_clean();
 	}
-?>
-	</div>
-<?php
-	return ob_get_clean();
 }
 
 
@@ -341,80 +349,82 @@ function ucfwp_get_header_content_custom( $obj ) {
  * @param array $images Assoc. array of image Attachment IDs for use in page header media background
  * @return string HTML for the page header
  **/
-function ucfwp_get_header_media_markup( $obj, $videos, $images ) {
-	$field_id   = ucfwp_get_object_field_id( $obj );
-	$videos     = $videos ?: ucfwp_get_header_videos( $obj );
-	$images     = $images ?: ucfwp_get_header_images( $obj );
-	$video_loop = get_field( 'page_header_video_loop', $field_id );
-	$header_content_type = get_field( 'page_header_content_type', $field_id );
-	$header_height       = get_field( 'page_header_height', $field_id );
-	$exclude_nav         = get_field( 'page_header_exclude_nav', $field_id );
+if ( !function_exists( 'ucfwp_get_header_media_markup' ) ) {
+	function ucfwp_get_header_media_markup( $obj, $videos, $images ) {
+		$field_id   = ucfwp_get_object_field_id( $obj );
+		$videos     = $videos ?: ucfwp_get_header_videos( $obj );
+		$images     = $images ?: ucfwp_get_header_images( $obj );
+		$video_loop = get_field( 'page_header_video_loop', $field_id );
+		$header_content_type = get_field( 'page_header_content_type', $field_id );
+		$header_height       = get_field( 'page_header_height', $field_id );
+		$exclude_nav         = get_field( 'page_header_exclude_nav', $field_id );
 
-	ob_start();
-?>
-	<div class="header-media <?php echo $header_height; ?> mb-0 d-flex flex-column">
-		<div class="header-media-background-wrap">
-			<div class="header-media-background media-background-container">
-				<?php
-				// Display the media background (video + picture)
+		ob_start();
+	?>
+		<div class="header-media <?php echo $header_height; ?> mb-0 d-flex flex-column">
+			<div class="header-media-background-wrap">
+				<div class="header-media-background media-background-container">
+					<?php
+					// Display the media background (video + picture)
 
-				if ( $videos ) {
-					echo ucfwp_get_media_background_video( $videos, $video_loop );
-				}
-				if ( $images ) {
-					$bg_image_srcs = array();
-					switch ( $header_height ) {
-						case 'header-media-fullscreen':
-							$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
-							$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
-
-							if ( isset( $bg_image_src_xs['xs'] ) ) {
-								$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
-							}
-
-							break;
-						default:
-							$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
-							break;
+					if ( $videos ) {
+						echo ucfwp_get_media_background_video( $videos, $video_loop );
 					}
-					echo ucfwp_get_media_background_picture( $bg_image_srcs );
-				}
-				?>
+					if ( $images ) {
+						$bg_image_srcs = array();
+						switch ( $header_height ) {
+							case 'header-media-fullscreen':
+								$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
+								$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
+
+								if ( isset( $bg_image_src_xs['xs'] ) ) {
+									$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
+								}
+
+								break;
+							default:
+								$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
+								break;
+						}
+						echo ucfwp_get_media_background_picture( $bg_image_srcs );
+					}
+					?>
+				</div>
 			</div>
-		</div>
 
-		<?php
-		// Display the site nav
-		if ( !$exclude_nav ) { echo ucfwp_get_nav_markup(); }
-		?>
+			<?php
+			// Display the site nav
+			if ( !$exclude_nav ) { echo ucfwp_get_nav_markup(); }
+			?>
 
-		<?php
-		// Display the inner header contents
-		?>
-		<div class="header-content">
-			<div class="header-content-flexfix">
-				<?php
-				if ( $header_content_type === 'custom' ) {
-					echo ucfwp_get_header_content_custom( $obj );
-				}
-				else {
-					echo ucfwp_get_header_content_title_subtitle( $obj );
-				}
-				?>
+			<?php
+			// Display the inner header contents
+			?>
+			<div class="header-content">
+				<div class="header-content-flexfix">
+					<?php
+					if ( $header_content_type === 'custom' ) {
+						echo ucfwp_get_header_content_custom( $obj );
+					}
+					else {
+						echo ucfwp_get_header_content_title_subtitle( $obj );
+					}
+					?>
+				</div>
 			</div>
-		</div>
 
-		<?php
-		// Print a spacer div for headers with background videos (to make
-		// control buttons accessible), and for headers showing a standard
-		// title/subtitle to push them up a bit
-		if ( $videos || $header_content_type === 'title_subtitle' ):
-		?>
-		<div class="header-media-controlfix"></div>
-		<?php endif; ?>
-	</div>
-<?php
-	return ob_get_clean();
+			<?php
+			// Print a spacer div for headers with background videos (to make
+			// control buttons accessible), and for headers showing a standard
+			// title/subtitle to push them up a bit
+			if ( $videos || $header_content_type === 'title_subtitle' ):
+			?>
+			<div class="header-media-controlfix"></div>
+			<?php endif; ?>
+		</div>
+	<?php
+		return ob_get_clean();
+	}
 }
 
 
@@ -426,45 +436,47 @@ function ucfwp_get_header_media_markup( $obj, $videos, $images ) {
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the page header
  **/
- function ucfwp_get_header_default_markup( $obj ) {
-	$title               = ucfwp_get_header_title( $obj );
-	$subtitle            = ucfwp_get_header_subtitle( $obj );
-	$field_id            = ucfwp_get_object_field_id( $obj );
-	$header_content_type = get_field( 'page_header_content_type', $field_id );
-	$exclude_nav         = get_field( 'page_header_exclude_nav', $field_id );
-	$h1                  = ucfwp_get_header_h1_option( $obj );
-	$title_elem          = ( $h1 === 'title' ) ? 'h1' : 'span';
-	$subtitle_elem       = ( $h1 === 'subtitle' ) ? 'h1' : 'p';
+if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
+	function ucfwp_get_header_default_markup( $obj ) {
+		$title               = ucfwp_get_header_title( $obj );
+		$subtitle            = ucfwp_get_header_subtitle( $obj );
+		$field_id            = ucfwp_get_object_field_id( $obj );
+		$header_content_type = get_field( 'page_header_content_type', $field_id );
+		$exclude_nav         = get_field( 'page_header_exclude_nav', $field_id );
+		$h1                  = ucfwp_get_header_h1_option( $obj );
+		$title_elem          = ( $h1 === 'title' ) ? 'h1' : 'span';
+		$subtitle_elem       = ( $h1 === 'subtitle' ) ? 'h1' : 'p';
 
-	$title_classes = 'mt-3 mt-sm-4 mt-md-5 mb-3';
-	if ( $h1 !== 'title' ) {
-		$title_classes .= ' h1 d-block';
-	}
-	$subtitle_classes = 'lead mb-4 mb-md-5';
+		$title_classes = 'mt-3 mt-sm-4 mt-md-5 mb-3';
+		if ( $h1 !== 'title' ) {
+			$title_classes .= ' h1 d-block';
+		}
+		$subtitle_classes = 'lead mb-4 mb-md-5';
 
-	ob_start();
-?>
-	<?php if ( !$exclude_nav ) { echo ucfwp_get_nav_markup( false ); } ?>
-
-	<?php
-	if ( $header_content_type === 'custom' ):
-		echo ucfwp_get_header_content_custom( $obj );
-	elseif ( $title ):
+		ob_start();
 	?>
-	<div class="container">
-		<<?php echo $title_elem; ?> class="<?php echo $title_classes; ?>">
-			<?php echo $title; ?>
-		</<?php echo $title_elem; ?>>
+		<?php if ( !$exclude_nav ) { echo ucfwp_get_nav_markup( false ); } ?>
 
-		<?php if ( $subtitle ): ?>
-			<<?php echo $subtitle_elem; ?> class="<?php echo $subtitle_classes; ?>">
-				<?php echo $subtitle; ?>
-			</<?php echo $subtitle_elem; ?>>
+		<?php
+		if ( $header_content_type === 'custom' ):
+			echo ucfwp_get_header_content_custom( $obj );
+		elseif ( $title ):
+		?>
+		<div class="container">
+			<<?php echo $title_elem; ?> class="<?php echo $title_classes; ?>">
+				<?php echo $title; ?>
+			</<?php echo $title_elem; ?>>
+
+			<?php if ( $subtitle ): ?>
+				<<?php echo $subtitle_elem; ?> class="<?php echo $subtitle_classes; ?>">
+					<?php echo $subtitle; ?>
+				</<?php echo $subtitle_elem; ?>>
+			<?php endif; ?>
+		</div>
 		<?php endif; ?>
-	</div>
-	<?php endif; ?>
-<?php
-	return ob_get_clean();
+	<?php
+		return ob_get_clean();
+	}
 }
 
 
@@ -475,16 +487,18 @@ function ucfwp_get_header_media_markup( $obj, $videos, $images ) {
  * @since 1.0.0
  * @return string HTML for the page header
  **/
-function ucfwp_get_header_markup() {
-	$obj    = get_queried_object();
-	$videos = ucfwp_get_header_videos( $obj );
-	$images = ucfwp_get_header_images( $obj );
+if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
+	function ucfwp_get_header_markup() {
+		$obj    = get_queried_object();
+		$videos = ucfwp_get_header_videos( $obj );
+		$images = ucfwp_get_header_images( $obj );
 
-	if ( $videos || $images ) {
-		echo ucfwp_get_header_media_markup( $obj, $videos, $images );
-	}
-	else {
-		echo ucfwp_get_header_default_markup( $obj );
+		if ( $videos || $images ) {
+			echo ucfwp_get_header_media_markup( $obj, $videos, $images );
+		}
+		else {
+			echo ucfwp_get_header_default_markup( $obj );
+		}
 	}
 }
 
@@ -496,14 +510,14 @@ function ucfwp_get_header_markup() {
  * @since 1.0.0
  * @return string HTML for the page header
  **/
-function ucfwp_get_subnav_markup() {
-	$obj            = get_queried_object();
-	$field_id       = ucfwp_get_object_field_id( $obj );
-	$include_subnav = get_field( 'page_header_include_subnav', $field_id );
+if ( !function_exists( 'ucfwp_get_subnav_markup' ) ) {
+	function ucfwp_get_subnav_markup() {
+		$obj            = get_queried_object();
+		$field_id       = ucfwp_get_object_field_id( $obj );
+		$include_subnav = get_field( 'page_header_include_subnav', $field_id );
 
-	if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
-		echo do_shortcode( '[section-menu]' );
+		if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
+			echo do_shortcode( '[section-menu]' );
+		}
 	}
 }
-
-?>

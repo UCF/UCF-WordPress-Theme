@@ -12,6 +12,9 @@ define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
 define( 'UCFWP_MAINSITE_NAV_URL', 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23' );
 
 
+/**
+ * Initialization functions to be fired early when WordPress loads the theme.
+ */
 function ucfwp_init() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
@@ -35,6 +38,9 @@ function ucfwp_init() {
 add_action( 'after_setup_theme', 'ucfwp_init' );
 
 
+/**
+ * Defines sections used in the WordPress Customizer.
+ */
 function ucfwp_define_customizer_sections( $wp_customize ) {
 	$wp_customize->add_section(
 		UCFWP_THEME_CUSTOMIZER_PREFIX . 'nav_settings',
@@ -62,6 +68,9 @@ function ucfwp_define_customizer_sections( $wp_customize ) {
 add_action( 'customize_register', 'ucfwp_define_customizer_sections' );
 
 
+/**
+ * Defines settings and controls used in the WordPress Customizer.
+ */
 function ucfwp_define_customizer_fields( $wp_customize ) {
 	// Menus
 	$wp_customize->add_setting(

@@ -2,24 +2,15 @@
 /**
  * General utilities
  **/
-function ucfwp_format_raw_postmeta( $postmeta ) {
-	$retval = array();
-
-	foreach( $postmeta as $key=>$val ) {
-		if ( is_array( $val ) && count( $val ) === 1 ) {
-			$retval[$key] = $val[0];
-		} else {
-			$retval[$key] = $val;
-		}
-	}
-
-	return $retval;
-}
-
 
 /**
  * Given a WP_Term or WP_Post object, returns the relevant object ID property
  * or null.
+ *
+ * @since 1.0.0
+ * @author Jo Dickson
+ * @param object $obj WP_Post or WP_Term object
+ * @return mixed Post or Term object ID integer, or null on failure
  **/
 function ucfwp_get_object_id( $obj ) {
 	$obj_id = null;
@@ -38,6 +29,12 @@ function ucfwp_get_object_id( $obj ) {
 /**
  * Given a WP_Term or WP_Post object, returns the relevant $post_id argument
  * for ACF field retrieval/modification functions (e.g. get_field()) or null.
+ *
+ * @see https://www.advancedcustomfields.com/resources/get_field/ ACF get_field() docs (scroll to "Get a value from different objects")
+ * @since 1.0.0
+ * @author Jo Dickson
+ * @param object $obj WP_Post or WP_Term object
+ * @return mixed ACF $post_id argument for the Post or Term, or null on failure
  **/
 function ucfwp_get_object_field_id( $obj ) {
 	$field_id = null;
@@ -55,6 +52,12 @@ function ucfwp_get_object_field_id( $obj ) {
 
 /**
  * Utility function that returns an image url by its thumbnail size.
+ *
+ * @since 1.0.0
+ * @author Jo Dickson
+ * @param int $id Attachment ID
+ * @param string $size Image size name
+ * @return string Attachment image URL
  **/
 function ucfwp_get_attachment_src_by_size( $id, $size ) {
 	$attachment = wp_get_attachment_image_src( $id, $size, false );
