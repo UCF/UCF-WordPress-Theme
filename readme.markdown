@@ -1,6 +1,6 @@
 # UCF WordPress Theme
 
-A generic, responsive WordPress theme for UCF websites, built off of the [Athena Framework](https://github.com/UCF/Athena-Framework).
+A generic, responsive WordPress theme for UCF websites, built off of the [Athena Framework](https://github.com/UCF/Athena-Framework).  Suitable as a standalone theme or as a parent theme.
 
 
 ## Installation Requirements
@@ -17,7 +17,6 @@ The plugins listed below are extended upon in this theme--this may include custo
 * UCF Alert Plugin
 * UCF Charts Plugin
 * UCF College Custom Taxonomy
-* UCF Degree Custom Post Type
 * UCF Events
 * UCF Footer
 * UCF News
