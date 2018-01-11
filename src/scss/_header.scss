@@ -180,6 +180,7 @@
 .navbar-custom {
   .navbar-brand {
     flex: 0 1 auto;
+    text-shadow: $nav-text-shadow;
     white-space: normal;
   }
 
