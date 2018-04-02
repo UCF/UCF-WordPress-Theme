@@ -198,7 +198,7 @@ function ucfwp_gallery_display_thumbnails( $gallery_id, $attachments, $attr ) {
 				<figure class="figure">
 
 					<?php if ( $attr['link'] !== 'none' ): ?>
-					<a href="<?php echo $img_url_full; ?>" <?php if ( $attr['link'] === 'modal' ): ?>data-fancybox="<?php echo $gallery_id; ?>" data-caption="<?php echo $excerpt; ?>"<?php endif; ?>>
+					<a href="<?php echo $img_url_full; ?>">
 					<?php endif; ?>
 
 						<?php echo wp_get_attachment_image( $attachment->ID, $attr['size'], false, array( 'class' => 'img-fluid' ) ); ?>
@@ -351,9 +351,6 @@ function ucfwp_gallery_custom_settings() {
 	<label class="setting">
 		<span><?php _e( 'Thumbnail Links To' ); ?></span>
 		<select class="link" name="link" data-setting="link">
-			<option value="modal" <#
-				if ( 'modal' == wp.media.galleryDefaults.link ) { #>selected="selected"<# }
-			#>>Modal Window</option>
 			<option value="media" <#
 				if ( 'media' == wp.media.galleryDefaults.link ) { #>selected="selected"<# }
 			#>>Media</option>
