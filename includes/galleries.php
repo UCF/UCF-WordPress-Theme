@@ -3,6 +3,9 @@
  * Overrides WordPress's default [gallery] shortcode output with our own,
  * which uses the Athena Framework grid system to arrange thumbnails.
  *
+ * Also adds the 'ucfwp_gallery_display' hook, which allows filtering of the
+ * final generated gallery markup (not present in WP core).
+ *
  * @since v1.0.0
  **/
 function ucfwp_gallery_overrides( $html, $attr, $instance ) {
@@ -42,7 +45,8 @@ function ucfwp_gallery_overrides( $html, $attr, $instance ) {
 				'link'               => 'media'
 			)
 		),
-		$attr
+		$attr,
+		'gallery'
 	);
 
 	$attachment_args = array(
@@ -96,9 +100,13 @@ function ucfwp_gallery_overrides( $html, $attr, $instance ) {
 		return $output;
 	}
 
-	// Finally, return the gallery markup:
+	// Finally, get + return the gallery markup
 	$gallery_id = 'gallery-' . $instance;
 	$retval = ucfwp_gallery_display_thumbnails( $gallery_id, $attachments, $attr );
+
+	// Allow gallery markup to be overridden in child themes
+	$retval = apply_filters( 'ucfwp_gallery_display', $retval, $gallery_id, $attachments, $attr );
+
 	return $retval;
 }
 
@@ -106,7 +114,7 @@ add_filter( 'post_gallery', 'ucfwp_gallery_overrides', 10, 3 );
 
 
 /**
- * Returns an array of valid .col<-size->-xx class values for
+ * Returns an array of valid .col-xx class values for
  * the gallery shortcode.
  *
  * @since v1.0.0
