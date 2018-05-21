@@ -3,8 +3,11 @@
 @import 'layout';
 @import 'typography';
 @import 'header';
+@import 'footer';
 
 // Components
+@import 'components/widgets';
+
 @import 'components/news';
 @import 'components/events';
 @import 'components/ucf-alert';

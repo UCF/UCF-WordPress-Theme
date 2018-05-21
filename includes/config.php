@@ -37,7 +37,7 @@ function ucfwp_init() {
 		'name'          => __( 'Footer - Column 1' ),
 		'id'            => 'footer-col-1',
 		'description'   => 'First column in the site footer, on the bottom of pages.',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
 		'after_title'   => '</h2>',
@@ -46,7 +46,7 @@ function ucfwp_init() {
 		'name'          => __( 'Footer - Column 2' ),
 		'id'            => 'footer-col-2',
 		'description'   => 'Second column in the site footer, on the bottom of pages.',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
 		'after_title'   => '</h2>',
@@ -55,7 +55,7 @@ function ucfwp_init() {
 		'name'          => __( 'Footer - Column 3' ),
 		'id'            => 'footer-col-3',
 		'description'   => 'Third column in the site footer, on the bottom of pages.',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
 		'after_title'   => '</h2>',
@@ -64,7 +64,7 @@ function ucfwp_init() {
 		'name'          => __( 'Footer - Column 4' ),
 		'id'            => 'footer-col-4',
 		'description'   => 'Last column in the site footer, on the bottom of pages.',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
 		'after_title'   => '</h2>',
@@ -358,3 +358,18 @@ function ucfwp_kill_unused_templates() {
 }
 
 add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );
+
+
+/**
+ * Disable widgets that aren't supported by this theme.
+ */
+function ucfwp_kill_unused_widgets() {
+	unregister_widget( 'WP_Widget_Meta' );
+	unregister_widget( 'WP_Widget_Tag_Cloud' );
+	unregister_widget( 'WP_Widget_Recent_Comments' );
+	unregister_widget( 'WP_Widget_Search' );
+	unregister_widget( 'WP_Widget_Calendar' );
+	unregister_widget( 'WP_Widget_Media_Gallery' );
+}
+
+add_action( 'widgets_init', 'ucfwp_kill_unused_widgets' );

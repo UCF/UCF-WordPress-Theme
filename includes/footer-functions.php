@@ -27,25 +27,25 @@ if ( !function_exists( 'ucfwp_get_footer_markup' ) ) {
 				<div class="row">
 
 				<?php if ( is_active_sidebar( 'footer-col-1' ) ): ?>
-					<section class="col-lg mb-5 mb-lg-4">
+					<section class="col-12 col-lg">
 						<?php dynamic_sidebar( 'footer-col-1' ); ?>
 					</section>
 				<?php endif; ?>
 
 				<?php if ( is_active_sidebar( 'footer-col-2' ) ): ?>
-					<section class="col-lg mb-5 mb-lg-4">
+					<section class="col-12 col-lg">
 						<?php dynamic_sidebar( 'footer-col-2' ); ?>
 					</section>
 				<?php endif; ?>
 
 				<?php if ( is_active_sidebar( 'footer-col-3' ) ): ?>
-					<section class="col-lg mb-5 mb-lg-4">
+					<section class="col-12 col-lg">
 						<?php dynamic_sidebar( 'footer-col-3' ); ?>
 					</section>
 				<?php endif; ?>
 
 				<?php if ( is_active_sidebar( 'footer-col-4' ) ): ?>
-					<section class="col-lg mb-5 mb-lg-4">
+					<section class="col-12 col-lg">
 						<?php dynamic_sidebar( 'footer-col-4' ); ?>
 					</section>
 				<?php endif; ?>

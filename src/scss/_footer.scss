@@ -1,0 +1,14 @@
+.site-footer {
+  a:not(.btn) {
+    color: $brand-inverse;
+  }
+
+  //scss-lint:disable SelectorFormat
+  .widget_rss {
+    .rss-date,
+    cite {
+      color: transparentize($brand-inverse, .2);
+    }
+  }
+  //scss-lint:enable SelectorFormat
+}
