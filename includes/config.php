@@ -31,8 +31,44 @@ function ucfwp_init() {
 	add_image_size( 'bg-img-lg', 1199, 2000, true );
 	add_image_size( 'bg-img-xl', 1600, 2000, true );
 
-
 	register_nav_menu( 'header-menu', __( 'Header Menu' ) );
+
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 1' ),
+		'id'            => 'footer-col-1',
+		'description'   => 'First column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 2' ),
+		'id'            => 'footer-col-2',
+		'description'   => 'Second column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 3' ),
+		'id'            => 'footer-col-3',
+		'description'   => 'Third column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 4' ),
+		'id'            => 'footer-col-4',
+		'description'   => 'Last column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
 }
 
 add_action( 'after_setup_theme', 'ucfwp_init' );
