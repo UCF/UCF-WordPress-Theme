@@ -26,10 +26,9 @@
   }
 }
 
-.widget_categories {
-  .postform {
-    @extend .form-control;
-  }
+.widget_categories .postform,
+.widget_archive .archive-dropdown {
+  @extend .form-control;
 }
 
 .widget_rss {
