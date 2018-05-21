@@ -1,9 +1,9 @@
 // scss-lint:disable SelectorFormat
 
+// Basic list overrides
 .widget_archive,
 .widget_pages,
 .widget_nav_menu,
-.widget_recent_entries,
 .widget_categories {
   ul {
     list-style-type: none;
@@ -26,21 +26,44 @@
   }
 }
 
+// Dropdown styles for category and archive <select>'s
 .widget_categories .postform,
 .widget_archive select {
   @extend .form-control;
 }
 
+// Recent post lists and feed lists
+.widget_recent_entries,
 .widget_rss {
   line-height: 1.4;
 
-  .rss-widget-icon {
-    vertical-align: baseline;
-  }
-
   ul {
     list-style-type: none;
+    margin-top: $spacer-y * 1.5;
     padding-left: 0;
+  }
+}
+
+.widget_recent_entries {
+  li {
+    &:not(:last-child) {
+      margin-bottom: $spacer-y * 1.25;
+    }
+  }
+
+  .post-date {
+    display: block;
+    font-size: $font-size-xs;
+    letter-spacing: $letter-spacing-base;
+    margin-top: $spacer-y * .25;
+    padding-bottom: $spacer-y * .25;
+    text-transform: uppercase;
+  }
+}
+
+.widget_rss {
+  .rss-widget-icon {
+    display: none;
   }
 
   li {
@@ -50,7 +73,7 @@
 
     .rsswidget {
       display: inline-block;
-      margin-bottom: $spacer-y * .5;
+      margin-bottom: $spacer-y * .25;
     }
   }
 
@@ -86,6 +109,7 @@
   }
 }
 
+// Images
 .widget_media_image {
   img {
     @extend .img-fluid;
