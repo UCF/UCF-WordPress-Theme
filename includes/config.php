@@ -351,7 +351,7 @@ remove_filter( 'the_excerpt', 'wpautop' );
 function ucfwp_kill_unused_templates() {
 	global $wp_query, $post;
 
-	if ( is_author() || is_attachment() || is_day() || is_search() || is_feed() ) {
+	if ( is_author() || is_attachment() || is_date() || is_search() || is_feed() ) {
 		wp_redirect( home_url() );
 		exit();
 	}
@@ -364,6 +364,7 @@ add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );
  * Disable widgets that aren't supported by this theme.
  */
 function ucfwp_kill_unused_widgets() {
+	unregister_widget( 'WP_Widget_Archives' );
 	unregister_widget( 'WP_Widget_Meta' );
 	unregister_widget( 'WP_Widget_Tag_Cloud' );
 	unregister_widget( 'WP_Widget_Recent_Comments' );
