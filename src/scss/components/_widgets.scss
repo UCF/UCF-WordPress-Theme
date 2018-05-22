@@ -116,4 +116,22 @@
   }
 }
 
+// UCF Events widget modern layout overrides
+.ucf_events {
+  .ucf-events-modern,
+  .ucf-events-modern-nodesc {
+    .ucf-event-when {
+      @include media-breakpoint-up(md) {
+        margin-bottom: 0;
+      }
+    }
+
+    .ucf-event-start-date,
+    .ucf-event-start-time,
+    .ucf-event-title {
+      font-size: 1rem;
+    }
+  }
+}
+
 // scss-lint:enable SelectorFormat
