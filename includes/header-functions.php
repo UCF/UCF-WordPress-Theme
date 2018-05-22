@@ -102,7 +102,7 @@ function ucfwp_get_header_videos( $obj ) {
 	else if ( is_tax() || is_category() || is_tag() ) {
 		$title = single_term_title( '', false );
 	}
-	else if ( is_page() || is_post() ) {
+	else if ( is_page() || is_single() ) {
 		$title = single_post_title( '', false );
 	}
 
