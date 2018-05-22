@@ -93,8 +93,8 @@ function ucfwp_get_header_videos( $obj ) {
 	$title = (string) apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
 
 	if ( ! $obj ) {
-		// We intentionally don't set a title on 404s to allow for greater
-		// customization of 404 pages
+		// We intentionally don't add a fallback title for 404s here;
+		// this allows us to add a custom h1 to the default 404 template
 		if ( ! is_404() ) {
 			$title = get_bloginfo( 'name', 'display' );
 		}
@@ -102,8 +102,8 @@ function ucfwp_get_header_videos( $obj ) {
 	else if ( is_tax() || is_category() || is_tag() ) {
 		$title = single_term_title( '', false );
 	}
-	else if ( is_page() || is_single() ) {
-		$title = single_post_title( '', false );
+	else if ( $obj instanceof WP_Post ) {
+		$title = $obj->post_title;
 	}
 
 	// Apply custom header title override, if available
