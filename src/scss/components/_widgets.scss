@@ -1,7 +1,6 @@
 // scss-lint:disable SelectorFormat
 
 // Basic list overrides
-.widget_archive,
 .widget_pages,
 .widget_nav_menu,
 .widget_categories {
@@ -26,9 +25,8 @@
   }
 }
 
-// Dropdown styles for category and archive <select>'s
-.widget_categories .postform,
-.widget_archive select {
+// Dropdown styles for category <select>'s
+.widget_categories .postform {
   @extend .form-control;
 }
 
