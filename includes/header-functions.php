@@ -92,11 +92,18 @@ function ucfwp_get_header_videos( $obj ) {
 
 	$title = (string) apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
 
-	if ( is_tax() || is_category() || is_tag() ) {
-		$title = $obj->name;
+	if ( ! $obj ) {
+		// We intentionally don't set a title on 404s to allow for greater
+		// customization of 404 pages
+		if ( ! is_404() ) {
+			$title = get_bloginfo( 'name', 'display' );
+		}
 	}
-	else if ( $obj instanceof WP_Post ) {
-		$title = $obj->post_title;
+	else if ( is_tax() || is_category() || is_tag() ) {
+		$title = single_term_title( '', false );
+	}
+	else if ( is_page() || is_post() ) {
+		$title = single_post_title( '', false );
 	}
 
 	// Apply custom header title override, if available
