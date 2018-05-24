@@ -31,8 +31,44 @@ function ucfwp_init() {
 	add_image_size( 'bg-img-lg', 1199, 2000, true );
 	add_image_size( 'bg-img-xl', 1600, 2000, true );
 
-
 	register_nav_menu( 'header-menu', __( 'Header Menu' ) );
+
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 1' ),
+		'id'            => 'footer-col-1',
+		'description'   => 'First column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 2' ),
+		'id'            => 'footer-col-2',
+		'description'   => 'Second column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 3' ),
+		'id'            => 'footer-col-3',
+		'description'   => 'Third column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer - Column 4' ),
+		'id'            => 'footer-col-4',
+		'description'   => 'Last column in the site footer, on the bottom of pages.',
+		'before_widget' => '<div id="%1$s" class="widget mb-5 %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h2 class="h6 heading-underline letter-spacing-3">',
+		'after_title'   => '</h2>',
+	) );
 }
 
 add_action( 'after_setup_theme', 'ucfwp_init' );
@@ -315,10 +351,26 @@ remove_filter( 'the_excerpt', 'wpautop' );
 function ucfwp_kill_unused_templates() {
 	global $wp_query, $post;
 
-	if ( is_author() || is_attachment() || is_day() || is_search() || is_feed() ) {
+	if ( is_author() || is_attachment() || is_date() || is_search() || is_feed() ) {
 		wp_redirect( home_url() );
 		exit();
 	}
 }
 
 add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );
+
+
+/**
+ * Disable widgets that aren't supported by this theme.
+ */
+function ucfwp_kill_unused_widgets() {
+	unregister_widget( 'WP_Widget_Archives' );
+	unregister_widget( 'WP_Widget_Meta' );
+	unregister_widget( 'WP_Widget_Tag_Cloud' );
+	unregister_widget( 'WP_Widget_Recent_Comments' );
+	unregister_widget( 'WP_Widget_Search' );
+	unregister_widget( 'WP_Widget_Calendar' );
+	unregister_widget( 'WP_Widget_Media_Gallery' );
+}
+
+add_action( 'widgets_init', 'ucfwp_kill_unused_widgets' );

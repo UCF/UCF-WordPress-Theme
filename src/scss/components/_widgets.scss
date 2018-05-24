@@ -1,0 +1,135 @@
+// scss-lint:disable SelectorFormat
+
+// Basic list overrides
+.widget_pages,
+.widget_nav_menu,
+.widget_categories {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+
+    ul {
+      padding-left: $nav-link-padding-x * 1.5;
+    }
+  }
+
+  li {
+    @extend .nav-item;
+
+    a {
+      @extend .nav-link;
+      display: inline-block;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+// Dropdown styles for category <select>'s
+.widget_categories .postform {
+  @extend .form-control;
+}
+
+// Recent post lists and feed lists
+.widget_recent_entries,
+.widget_rss {
+  line-height: 1.4;
+
+  ul {
+    list-style-type: none;
+    margin-top: $spacer-y * 1.5;
+    padding-left: 0;
+  }
+}
+
+.widget_recent_entries {
+  li {
+    &:not(:last-child) {
+      margin-bottom: $spacer-y * 1.25;
+    }
+  }
+
+  .post-date {
+    display: block;
+    font-size: $font-size-xs;
+    letter-spacing: $letter-spacing-base;
+    margin-top: $spacer-y * .25;
+    padding-bottom: $spacer-y * .25;
+    text-transform: uppercase;
+  }
+}
+
+.widget_rss {
+  .rss-widget-icon {
+    display: none;
+  }
+
+  li {
+    &:not(:last-child) {
+      margin-bottom: $spacer-y * 1.5;
+    }
+
+    .rsswidget {
+      display: inline-block;
+      margin-bottom: $spacer-y * .25;
+    }
+  }
+
+  .rsswidget {
+    + .rssSummary {
+      margin-top: 0;
+    }
+  }
+
+  .rss-date,
+  cite {
+    display: block;
+    font-size: $font-size-xs;
+  }
+
+  .rss-date {
+    letter-spacing: $letter-spacing-base;
+    text-transform: uppercase;
+  }
+
+  .rssSummary {
+    font-size: $font-size-xs;
+    margin-bottom: $spacer-y * .5;
+    margin-top: $spacer-y * .5;
+
+    @include media-breakpoint-up(md) {
+      font-size: $font-size-sm;
+    }
+  }
+
+  cite {
+    font-style: italic;
+  }
+}
+
+// Images
+.widget_media_image {
+  img {
+    @extend .img-fluid;
+  }
+}
+
+// UCF Events widget modern layout overrides
+.ucf_events {
+  .ucf-events-modern,
+  .ucf-events-modern-nodesc {
+    .ucf-event-when {
+      @include media-breakpoint-up(md) {
+        margin-bottom: 0;
+      }
+    }
+
+    .ucf-event-start-date,
+    .ucf-event-start-time,
+    .ucf-event-title {
+      font-size: 1rem;
+    }
+  }
+}
+
+// scss-lint:enable SelectorFormat
