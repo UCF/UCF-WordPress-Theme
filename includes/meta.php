@@ -125,6 +125,31 @@ add_action( 'wp_footer', 'ucfwp_add_chartbeat' );
 
 
 /**
+ * Adds Google Analytics script to the document head.  Note that, if a Google
+ * Tag Manager ID is provided in the customizer, this hook will have no effect.
+ **/
+function add_google_analytics() {
+	$ga_account = get_theme_mod( 'ga_account' );
+	$gtm_id     = get_theme_mod( 'gtm_id' );
+	if ( $ga_account && !$gtm_id ):
+?>
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', '<?php echo $ga_account; ?>', 'auto');
+	ga('send', 'pageview');
+</script>
+<?php
+	endif;
+}
+
+add_action( 'wp_head', 'add_google_analytics' );
+
+
+/**
  * Prints the Google Tag Manager data layer snippet in the document head if a
  * GTM ID is set in the customizer.
  **/

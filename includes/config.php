@@ -168,7 +168,21 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 		array(
 			'type'        => 'text',
 			'label'       => 'Google Tag Manager Container ID',
-			'description' => 'The ID for the container in Google Tag Manager that represents this site.',
+			'description' => 'Example: <em>GTM-XXXX</em>.<br>Takes precedence over a Google Analytics Account value below if both are provided (assumes Google Analytics is included as a tag in your Google Tag Manager container).',
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
+		)
+	);
+
+	$wp_customize->add_setting(
+		'ga_account'
+	);
+
+	$wp_customize->add_control(
+		'ga_account',
+		array(
+			'type'        => 'text',
+			'label'       => 'Google Analytics Account',
+			'description' => 'Example: <em>UA-9876543-21</em>.<br>Leave blank for development, or if you\'ve provided a Google Tag Manager Container ID and include Google Analytics via Google Tag Manager.',
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
 		)
 	);
