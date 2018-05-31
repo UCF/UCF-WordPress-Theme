@@ -50,6 +50,7 @@ if ( !function_exists( 'ucfwp_get_footer_markup' ) ) {
 					</section>
 				<?php endif; ?>
 
+				</div>
 			</div>
 		</footer>
 	<?php
