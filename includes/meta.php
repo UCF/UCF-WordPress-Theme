@@ -8,14 +8,16 @@
  * Enqueue front-end css and js.
  **/
 function ucfwp_enqueue_frontend_assets() {
+	// Register Cloud.Typography CSS Key
+	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
+		wp_enqueue_style( 'webfont', $fontkey );
+	}
+
+	// Register main theme stylesheet
 	$theme = wp_get_theme();
 	$theme_version = $theme->get( 'Version' );
 
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
-
-	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
-		wp_enqueue_style( 'webfont', $fontkey );
-	}
 
 	// Deregister jquery and re-register newer version in the document head.
 	wp_deregister_script( 'jquery' );
