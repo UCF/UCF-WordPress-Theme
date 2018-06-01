@@ -73,18 +73,18 @@ add_filter( 'emoji_svg_url', '__return_false' );
 /**
  * Adds ID attribute to UCF Header script.
  **/
-function add_id_to_ucfhb( $url ) {
+function ucfwp_add_id_to_ucfhb( $url ) {
 	if (
 		( false !== strpos($url, 'bar/js/university-header.js' ) )
 		|| ( false !== strpos( $url, 'bar/js/university-header-full.js' ) )
 	) {
-      remove_filter( 'clean_url', 'add_id_to_ucfhb', 10, 3 );
+      remove_filter( 'clean_url', 'ucfwp_add_id_to_ucfhb', 10, 3 );
       return "$url' id='ucfhb-script";
     }
     return $url;
 }
 
-add_filter( 'clean_url', 'add_id_to_ucfhb', 10, 1 );
+add_filter( 'clean_url', 'ucfwp_add_id_to_ucfhb', 10, 1 );
 
 
 /**
@@ -130,7 +130,7 @@ add_action( 'wp_footer', 'ucfwp_add_chartbeat' );
  * Adds Google Analytics script to the document head.  Note that, if a Google
  * Tag Manager ID is provided in the customizer, this hook will have no effect.
  **/
-function add_google_analytics() {
+function ucfwp_add_google_analytics() {
 	$ga_account = get_theme_mod( 'ga_account' );
 	$gtm_id     = get_theme_mod( 'gtm_id' );
 	if ( $ga_account && !$gtm_id ):
@@ -148,7 +148,7 @@ function add_google_analytics() {
 	endif;
 }
 
-add_action( 'wp_head', 'add_google_analytics' );
+add_action( 'wp_head', 'ucfwp_add_google_analytics' );
 
 
 /**
