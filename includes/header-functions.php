@@ -133,7 +133,7 @@ function ucfwp_get_header_subtitle( $obj ) {
 
 	$subtitle = do_shortcode( get_field( 'page_header_subtitle', $field_id ) );
 
-	$subtitle = (string) apply_filters( 'ucfwp_get_header_title_after', $subtitle, $obj );
+	$subtitle = (string) apply_filters( 'ucfwp_get_header_subtitle_after', $subtitle, $obj );
 
 	return wptexturize( $subtitle );
 }
