@@ -1,0 +1,55 @@
+.twitter-typeahead {
+  width: 100%;
+
+  .tt-input {
+    @extend .form-control;
+  }
+
+  .tt-hint {
+    color: $gray-light;
+    height: 100%;
+    line-height: 1;
+    padding: calc(#{$input-padding-y} + #{$btn-border-width - $input-btn-border-width}) $input-padding-x;
+
+    @include media-breakpoint-up(md) {
+      padding: calc(#{$input-padding-y-md} + #{$btn-border-width - $input-btn-border-width}) $input-padding-x;
+    }
+  }
+
+  .tt-menu {
+    @extend .dropdown;
+    right: 0;
+  }
+
+  .tt-open {
+    @extend .show;
+  }
+
+  .tt-dataset {
+    @extend .dropdown-menu;
+    max-height: 40vh;
+    overflow-y: scroll;
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      max-height: 75vh;
+      max-width: 100%;
+      width: 30rem;
+    }
+  }
+
+  .tt-suggestion {
+    @extend .dropdown-item;
+    white-space: normal;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .tt-cursor {
+    background-color: $dropdown-link-active-bg;
+    color: $dropdown-link-active-color;
+    text-decoration: none;
+  }
+}

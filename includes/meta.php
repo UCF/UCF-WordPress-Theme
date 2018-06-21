@@ -8,18 +8,20 @@
  * Enqueue front-end css and js.
  **/
 function ucfwp_enqueue_frontend_assets() {
+	// Register Cloud.Typography CSS Key
+	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
+		wp_enqueue_style( 'webfont', $fontkey );
+	}
+
+	// Register main theme stylesheet
 	$theme = wp_get_theme();
 	$theme_version = $theme->get( 'Version' );
 
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
-	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
-		wp_enqueue_style( 'webfont', $fontkey );
-	}
-
 	// Deregister jquery and re-register newer version in the document head.
 	wp_deregister_script( 'jquery' );
-	wp_register_script( 'jquery', '//code.jquery.com/jquery-3.2.1.min.js', null, null, false );
+	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', null, null, false );
 	wp_enqueue_script( 'jquery' );
 
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
@@ -71,18 +73,18 @@ add_filter( 'emoji_svg_url', '__return_false' );
 /**
  * Adds ID attribute to UCF Header script.
  **/
-function add_id_to_ucfhb( $url ) {
+function ucfwp_add_id_to_ucfhb( $url ) {
 	if (
 		( false !== strpos($url, 'bar/js/university-header.js' ) )
 		|| ( false !== strpos( $url, 'bar/js/university-header-full.js' ) )
 	) {
-      remove_filter( 'clean_url', 'add_id_to_ucfhb', 10, 3 );
+      remove_filter( 'clean_url', 'ucfwp_add_id_to_ucfhb', 10, 3 );
       return "$url' id='ucfhb-script";
     }
     return $url;
 }
 
-add_filter( 'clean_url', 'add_id_to_ucfhb', 10, 1 );
+add_filter( 'clean_url', 'ucfwp_add_id_to_ucfhb', 10, 1 );
 
 
 /**
@@ -122,6 +124,31 @@ function ucfwp_add_chartbeat() {
 }
 
 add_action( 'wp_footer', 'ucfwp_add_chartbeat' );
+
+
+/**
+ * Adds Google Analytics script to the document head.  Note that, if a Google
+ * Tag Manager ID is provided in the customizer, this hook will have no effect.
+ **/
+function ucfwp_add_google_analytics() {
+	$ga_account = get_theme_mod( 'ga_account' );
+	$gtm_id     = get_theme_mod( 'gtm_id' );
+	if ( $ga_account && !$gtm_id ):
+?>
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', '<?php echo $ga_account; ?>', 'auto');
+	ga('send', 'pageview');
+</script>
+<?php
+	endif;
+}
+
+add_action( 'wp_head', 'ucfwp_add_google_analytics' );
 
 
 /**

@@ -133,7 +133,7 @@ function ucfwp_get_header_subtitle( $obj ) {
 
 	$subtitle = do_shortcode( get_field( 'page_header_subtitle', $field_id ) );
 
-	$subtitle = (string) apply_filters( 'ucfwp_get_header_title_after', $subtitle, $obj );
+	$subtitle = (string) apply_filters( 'ucfwp_get_header_subtitle_after', $subtitle, $obj );
 
 	return wptexturize( $subtitle );
 }
@@ -347,6 +347,41 @@ if ( !function_exists( 'ucfwp_get_header_content_custom' ) ) {
 
 
 /**
+ * Returns an array of src's for a page header's media background
+ * <picture> <source>s, by breakpoint.  Will return a unique set of src's
+ * depending on the page's header height.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ * @param string $header_height Name of the header's height
+ * @param array $images Assoc. array of image size names and attachment IDs (expects a return value from ucfwp_get_header_images())
+ * @return array Assoc. array of breakpoint names and image URLs (see ucfwp_get_media_background_picture_srcs())
+ */
+if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
+	function ucfwp_get_header_media_picture_srcs( $header_height, $images ) {
+		$bg_image_srcs = array();
+
+		switch ( $header_height ) {
+			case 'header-media-fullscreen':
+				$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
+				$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
+
+				if ( isset( $bg_image_src_xs['xs'] ) ) {
+					$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
+				}
+
+				break;
+			default:
+				$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
+				break;
+		}
+
+		return $bg_image_srcs;
+	}
+}
+
+
+/**
  * Returns the markup for page headers with media backgrounds.
  *
  * @author Jo Dickson
@@ -378,21 +413,7 @@ if ( !function_exists( 'ucfwp_get_header_media_markup' ) ) {
 						echo ucfwp_get_media_background_video( $videos, $video_loop );
 					}
 					if ( $images ) {
-						$bg_image_srcs = array();
-						switch ( $header_height ) {
-							case 'header-media-fullscreen':
-								$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
-								$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
-
-								if ( isset( $bg_image_src_xs['xs'] ) ) {
-									$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
-								}
-
-								break;
-							default:
-								$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
-								break;
-						}
+						$bg_image_srcs = ucfwp_get_header_media_picture_srcs( $header_height, $images );
 						echo ucfwp_get_media_background_picture( $bg_image_srcs );
 					}
 					?>
