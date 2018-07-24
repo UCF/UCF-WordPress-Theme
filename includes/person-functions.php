@@ -9,6 +9,7 @@
  * @param $css_classes str | Additional classes to add to the thumbnail wrapper
  * @return Mixed | thumbnail HTML or void
  **/
+
 function get_person_thumbnail( $post, $css_classes='' ) {
 	if ( !$post->post_type == 'person' ) { return; }
 	$thumbnail = get_the_post_thumbnail_url( $post ) ?: get_theme_mod_or_default( 'person_thumbnail' );
@@ -26,6 +27,8 @@ function get_person_thumbnail( $post, $css_classes='' ) {
 	endif;
 	return ob_get_clean();
 }
+
+
 /**
  * Returns a person's name with title prefix and suffix applied.
  *
@@ -51,23 +54,33 @@ function get_person_name( $post ) {
 /**
  * Add custom people list layout for UCF Post List shortcode
  **/
-function colleges_post_list_display_people_before( $content, $items, $atts ) {
+
+function post_list_display_people_before( $content, $items, $atts ) {
 	ob_start();
 ?>
 <div class="ucf-post-list colleges-post-list-people">
 <?php
 	return ob_get_clean();
 }
-add_filter( 'ucf_post_list_display_people_before', 'colleges_post_list_display_people_before', 10, 3 );
-function colleges_post_list_display_people_title( $content, $items, $atts ) {
+add_filter( 'ucf_post_list_display_people_before', 'post_list_display_people_before', 10, 3 );
+
+
+function post_list_display_people_title( $content, $items, $atts ) {
 	$formatted_title = '';
 	if ( $atts['list_title'] ) {
 		$formatted_title = '<h2 class="ucf-post-list-title">' . $atts['list_title'] . '</h2>';
 	}
 	return $formatted_title;
 }
-add_filter( 'ucf_post_list_display_people_title', 'colleges_post_list_display_people_title', 10, 3 );
-function colleges_post_list_display_people( $content, $items, $atts ) {
+
+add_filter( 'ucf_post_list_display_people_title', 'post_list_display_people_title', 10, 3 );
+
+
+/**
+ * Add custom people list layout for UCF Post List shortcode
+ **/
+
+function post_list_display_people( $content, $items, $atts ) {
 	if ( ! is_array( $items ) && $items !== false ) { $items = array( $items ); }
 	ob_start();
 ?>
@@ -103,13 +116,17 @@ function colleges_post_list_display_people( $content, $items, $atts ) {
 <?php
 	return ob_get_clean();
 }
-add_filter( 'ucf_post_list_display_people', 'colleges_post_list_display_people', 10, 3 );
-function colleges_post_list_display_people_after( $content, $items, $atts ) {
+
+add_filter( 'ucf_post_list_display_people', 'post_list_display_people', 10, 3 );
+
+
+function post_list_display_people_after( $content, $items, $atts ) {
 	ob_start();
 ?>
 </div>
 <?php
 	return ob_get_clean();
 }
-add_filter( 'ucf_post_list_display_people_after', 'colleges_post_list_display_people_after', 10, 3 );
+
+add_filter( 'ucf_post_list_display_people_after', 'post_list_display_people_after', 10, 3 );
 ?>

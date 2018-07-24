@@ -464,6 +464,44 @@
         "title": "Person Fields",
         "fields": [
             {
+                "key": "field_5b577c6238612",
+                "label": "Title Prefix",
+                "name": "person_title_prefix",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_5b577cbd38613",
+                "label": "Title Suffix",
+                "name": "person_title_suffix",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
                 "key": "field_5b563216fec03",
                 "label": "Job Title",
                 "name": "person_jobtitle",
@@ -525,25 +563,6 @@
                 "name": "person_orderby_name",
                 "type": "text",
                 "instructions": "The name by which this person should be sorted when people are displayed in alphabetical lists.",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": "",
-                "maxlength": ""
-            },
-            {
-                "key": "field_5b57381761a82",
-                "label": "Person Phone Number",
-                "name": "",
-                "type": "text",
-                "instructions": "",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
