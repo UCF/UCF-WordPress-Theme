@@ -117,3 +117,11 @@ function get_theme_mod_or_default( $theme_mod ) {
 	}
 	return $mod;
 }
+
+
+/**
+ * Check if the content is empty
+ **/
+function is_content_empty($str) {
+    return trim(str_replace('&nbsp;','',strip_tags($str))) == '';
+}

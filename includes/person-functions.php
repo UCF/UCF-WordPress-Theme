@@ -82,18 +82,21 @@ add_filter( 'ucf_post_list_display_people_title', 'post_list_display_people_titl
 
 function post_list_display_people( $content, $items, $atts ) {
 	if ( ! is_array( $items ) && $items !== false ) { $items = array( $items ); }
+	$is_content_empty = is_content_empty($content);
 	ob_start();
 ?>
 	<?php if ( $items ): ?>
 	<ul class="list-unstyled row ucf-post-list-items">
 		<?php foreach ( $items as $item ): ?>
 		<li class="col-6 col-sm-4 col-md-3 col-xl-2 mt-3 mb-2 ucf-post-list-item">
+			<?php if($is_content_empty) { ?>
 			<a class="person-link" href="<?php echo get_permalink( $item->ID ); ?>">
+			<?php } ?>
 				<?php echo get_person_thumbnail( $item ); ?>
 				<h3 class="mt-2 mb-1 person-name"><?php echo get_person_name( $item ); ?></h3>
 				<?php if ( $job_title = get_field( 'person_jobtitle', $item->ID ) ): ?>
 				<div class="font-italic person-job-title">
-					<?php echo $job_title; ?>
+					<?php echo $job_title; ?>F
 				</div>
 				<?php endif; ?>
 				<?php if ( $email = get_field( 'person_email', $item->ID ) ): ?>
@@ -106,7 +109,9 @@ function post_list_display_people( $content, $items, $atts ) {
 					<?php echo $phone; ?>
 				</div>
 				<?php endif; ?>
+			<?php if($is_content_empty) { ?>
 			</a>
+			<?php } ?>
 		</li>
 		<?php endforeach; ?>
 	</ul>
