@@ -84,12 +84,12 @@ function colleges_post_list_display_people( $content, $items, $atts ) {
 				</div>
 				<?php endif; ?>
 				<?php if ( $email = get_field( 'person_email', $item->ID ) ): ?>
-				<div class="font-italic person-job-title">
+				<div class="person-job-title">
 					<?php echo $email; ?>
 				</div>
 				<?php endif; ?>
 				<?php if ( $phone = get_field( 'person_phone', $item->ID ) ): ?>
-				<div class="font-italic person-job-title">
+				<div class="person-job-title">
 					<?php echo $phone; ?>
 				</div>
 				<?php endif; ?>
