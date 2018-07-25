@@ -10,6 +10,9 @@ define( 'UCFWP_THEME_JS_URL', UCFWP_THEME_STATIC_URL . '/js' );
 define( 'UCFWP_THEME_IMG_URL', UCFWP_THEME_STATIC_URL . '/img' );
 define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
 define( 'UCFWP_MAINSITE_NAV_URL', 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23' );
+define( 'THEME_CUSTOMIZER_DEFAULTS', serialize( array(
+	'person_thumbnail' => UCFWP_THEME_STATIC_URL . '/img/person-no-photo.png'
+) ) );
 
 
 /**
