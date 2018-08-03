@@ -1,0 +1,25 @@
+.ucf-degree-search-input-group {
+  @extend .input-group;
+
+  .twitter-typeahead .tt-input {
+    width: 100%;
+  }
+}
+
+.ucf-degree-search-btn-group {
+  @extend .input-group-btn;
+}
+
+.ucf-degree-search-submit {
+  @extend .btn;
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+
+  &::before {
+    @include fa-icon();
+    content: $fa-var-search;
+  }
+}
+
+.ucf-degree-search-submit-text {
+  @include sr-only;
+}
