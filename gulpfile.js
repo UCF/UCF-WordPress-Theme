@@ -10,7 +10,6 @@ var browserSync = require('browser-sync').create(),
     sass = require('gulp-sass'),
     scsslint = require('gulp-scss-lint'),
     uglify = require('gulp-uglify'),
-    runSequence = require('run-sequence'),
     merge = require('merge');
 
 
@@ -38,22 +37,24 @@ var configLocal = require('./gulp-config.json'),
 //
 
 // Copy Font Awesome files
-gulp.task('move-components-fontawesome', function() {
+gulp.task('move-components-fontawesome', function(done) {
   gulp.src(config.packagesPath + '/font-awesome/fonts/**/*')
-   .pipe(gulp.dest(config.dist.fontPath + '/font-awesome'));
+    .pipe(gulp.dest(config.dist.fontPath + '/font-awesome'));
+  done();
 });
 
 // Athena Framework web font processing
-gulp.task('move-components-athena-fonts', function() {
-  return gulp.src([config.packagesPath + '/ucf-athena-framework/dist/fonts/**/*'])
+gulp.task('move-components-athena-fonts', function(done) {
+  gulp.src([config.packagesPath + '/ucf-athena-framework/dist/fonts/**/*'])
     .pipe(gulp.dest(config.dist.fontPath));
+  done();
 });
 
 // Run all component-related tasks
-gulp.task('components', [
+gulp.task('components', gulp.parallel(
   'move-components-fontawesome',
   'move-components-athena-fonts'
-]);
+));
 
 
 //
@@ -100,7 +101,7 @@ gulp.task('scss-build-theme', function() {
 });
 
 // All theme css-related tasks
-gulp.task('css', ['scss-lint-theme', 'scss-build-theme']);
+gulp.task('css', gulp.series('scss-lint-theme', 'scss-build-theme'));
 
 
 //
@@ -130,9 +131,7 @@ gulp.task('js-build', function() {
 });
 
 // All js-related tasks
-gulp.task('js', function() {
-  runSequence('es-lint', 'js-build');
-});
+gulp.task('js', gulp.series('es-lint', 'js-build'));
 
 
 //
@@ -156,7 +155,4 @@ gulp.task('watch', function() {
 //
 // Default task
 //
-gulp.task('default', function() {
-  // Make sure 'components' completes before 'css' or 'js' are allowed to run
-  runSequence('components', ['css', 'js']);
-});
+gulp.task('default', gulp.series('components', 'css', 'js'));
