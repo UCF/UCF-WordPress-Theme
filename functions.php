@@ -10,6 +10,11 @@ include_once 'includes/header-functions.php';
 include_once 'includes/footer-functions.php';
 
 // Plugin extras/overrides
+
+if ( class_exists( 'UCF_People_PostType' ) ) {
+	include_once 'includes/person-functions.php';
+}
+
 if ( class_exists( 'UCF_Section_Common' ) ) {
 	include_once 'includes/section-functions.php';
 }

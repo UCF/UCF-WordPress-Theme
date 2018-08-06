@@ -21,6 +21,7 @@ The plugins listed below are extended upon in this theme--this may include custo
 * UCF Footer
 * UCF News
 * UCF Pegasus List Shortcode
+* UCF Post List Shortcode
 * UCF Section
 * UCF Social Plugin
 * UCF Spotlight
