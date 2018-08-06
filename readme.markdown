@@ -45,7 +45,7 @@ Note that compiled, minified css and js files are included within the repo.  Cha
 
 ### Requirements
 * node
-* gulp
+* gulp-cli
 
 ### Instructions
 1. Clone the UCF-WordPress-Theme repo into your development environment, within your WordPress installation's `themes/` directory: `git clone https://github.com/UCF/UCF-WordPress-Theme.git`
