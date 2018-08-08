@@ -91,10 +91,10 @@ function ucfwp_fetch_json( $url ) {
 
 
 /**
- * Returns a theme mod value from THEME_CUSTOMIZER_DEFAULTS.
+ * Returns a theme mod value from UCFWP_THEME_CUSTOMIZER_DEFAULTS.
  **/
 function ucfwp_get_theme_mod_default( $theme_mod ) {
-	$defaults = unserialize( THEME_CUSTOMIZER_DEFAULTS );
+	$defaults = unserialize( UCFWP_THEME_CUSTOMIZER_DEFAULTS );
 	if ( $defaults && isset( $defaults[$theme_mod] ) ) {
 		return $defaults[$theme_mod];
 	}
@@ -103,8 +103,8 @@ function ucfwp_get_theme_mod_default( $theme_mod ) {
 
 
 /**
- * Returns a theme mod value or the default set in THEME_CUSTOMIZER_DEFAULTS if
- * the theme mod value hasn't been set yet.
+ * Returns a theme mod value or the default set in
+ * UCFWP_THEME_CUSTOMIZER_DEFAULTS if the theme mod value hasn't been set yet.
  **/
 function ucfwp_get_theme_mod_or_default( $theme_mod ) {
 	$mod = get_theme_mod( $theme_mod  );
