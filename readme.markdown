@@ -24,7 +24,7 @@ The plugins listed below are extended upon in this theme--this may include custo
 * [UCF News](https://github.com/UCF/UCF-News-Plugin)
 * [UCF Pegasus List Shortcode](https://github.com/UCF/UCF-Pegasus-List-Shortcode)
 * [UCF People Custom Post Type](https://github.com/UCF/UCF-People-CPT)
-* [UCF Post List Shortcode](UCF-Post-List-Shortcode)
+* [UCF Post List Shortcode](https://github.com/UCF/UCF-Post-List-Shortcode)
 * [UCF Section](https://github.com/UCF/UCF-Section-Plugin)
 * [UCF Social](https://github.com/UCF/UCF-Social-Plugin)
 * [UCF Spotlights](https://github.com/UCF/UCF-Spotlights-Plugin)
