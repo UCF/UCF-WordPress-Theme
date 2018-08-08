@@ -1,6 +1,6 @@
 # UCF WordPress Theme
 
-A generic, responsive WordPress theme for UCF websites, built off of the [Athena Framework](https://github.com/UCF/Athena-Framework).  Suitable as a standalone theme or as a parent theme.
+A generic, responsive WordPress theme for UCF websites, built off of the [Athena Framework](https://ucf.github.io/Athena-Framework/). Suitable as a standalone theme or as a parent theme.
 
 
 ## Installation Requirements
@@ -9,24 +9,28 @@ This theme is developed and tested against WordPress 4.7.3+ and PHP 5.3.x+.
 
 ### Required Plugins
 These plugins *must* be activated for the theme to function properly.
-* Advanced Custom Fields PRO
+* [Advanced Custom Fields PRO](https://www.advancedcustomfields.com/pro/)
 
 ### Supported Plugins
-The plugins listed below are extended upon in this theme--this may include custom layouts for feeds, style modifications, etc.  These plugins are not technically required on sites running this theme, and shouldn't be activated on sites that don't require their features.  A plugin does not have to be listed here to be compatible with this theme.
-* UCF Academic Calendar Plugin
-* UCF Alert Plugin
-* UCF Charts Plugin
-* UCF College Custom Taxonomy
-* UCF Events
-* UCF Footer
-* UCF News
-* UCF Pegasus List Shortcode
-* UCF Post List Shortcode
-* UCF Section
-* UCF Social Plugin
-* UCF Spotlight
-* UCF Weather Shortcode
-* Yoast SEO
+The plugins listed below are extended upon in this theme--this may include custom layouts for feeds, style modifications, etc. These plugins are not technically required on sites running this theme, and shouldn't be activated on sites that don't require their features. A plugin does not have to be listed here to be compatible with this themes that don't require their features. A plugin does not have to be listed here to be compatible with this theme.
+* [Athena Shortcodes](https://github.com/UCF/Athena-Shortcodes-Plugin)
+* [Automatic Sections Menus Shortcode](https://github.com/UCF/Section-Menus-Shortcode)
+* [UCF Academic Calendar Plugin](https://github.com/UCF/UCF-Academic-Calendar-Plugin)
+* [UCF Alert Plugin](https://github.com/UCF/UCF-Alert-Plugin)
+* [UCF Charts Plugin](https://github.com/UCF/UCF-Charts-Plugin)
+* [UCF College Custom Taxonomy](https://github.com/UCF/UCF-Colleges-Tax-Plugin)
+* [UCF Events](https://github.com/UCF/UCF-Events-Plugin)
+* [UCF Footer](https://github.com/UCF/UCF-Footer-Plugin)
+* [UCF News](https://github.com/UCF/UCF-News-Plugin)
+* [UCF Pegasus List Shortcode](https://github.com/UCF/UCF-Pegasus-List-Shortcode)
+* [UCF People Custom Post Type](https://github.com/UCF/UCF-People-CPT)
+* [UCF Post List Shortcode](UCF-Post-List-Shortcode)
+* [UCF Section](https://github.com/UCF/UCF-Section-Plugin)
+* [UCF Social](https://github.com/UCF/UCF-Social-Plugin)
+* [UCF Spotlights](https://github.com/UCF/UCF-Spotlights-Plugin)
+* [UCF Weather Shortcode](https://github.com/UCF/UCF-Weather-Shortcode)
+* [WP Shortcode Interface](https://github.com/UCF/WP-Shortcode-Interface)
+* [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)
 
 
 ## Configuration
