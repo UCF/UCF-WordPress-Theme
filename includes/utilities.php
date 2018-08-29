@@ -122,6 +122,17 @@ function ucfwp_get_theme_mod_or_default( $theme_mod ) {
 /**
  * Check if the content is empty
  **/
-function ucfwp_is_content_empty($str) {
-    return trim(str_replace('&nbsp;','',strip_tags($str))) == '';
+function ucfwp_is_content_empty( $str ) {
+    return trim( str_replace( '&nbsp;', '', strip_tags( $str ) ) ) == '';
+}
+
+
+/**
+ * Checks if a given option is set to the provided value, and updates it
+ * if it is not
+ */
+function ucfwp_force_option_value( $option, $value ) {
+	if ( get_option( $option ) !== $value ) {
+		update_option( $option, $value );
+	}
 }
