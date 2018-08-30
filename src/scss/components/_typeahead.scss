@@ -10,6 +10,7 @@
     height: 100%;
     line-height: 1;
     padding: calc(#{$input-padding-y} + #{$btn-border-width - $input-btn-border-width}) $input-padding-x;
+    width: 100%;
 
     @include media-breakpoint-up(md) {
       padding: calc(#{$input-padding-y-md} + #{$btn-border-width - $input-btn-border-width}) $input-padding-x;
