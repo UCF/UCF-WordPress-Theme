@@ -21,7 +21,9 @@
     font-size: .85rem;
   }
 
-  .person-job-title, .person-name, .person-phone {
+  .person-job-title,
+  .person-name,
+  .person-phone {
     font-size: $font-size-xs;
     line-height: 1.1;
     margin-bottom: .4em;
