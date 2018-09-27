@@ -14,8 +14,8 @@ function ucfwp_enqueue_frontend_assets() {
 	}
 
 	// Register main theme stylesheet
-	$theme = wp_get_theme();
-	$theme_version = $theme->get( 'Version' );
+	$theme = wp_get_theme( 'UCF-WordPress-Theme' );
+	$theme_version = ( $theme instanceof WP_Theme ) ? $theme->get( 'Version' ) : false;
 
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
