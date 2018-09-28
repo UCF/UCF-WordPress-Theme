@@ -236,13 +236,17 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
  **/
 if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
 	function ucfwp_get_nav_markup( $image=true ) {
+		$title_elem = ( is_home() || is_front_page() ) ? 'h1' : 'span';
+
 		ob_start();
 
 		if ( has_nav_menu( 'header-menu' ) ) {
 	?>
 		<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation">
 			<div class="container d-flex flex-row flex-nowrap justify-content-between">
-				<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
+				<<?php echo $title_elem; ?> class="mb-0">
+					<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
+				</<?php echo $title_elem; ?>>
 				<button class="navbar-toggler ml-auto align-self-start collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-text">Navigation</span>
 					<span class="navbar-toggler-icon"></span>
@@ -290,8 +294,9 @@ if ( !function_exists( 'ucfwp_get_header_content_title_subtitle' ) ) {
 		$title         = ucfwp_get_header_title( $obj );
 		$subtitle      = ucfwp_get_header_subtitle( $obj );
 		$h1            = ucfwp_get_header_h1_option( $obj );
-		$title_elem    = ( $h1 === 'title' ) ? 'h1' : 'span';
-		$subtitle_elem = ( $h1 === 'subtitle' ) ? 'h1' : 'span';
+		$h1_elem       = ( is_home() || is_front_page() ) ? 'h2' : 'h1'; // name is misleading but we need to override this elem on the homepage
+		$title_elem    = ( $h1 === 'title' ) ? $h1_elem : 'span';
+		$subtitle_elem = ( $h1 === 'subtitle' ) ? $h1_elem : 'span';
 
 		ob_start();
 
@@ -472,13 +477,11 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
 		$header_content_type = get_field( 'page_header_content_type', $field_id );
 		$exclude_nav         = get_field( 'page_header_exclude_nav', $field_id );
 		$h1                  = ucfwp_get_header_h1_option( $obj );
-		$title_elem          = ( $h1 === 'title' ) ? 'h1' : 'span';
-		$subtitle_elem       = ( $h1 === 'subtitle' ) ? 'h1' : 'p';
+		$h1_elem             = ( is_home() || is_front_page() ) ? 'h2' : 'h1'; // name is misleading but we need to override this elem on the homepage
+		$title_elem          = ( $h1 === 'title' ) ? $h1_elem : 'span';
+		$subtitle_elem       = ( $h1 === 'subtitle' ) ? $h1_elem : 'p';
 
-		$title_classes = 'mt-3 mt-sm-4 mt-md-5 mb-2 mb-md-3';
-		if ( $h1 !== 'title' ) {
-			$title_classes .= ' h1 d-block';
-		}
+		$title_classes = 'h1 d-block mt-3 mt-sm-4 mt-md-5 mb-2 mb-md-3';
 		$subtitle_classes = 'lead mb-2 mb-md-3';
 
 		ob_start();
