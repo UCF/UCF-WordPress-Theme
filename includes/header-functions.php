@@ -481,10 +481,7 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
 		$title_elem          = ( $h1 === 'title' ) ? $h1_elem : 'span';
 		$subtitle_elem       = ( $h1 === 'subtitle' ) ? $h1_elem : 'p';
 
-		$title_classes = 'mt-3 mt-sm-4 mt-md-5 mb-2 mb-md-3';
-		if ( $h1 !== 'title' ) {
-			$title_classes .= ' h1 d-block';
-		}
+		$title_classes = 'h1 d-block mt-3 mt-sm-4 mt-md-5 mb-2 mb-md-3';
 		$subtitle_classes = 'lead mb-2 mb-md-3';
 
 		ob_start();
