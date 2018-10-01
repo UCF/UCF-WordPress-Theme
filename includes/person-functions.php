@@ -100,7 +100,7 @@ function ucfwp_post_list_display_people( $content, $items, $atts ) {
 				</div>
 				<?php endif; ?>
 				<?php if ( $email = get_field( 'person_email', $item->ID ) ): ?>
-				<div class="person-job-title">
+				<div class="person-email">
 					<?php if($is_content_empty) { ?>
 					<a href="mailto:<?php echo $email; ?>">
 					<?php } ?>
