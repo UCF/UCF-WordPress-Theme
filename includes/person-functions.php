@@ -21,7 +21,7 @@ if ( ! function_exists( 'ucfwp_get_person_thumbnail' ) ) {
 		if ( $thumbnail ):
 	?>
 		<div class="media-background-container person-photo mx-auto <?php echo $css_classes; ?>">
-			<img src="<?php echo $thumbnail; ?>" alt="<?php $post->post_title; ?>" title="<?php $post->post_title; ?>" class="media-background object-fit-cover">
+			<img src="<?php echo $thumbnail; ?>" alt="" title="<?php echo $post->post_title; ?>" class="media-background object-fit-cover">
 		</div>
 	<?php
 		endif;
