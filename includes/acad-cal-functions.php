@@ -15,12 +15,12 @@ add_filter( 'ucf_acad_cal_display_modern_before', 'ucfwp_academic_calendar_moder
 // Title
 if ( !function_exists( 'ucfwp_academic_calendar_modern_title' ) ) {
 	function ucfwp_academic_calendar_modern_title( $content, $items, $args ) {
-		$title = isset( $args['title'] ) ? $args['title'] : 'Academic Calendar';
-
 		ob_start();
+		if ( isset( $args['title'] ) ) :
 	?>
 		<h2 class="mt-2 mb-4 mb-md-5 text-inverse"><span class="fa fa-calendar text-primary align-top" aria-hidden="true"></span> <?php echo $title; ?></h2>
 	<?php
+		endif;
 		return ob_get_clean();
 	}
 }
