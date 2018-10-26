@@ -117,15 +117,8 @@ function ucfwp_get_theme_mod_default( $theme_mod, $defaults=UCFWP_THEME_CUSTOMIZ
  * @return mixed Theme mod value or its default
  **/
 function ucfwp_get_theme_mod_or_default( $theme_mod, $defaults=UCFWP_THEME_CUSTOMIZER_DEFAULTS ) {
-	$mod = get_theme_mod( $theme_mod );
 	$default = ucfwp_get_theme_mod_default( $theme_mod, $defaults );
-	// Only apply the default if an explicit theme mod value hasn't been set
-	// yet (e.g. immediately after theme activation). Otherwise, assume empty
-	// values are intentional.
-	if ( $mod === false && $default ) {
-		return $default;
-	}
-	return $mod;
+	return get_theme_mod( $theme_mod, $default );
 }
 
 
