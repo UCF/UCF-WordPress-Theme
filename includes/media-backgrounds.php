@@ -52,6 +52,9 @@ function ucfwp_get_media_background_picture_srcs( $attachment_xs_id, $attachment
 	// Strip out false-y values (in case an attachment failed to return somewhere)
 	$bg_images = array_filter( $bg_images );
 
+	// Allow overrides of returned data:
+	$bg_images = (array) apply_filters( 'ucfwp_get_media_background_picture_srcs', $bg_images );
+
 	return $bg_images;
 }
 
@@ -62,38 +65,46 @@ function ucfwp_get_media_background_picture_srcs( $attachment_xs_id, $attachment
  * @param array $srcs Array of image urls that correspond to <source> src vals. Expects output from get_media_background_picture_srcs()
  * @return string
  **/
-function ucfwp_get_media_background_picture( $srcs ) {
-	ob_start();
+if ( ! function_exists( 'ucfwp_get_media_background_picture' ) ) {
+	function ucfwp_get_media_background_picture( $srcs ) {
+		// NOTE: if a child theme overrides the `ucfwp_media_background_picture_object_position`
+		// hook, that theme must also provide a style override to
+		// `.media-background` to set the object-position property
+		$object_position = apply_filters( 'ucfwp_media_background_picture_object_position', '' );
+		$object_position_attr = ( ! empty( $object_position ) ) ? 'data-object-position="' . esc_attr( $object_position ) . '"' : '';
 
-	if ( isset( $srcs['fallback'] ) ) :
-?>
-	<picture class="media-background-picture">
-		<?php if ( isset( $srcs['xl'] ) ) : ?>
-		<source srcset="<?php echo $srcs['xl']; ?>" media="(min-width: 1200px)">
-		<?php endif; ?>
+		ob_start();
 
-		<?php if ( isset( $srcs['lg'] ) ) : ?>
-		<source srcset="<?php echo $srcs['lg']; ?>" media="(min-width: 992px)">
-		<?php endif; ?>
+		if ( isset( $srcs['fallback'] ) ) :
+	?>
+		<picture class="media-background-picture">
+			<?php if ( isset( $srcs['xl'] ) ) : ?>
+			<source srcset="<?php echo $srcs['xl']; ?>" media="(min-width: 1200px)">
+			<?php endif; ?>
 
-		<?php if ( isset( $srcs['md'] ) ) : ?>
-		<source srcset="<?php echo $srcs['md']; ?>" media="(min-width: 768px)">
-		<?php endif; ?>
+			<?php if ( isset( $srcs['lg'] ) ) : ?>
+			<source srcset="<?php echo $srcs['lg']; ?>" media="(min-width: 992px)">
+			<?php endif; ?>
 
-		<?php if ( isset( $srcs['sm'] ) ) : ?>
-		<source srcset="<?php echo $srcs['sm']; ?>" media="(min-width: 576px)">
-		<?php endif; ?>
+			<?php if ( isset( $srcs['md'] ) ) : ?>
+			<source srcset="<?php echo $srcs['md']; ?>" media="(min-width: 768px)">
+			<?php endif; ?>
 
-		<?php if ( isset( $srcs['xs'] ) ) : ?>
-		<source srcset="<?php echo $srcs['xs']; ?>" media="(max-width: 575px)">
-		<?php endif; ?>
+			<?php if ( isset( $srcs['sm'] ) ) : ?>
+			<source srcset="<?php echo $srcs['sm']; ?>" media="(min-width: 576px)">
+			<?php endif; ?>
 
-		<img class="media-background object-fit-cover" src="<?php echo $srcs['fallback']; ?>" alt="">
-	</picture>
-<?php
-	endif;
+			<?php if ( isset( $srcs['xs'] ) ) : ?>
+			<source srcset="<?php echo $srcs['xs']; ?>" media="(max-width: 575px)">
+			<?php endif; ?>
 
-	return ob_get_clean();
+			<img class="media-background object-fit-cover" src="<?php echo $srcs['fallback']; ?>" alt="" <?php echo $object_position_attr; ?>>
+		</picture>
+	<?php
+		endif;
+
+		return ob_get_clean();
+	}
 }
 
 
@@ -109,22 +120,30 @@ function ucfwp_get_media_background_picture( $srcs ) {
  * @param array $videos Array of video urls that correspond to <source> src vals
  * @return string
  **/
-function ucfwp_get_media_background_video( $videos, $loop=false ) {
-	ob_start();
-?>
-	<video class="hidden-xs-down media-background media-background-video object-fit-cover" autoplay muted <?php if ( $loop ) { ?>loop<?php } ?>>
-		<?php if ( isset( $videos['webm'] ) ) : ?>
-		<source src="<?php echo $videos['webm']; ?>" type="video/webm">
-		<?php endif; ?>
+if ( ! function_exists( 'ucfwp_get_media_background_video' ) ) {
+	function ucfwp_get_media_background_video( $videos, $loop=false ) {
+		// NOTE: if a child theme overrides the `ucfwp_media_background_video_object_position`
+		// hook, that theme must also provide a style override to
+		// `.media-background-video` to set the object-position property
+		$object_position = apply_filters( 'ucfwp_media_background_video_object_position', '' );
+		$object_position_attr = ( ! empty( $object_position ) ) ? 'data-object-position="' . esc_attr( $object_position ) . '"' : '';
 
-		<?php if ( isset( $videos['mp4'] ) ) : ?>
-		<source src="<?php echo $videos['mp4']; ?>" type="video/mp4">
-		<?php endif; ?>
-	</video>
-	<button class="media-background-video-toggle btn play-enabled hidden-xs-up" type="button" data-toggle="button" aria-pressed="false" aria-label="Play or pause background videos">
-		<span class="fa fa-pause media-background-video-pause" aria-hidden="true"></span>
-		<span class="fa fa-play media-background-video-play" aria-hidden="true"></span>
-	</button>
-<?php
-	return ob_get_clean();
+		ob_start();
+	?>
+		<video class="hidden-xs-down media-background media-background-video object-fit-cover" autoplay muted <?php if ( $loop ) { ?>loop<?php } ?> <?php echo $object_position_attr; ?>>
+			<?php if ( isset( $videos['webm'] ) ) : ?>
+			<source src="<?php echo $videos['webm']; ?>" type="video/webm">
+			<?php endif; ?>
+
+			<?php if ( isset( $videos['mp4'] ) ) : ?>
+			<source src="<?php echo $videos['mp4']; ?>" type="video/mp4">
+			<?php endif; ?>
+		</video>
+		<button class="media-background-video-toggle btn play-enabled hidden-xs-up" type="button" data-toggle="button" aria-pressed="false" aria-label="Play or pause background videos">
+			<span class="fa fa-pause media-background-video-pause" aria-hidden="true"></span>
+			<span class="fa fa-play media-background-video-play" aria-hidden="true"></span>
+		</button>
+	<?php
+		return ob_get_clean();
+	}
 }
