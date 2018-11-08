@@ -19,11 +19,6 @@ function ucfwp_enqueue_frontend_assets() {
 
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
-	// Deregister jquery and re-register newer version in the document head.
-	wp_deregister_script( 'jquery' );
-	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', null, null, false );
-	wp_enqueue_script( 'jquery' );
-
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
 	wp_enqueue_script( 'wp-a11y' );
 	wp_enqueue_script( 'tether', 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', null, null, true );
@@ -37,6 +32,23 @@ function ucfwp_enqueue_frontend_assets() {
 }
 
 add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_frontend_assets' );
+
+
+/**
+ * De-register and re-register a newer version of jquery early in the
+ * document head.
+ *
+ * @author Jo Dickson
+ * @since 0.2.5
+ */
+function ucfwp_enqueue_jquery() {
+	// Deregister jquery and re-register newer version in the document head.
+	wp_deregister_script( 'jquery' );
+	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', null, null, false );
+	wp_enqueue_script( 'jquery' );
+}
+
+add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_jquery', 1 );
 
 
 /**
