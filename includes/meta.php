@@ -48,7 +48,7 @@ function ucfwp_enqueue_jquery() {
 	wp_enqueue_script( 'jquery' );
 }
 
-add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_frontend_assets', 1 );
+add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_jquery', 1 );
 
 
 /**
