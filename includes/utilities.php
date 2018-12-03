@@ -91,10 +91,15 @@ function ucfwp_fetch_json( $url ) {
 
 
 /**
- * Returns a theme mod value from UCFWP_THEME_CUSTOMIZER_DEFAULTS.
+ * Returns a theme mod's default value from a constant.
+ *
+ * @since 0.2.2
+ * @param string $theme_mod The name of the theme mod
+ * @param string $defaults Serialized array of theme mod names + default values
+ * @return mixed Theme mod default value, or false if a default is not set
  **/
-function ucfwp_get_theme_mod_default( $theme_mod ) {
-	$defaults = unserialize( UCFWP_THEME_CUSTOMIZER_DEFAULTS );
+function ucfwp_get_theme_mod_default( $theme_mod, $defaults=UCFWP_THEME_CUSTOMIZER_DEFAULTS ) {
+	$defaults = unserialize( $defaults );
 	if ( $defaults && isset( $defaults[$theme_mod] ) ) {
 		return $defaults[$theme_mod];
 	}
@@ -104,18 +109,16 @@ function ucfwp_get_theme_mod_default( $theme_mod ) {
 
 /**
  * Returns a theme mod value or the default set in
- * UCFWP_THEME_CUSTOMIZER_DEFAULTS if the theme mod value hasn't been set yet.
+ * $defaults if the theme mod value hasn't been set yet.
+ *
+ * @since 0.2.2
+ * @param string $theme_mod The name of the theme mod
+ * @param string $defaults Serialized array of theme mod names + default values
+ * @return mixed Theme mod value or its default
  **/
-function ucfwp_get_theme_mod_or_default( $theme_mod ) {
-	$mod = get_theme_mod( $theme_mod  );
-	$default = ucfwp_get_theme_mod_default( $theme_mod );
-	// Only apply the default if an explicit theme mod value hasn't been set
-	// yet (e.g. immediately after theme activation). Otherwise, assume empty
-	// values are intentional.
-	if ( $mod === false && $default ) {
-		return $default;
-	}
-	return $mod;
+function ucfwp_get_theme_mod_or_default( $theme_mod, $defaults=UCFWP_THEME_CUSTOMIZER_DEFAULTS ) {
+	$default = ucfwp_get_theme_mod_default( $theme_mod, $defaults );
+	return get_theme_mod( $theme_mod, $default );
 }
 
 
