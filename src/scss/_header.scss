@@ -115,7 +115,7 @@
 
 // Styles for both the main site's primary navigation and a site-specific nav.
 // Selector depth required to match Bootstrap/Athena selectors
-// scss-lint:disable NestingDepth SelectorDepth
+// sass-lint:disable nesting-depth
 .navbar-custom,
 .navbar-mainsite {
   z-index: 3;
@@ -224,7 +224,7 @@
     }
   }
 }
-// scss-lint:enable NestingDepth SelectorDepth
+// sass-lint:enable nesting-depth
 
 // Pushes .header-content up enough to prevent overlap with the
 // media background's video controls.

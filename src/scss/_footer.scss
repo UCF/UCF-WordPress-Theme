@@ -3,11 +3,11 @@
     color: $brand-inverse;
   }
 
-  //scss-lint:disable SelectorFormat
+  //sass-lint:disable class-name-format
   .widget_rss .rss-date,
   .widget_rss cite,
   .widget_recent_entries .post-date {
     color: transparentize($brand-inverse, .2);
   }
-  //scss-lint:enable SelectorFormat
+  //sass-lint:enable class-name-format
 }
