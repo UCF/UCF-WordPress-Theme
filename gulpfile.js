@@ -8,7 +8,7 @@ var browserSync = require('browser-sync').create(),
     babel = require('gulp-babel'),
     rename = require('gulp-rename'),
     sass = require('gulp-sass'),
-    scsslint = require('gulp-scss-lint'),
+    sassLint = require('gulp-sass-lint'),
     uglify = require('gulp-uglify'),
     merge = require('merge');
 
@@ -64,9 +64,8 @@ gulp.task('components', gulp.parallel(
 // Base linting function
 function lintSCSS(src) {
   return gulp.src(src)
-    .pipe(scsslint({
-      'maxBuffer': 400 * 1024  // default: 300 * 1024
-    }));
+    .pipe(sassLint())
+    .pipe(sassLint.failOnError());
 }
 
 // Lint all theme scss files
