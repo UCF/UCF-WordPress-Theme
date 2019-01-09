@@ -6,7 +6,7 @@
  * Also adds the 'ucfwp_gallery_display' hook, which allows filtering of the
  * final generated gallery markup (not present in WP core).
  *
- * @since v1.0.0
+ * @since 0.1.0
  **/
 function ucfwp_gallery_overrides( $html, $attr, $instance ) {
 	global $post;
@@ -117,7 +117,7 @@ add_filter( 'post_gallery', 'ucfwp_gallery_overrides', 10, 3 );
  * Returns an array of valid .col-xx class values for
  * the gallery shortcode.
  *
- * @since v1.0.0
+ * @since 0.1.0
  * @author Jo Dickson
  * @return array
  */
@@ -130,7 +130,7 @@ function ucfwp_gallery_get_valid_col_options() {
  * Returns an array of default column_size attribute values for the
  * gallery shortcode.
  *
- * @since v1.0.0
+ * @since 0.1.0
  * @author Jo Dickson
  * @return array
  */
@@ -148,7 +148,7 @@ function ucfwp_gallery_get_default_col_options() {
 /**
  * Displays a list of attachments as a list of clickable thumbnails.
  *
- * @since v1.0.0
+ * @since 0.1.0
  * @author Jo Dickson
  * @param string $gallery_id A unique identifier for the gallery (to use as the id attribute on the gallery's parent element)
  * @param array $attachments Array of attachment post objects
@@ -230,7 +230,7 @@ function ucfwp_gallery_display_thumbnails( $gallery_id, $attachments, $attr ) {
  * Replaces gallery settings in the media library modal with our own.
  * Based on https://wordpress.stackexchange.com/a/209923
  *
- * @since v1.0.0
+ * @since 0.1.0
  * @author Jo Dickson
  * @return void
  */
