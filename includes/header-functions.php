@@ -22,6 +22,10 @@ function ucfwp_get_header_images( $obj ) {
 	);
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_images_before', $retval, $obj );
+	// Exit early if this filter added a 'header_image' value
+	if ( isset( $retval['header_image'] ) && ! empty( $retval['header_image'] ) ) {
+		return $retval;
+	}
 
 	if ( $obj_header_image = get_field( 'page_header_image', $field_id ) ) {
 		$retval['header_image'] = $obj_header_image;
@@ -58,6 +62,11 @@ function ucfwp_get_header_videos( $obj ) {
 	);
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_videos_before', $retval, $obj );
+	$retval = array_filter( $retval );
+	// Exit early if a 'mp4' value was provided early
+	if ( isset( $retval['mp4'] ) && $retval['mp4'] ) {
+		return $retval;
+	}
 
 	if ( $obj_header_video_mp4 = get_field( 'page_header_mp4', $field_id ) ) {
 		$retval['mp4'] = $obj_header_video_mp4;
@@ -67,7 +76,6 @@ function ucfwp_get_header_videos( $obj ) {
 	}
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_videos_after', $retval, $obj );
-
 	$retval = array_filter( $retval );
 
 	// MP4 must be available to display video successfully cross-browser
@@ -76,6 +84,28 @@ function ucfwp_get_header_videos( $obj ) {
 	}
 	return false;
 }
+
+
+/**
+ * Hooks into document_title_parts to assign a new filter hook
+ * that returns whatever the document title was determined to be.
+ *
+ * The nested add_filter() method is necessary since there's no other
+ * built-in method for returning a catch-all document title without
+ * including a separator + site description.
+ *
+ * @author Jo Dickson
+ * @since 1.0.0
+ */
+function ucfwp_document_title_parts( $title ) {
+	add_filter( 'ucfwp_document_title_part', function( $_title ) use( $title ) {
+		return $title['title'];
+	} );
+
+	return $title;
+}
+
+add_filter( 'document_title_parts', 'ucfwp_document_title_parts' );
 
 
 /**
@@ -89,21 +119,20 @@ function ucfwp_get_header_videos( $obj ) {
  function ucfwp_get_header_title( $obj ) {
 	$field_id = ucfwp_get_object_field_id( $obj );
 	$title = '';
+	$document_title = apply_filters( 'ucfwp_document_title_part', $title );
 
+	// Exit early if the title has been overridden early
 	$title = (string) apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
+	if ( !empty( $title ) ) {
+		return wptexturize( $title );
+	}
 
-	if ( ! $obj ) {
-		// We intentionally don't add a fallback title for 404s here;
-		// this allows us to add a custom h1 to the default 404 template
-		if ( ! is_404() ) {
-			$title = get_bloginfo( 'name', 'display' );
-		}
-	}
-	else if ( is_tax() || is_category() || is_tag() ) {
-		$title = single_term_title( '', false );
-	}
-	else if ( $obj instanceof WP_Post ) {
-		$title = $obj->post_title;
+	// We intentionally don't add a fallback title for 404s;
+	// this allows us to add a custom h1 to the default 404 template.
+	// All other use cases should use whatever was returned for the
+	// document title.
+	if ( ! is_404() ) {
+		$title = $document_title;
 	}
 
 	// Apply custom header title override, if available
@@ -130,6 +159,10 @@ function ucfwp_get_header_subtitle( $obj ) {
 	$subtitle = '';
 
 	$subtitle = (string) apply_filters( 'ucfwp_get_header_subtitle_before', $subtitle, $obj );
+	// Exit early if subtitle has been modified early
+	if ( !empty( $subtitle ) ) {
+		return wptexturize( $subtitle );
+	}
 
 	$subtitle = do_shortcode( get_field( 'page_header_subtitle', $field_id ) );
 
