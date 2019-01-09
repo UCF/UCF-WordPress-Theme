@@ -23,7 +23,7 @@ function ucfwp_get_header_images( $obj ) {
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_images_before', $retval, $obj );
 	// Exit early if this filter added a 'header_image' value
-	if ( isset( $retval['header_image'] ) && ! empty( $retval['header_image'] ) ) {
+	if ( isset( $retval['header_image'] ) && $retval['header_image'] ) {
 		return $retval;
 	}
 
