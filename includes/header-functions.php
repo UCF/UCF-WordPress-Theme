@@ -200,7 +200,7 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
 
 		ob_start();
 	?>
-	<nav class="navbar navbar-toggleable-md navbar-mainsite py-2<?php echo $image ? ' py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3 py-lg-4'; ?>" role="navigation">
+	<nav class="navbar navbar-toggleable-md navbar-mainsite py-2<?php echo $image ? ' py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3 py-lg-4'; ?>" role="navigation" aria-label="Site navigation">
 		<div class="container">
 			<button class="navbar-toggler ml-auto collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-text">Navigation</span>
@@ -242,7 +242,7 @@ if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
 
 		if ( has_nav_menu( 'header-menu' ) ) {
 	?>
-		<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation">
+		<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation" aria-label="Site navigation">
 			<div class="container d-flex flex-row flex-nowrap justify-content-between">
 				<<?php echo $title_elem; ?> class="mb-0">
 					<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
