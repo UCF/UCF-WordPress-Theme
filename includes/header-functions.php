@@ -87,28 +87,6 @@ function ucfwp_get_header_videos( $obj ) {
 
 
 /**
- * Hooks into document_title_parts to assign a new filter hook
- * that returns whatever the document title was determined to be.
- *
- * The nested add_filter() method is necessary since there's no other
- * built-in method for returning a catch-all document title without
- * including a separator + site description.
- *
- * @author Jo Dickson
- * @since 1.0.0
- */
-function ucfwp_document_title_parts( $title ) {
-	add_filter( 'ucfwp_document_title_part', function( $_title ) use( $title ) {
-		return $title['title'];
-	} );
-
-	return $title;
-}
-
-add_filter( 'document_title_parts', 'ucfwp_document_title_parts' );
-
-
-/**
  * Returns texturized title text for use in the page header.
  *
  * @author Jo Dickson
@@ -119,7 +97,6 @@ add_filter( 'document_title_parts', 'ucfwp_document_title_parts' );
  function ucfwp_get_header_title( $obj ) {
 	$field_id = ucfwp_get_object_field_id( $obj );
 	$title = '';
-	$document_title = apply_filters( 'ucfwp_document_title_part', $title );
 
 	// Exit early if the title has been overridden early
 	$title = (string) apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
@@ -127,12 +104,41 @@ add_filter( 'document_title_parts', 'ucfwp_document_title_parts' );
 		return wptexturize( $title );
 	}
 
-	// We intentionally don't add a fallback title for 404s;
-	// this allows us to add a custom h1 to the default 404 template.
-	// All other use cases should use whatever was returned for the
-	// document title.
-	if ( ! is_404() ) {
-		$title = $document_title;
+	if ( ! $obj ) {
+		// We intentionally don't add a fallback title for 404s;
+		// this allows us to add a custom h1 to the default 404 template.
+		if ( ! is_404() ) {
+			$title = get_bloginfo( 'name', 'display' );
+		}
+	}
+	else {
+		// Checks listed below are copied directly from WP core
+		// (see wp_get_document_title()).
+		// NOTE: We still include support for templates that are disabled in
+		// ucfwp_kill_unused_templates() in case a child theme re-enables
+		// one of those templates.
+
+		if ( is_search() ) {
+			$title = sprintf( __( 'Search Results for &#8220;%s&#8221;' ), get_search_query() );
+		} elseif ( is_front_page() ) {
+			$title = get_bloginfo( 'name', 'display' );
+		} elseif ( is_post_type_archive() ) {
+			$title = post_type_archive_title( '', false );
+		} elseif ( is_tax() ) {
+			$title = single_term_title( '', false );
+		} elseif ( is_home() || is_singular() ) {
+			$title = single_post_title( '', false );
+		} elseif ( is_category() || is_tag() ) {
+			$title = single_term_title( '', false );
+		} elseif ( is_author() && $author = get_queried_object() ) {
+			$title = $author->display_name;
+		} elseif ( is_year() ) {
+			$title = get_the_date( _x( 'Y', 'yearly archives date format' ) );
+		} elseif ( is_month() ) {
+			$title = get_the_date( _x( 'F Y', 'monthly archives date format' ) );
+		} elseif ( is_day() ) {
+			$title = get_the_date();
+		}
 	}
 
 	// Apply custom header title override, if available
