@@ -8,7 +8,7 @@
  * footer sidebars are empty.
  *
  * @author Jo Dickson
- * @since 1.0.0
+ * @since 0.2.0
  * @return string Footer HTML markup
  **/
 if ( !function_exists( 'ucfwp_get_footer_markup' ) ) {
