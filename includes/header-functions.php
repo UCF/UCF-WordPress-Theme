@@ -22,6 +22,10 @@ function ucfwp_get_header_images( $obj ) {
 	);
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_images_before', $retval, $obj );
+	// Exit early if this filter added a 'header_image' value
+	if ( isset( $retval['header_image'] ) && $retval['header_image'] ) {
+		return $retval;
+	}
 
 	if ( $obj_header_image = get_field( 'page_header_image', $field_id ) ) {
 		$retval['header_image'] = $obj_header_image;
@@ -58,6 +62,11 @@ function ucfwp_get_header_videos( $obj ) {
 	);
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_videos_before', $retval, $obj );
+	$retval = array_filter( $retval );
+	// Exit early if a 'mp4' value was provided early
+	if ( isset( $retval['mp4'] ) && $retval['mp4'] ) {
+		return $retval;
+	}
 
 	if ( $obj_header_video_mp4 = get_field( 'page_header_mp4', $field_id ) ) {
 		$retval['mp4'] = $obj_header_video_mp4;
@@ -67,7 +76,6 @@ function ucfwp_get_header_videos( $obj ) {
 	}
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_videos_after', $retval, $obj );
-
 	$retval = array_filter( $retval );
 
 	// MP4 must be available to display video successfully cross-browser
@@ -90,20 +98,47 @@ function ucfwp_get_header_videos( $obj ) {
 	$field_id = ucfwp_get_object_field_id( $obj );
 	$title = '';
 
+	// Exit early if the title has been overridden early
 	$title = (string) apply_filters( 'ucfwp_get_header_title_before', $title, $obj );
+	if ( !empty( $title ) ) {
+		return wptexturize( $title );
+	}
 
 	if ( ! $obj ) {
-		// We intentionally don't add a fallback title for 404s here;
-		// this allows us to add a custom h1 to the default 404 template
+		// We intentionally don't add a fallback title for 404s;
+		// this allows us to add a custom h1 to the default 404 template.
 		if ( ! is_404() ) {
 			$title = get_bloginfo( 'name', 'display' );
 		}
 	}
-	else if ( is_tax() || is_category() || is_tag() ) {
-		$title = single_term_title( '', false );
-	}
-	else if ( $obj instanceof WP_Post ) {
-		$title = $obj->post_title;
+	else {
+		// Checks listed below are copied directly from WP core
+		// (see wp_get_document_title()).
+		// NOTE: We still include support for templates that are disabled in
+		// ucfwp_kill_unused_templates() in case a child theme re-enables
+		// one of those templates.
+
+		if ( is_search() ) {
+			$title = sprintf( __( 'Search Results for &#8220;%s&#8221;' ), get_search_query() );
+		} elseif ( is_front_page() ) {
+			$title = get_bloginfo( 'name', 'display' );
+		} elseif ( is_post_type_archive() ) {
+			$title = post_type_archive_title( '', false );
+		} elseif ( is_tax() ) {
+			$title = single_term_title( '', false );
+		} elseif ( is_home() || is_singular() ) {
+			$title = single_post_title( '', false );
+		} elseif ( is_category() || is_tag() ) {
+			$title = single_term_title( '', false );
+		} elseif ( is_author() && $author = get_queried_object() ) {
+			$title = $author->display_name;
+		} elseif ( is_year() ) {
+			$title = get_the_date( _x( 'Y', 'yearly archives date format' ) );
+		} elseif ( is_month() ) {
+			$title = get_the_date( _x( 'F Y', 'monthly archives date format' ) );
+		} elseif ( is_day() ) {
+			$title = get_the_date();
+		}
 	}
 
 	// Apply custom header title override, if available
@@ -130,6 +165,10 @@ function ucfwp_get_header_subtitle( $obj ) {
 	$subtitle = '';
 
 	$subtitle = (string) apply_filters( 'ucfwp_get_header_subtitle_before', $subtitle, $obj );
+	// Exit early if subtitle has been modified early
+	if ( !empty( $subtitle ) ) {
+		return wptexturize( $subtitle );
+	}
 
 	$subtitle = do_shortcode( get_field( 'page_header_subtitle', $field_id ) );
 
