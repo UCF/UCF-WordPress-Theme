@@ -7,7 +7,7 @@
  * Given a WP_Term or WP_Post object, returns the relevant object ID property
  * or null.
  *
- * @since 1.0.0
+ * @since 0.0.0
  * @author Jo Dickson
  * @param object $obj WP_Post or WP_Term object
  * @return mixed Post or Term object ID integer, or null on failure
@@ -31,7 +31,7 @@ function ucfwp_get_object_id( $obj ) {
  * for ACF field retrieval/modification functions (e.g. get_field()) or null.
  *
  * @see https://www.advancedcustomfields.com/resources/get_field/ ACF get_field() docs (scroll to "Get a value from different objects")
- * @since 1.0.0
+ * @since 0.0.0
  * @author Jo Dickson
  * @param object $obj WP_Post or WP_Term object
  * @return mixed ACF $post_id argument for the Post or Term, or null on failure
@@ -53,7 +53,7 @@ function ucfwp_get_object_field_id( $obj ) {
 /**
  * Utility function that returns an image url by its thumbnail size.
  *
- * @since 1.0.0
+ * @since 0.0.0
  * @author Jo Dickson
  * @param int $id Attachment ID
  * @param string $size Image size name
@@ -72,7 +72,7 @@ function ucfwp_get_attachment_src_by_size( $id, $size ) {
  * Returns a JSON object from the provided URL.  Detects undesirable status
  * codes and returns false if the response doesn't look valid.
  *
- * @since 1.0.0
+ * @since 0.0.0
  * @author Jo Dickson
  * @param string $url URL that points to a JSON object/feed
  * @return mixed JSON-decoded object or false on failure
@@ -124,7 +124,9 @@ function ucfwp_get_theme_mod_or_default( $theme_mod, $defaults=UCFWP_THEME_CUSTO
 
 /**
  * Check if the content is empty
+ *
+ * @since 0.2.2
  **/
 function ucfwp_is_content_empty($str) {
-    return trim(str_replace('&nbsp;','',strip_tags($str))) == '';
+    return trim( str_replace( '&nbsp;', '', strip_tags( $str ) ) ) === '';
 }
