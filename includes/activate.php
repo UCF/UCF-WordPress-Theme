@@ -1,6 +1,6 @@
 <?php
 /**
- * All pre- and post-theme activation steps should be registered in this file.
+ * All post-theme activation steps should be registered in this file.
  */
 
 
