@@ -50,7 +50,7 @@ function ucfwp_get_header_images( $obj ) {
  * @author Jo Dickson
  * @since 0.0.0
  * @param object $obj A WP_Post or WP_Term object
- * @return array A set of Attachment IDs corresponding to available video filetypes
+ * @return array A set of Attachment urls corresponding to available video filetypes
  **/
 function ucfwp_get_header_videos( $obj ) {
 	$obj_id = ucfwp_get_object_id( $obj );
@@ -399,7 +399,7 @@ if ( !function_exists( 'ucfwp_get_header_content_custom' ) ) {
  * @since 0.2.1
  * @param string $header_height Name of the header's height
  * @param array $images Assoc. array of image size names and attachment IDs (expects a return value from ucfwp_get_header_images())
- * @return array Assoc. array of breakpoint names and image URLs (see ucfwp_get_media_background_picture_srcs())
+ * @return array Assoc. array of breakpoint names and image urls (see ucfwp_get_media_background_picture_srcs())
  */
 if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
 	function ucfwp_get_header_media_picture_srcs( $header_height, $images ) {
@@ -431,7 +431,7 @@ if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
  * @author Jo Dickson
  * @since 0.0.0
  * @param object $obj A WP_Post or WP_Term object
- * @param array $videos Assoc. array of video Attachment IDs for use in page header media background
+ * @param array $videos Assoc. array of video Attachment urls for use in page header media background
  * @param array $images Assoc. array of image Attachment IDs for use in page header media background
  * @return string HTML for the page header
  **/
