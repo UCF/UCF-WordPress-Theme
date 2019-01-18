@@ -204,7 +204,7 @@ add_action( 'wp_head', 'ucfwp_google_tag_manager', 3 );
 
 
 /**
- * Prints the Google Tag Manager noscript snippet using the GTM ID in Theme Options.
+ * Prints the Google Tag Manager noscript snippet using the GTM ID set in the customizer.
  **/
 function ucfwp_google_tag_manager_noscript() {
 	$gtm_id = get_theme_mod( 'gtm_id' );
@@ -232,4 +232,4 @@ function ucfwp_add_favicon_default() {
 	endif;
 }
 
-add_filter( 'wp_head', 'ucfwp_add_favicon_default' );
+add_action( 'wp_head', 'ucfwp_add_favicon_default' );
