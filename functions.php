@@ -1,4 +1,7 @@
 <?php
+// Activation checks
+include_once 'includes/activate.php';
+
 // Theme foundation
 include_once 'includes/utilities.php';
 include_once 'includes/config.php';

@@ -4,7 +4,7 @@
  * Displays a person's thumbnail image.
  *
  * @author Jo Dickson
- * @since 1.0.0
+ * @since 0.2.2
  * @param $post object | Person post object
  * @param $css_classes str | Additional classes to add to the thumbnail wrapper
  * @return Mixed | thumbnail HTML or void
@@ -34,7 +34,7 @@ if ( ! function_exists( 'ucfwp_get_person_thumbnail' ) ) {
  * Returns a person's name with title prefix and suffix applied.
  *
  * @author Jo Dickson
- * @since 1.0.0
+ * @since 0.2.2
  * @param $post object | Person post object
  * @return Mixed | person's formatted name or void
  **/
@@ -56,6 +56,8 @@ if ( ! function_exists( 'ucfwp_get_person_name' ) ) {
 
 /**
  * Add custom people list layout for UCF Post List shortcode
+ *
+ * @since 0.2.2
  **/
 if ( ! function_exists( 'ucfwp_post_list_display_people_before' ) ) {
 	function ucfwp_post_list_display_people_before( $content, $items, $atts ) {
@@ -85,6 +87,8 @@ add_filter( 'ucf_post_list_display_people_title', 'ucfwp_post_list_display_peopl
 
 /**
  * Add custom people list layout for UCF Post List shortcode
+ *
+ * @since 0.2.2
  **/
 if ( ! function_exists( 'ucfwp_post_list_display_people' ) ) {
 	function ucfwp_post_list_display_people( $content, $items, $atts ) {
