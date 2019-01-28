@@ -368,7 +368,7 @@ remove_filter( 'the_excerpt', 'wpautop' );
 function ucfwp_kill_unused_templates() {
 	global $wp_query, $post;
 
-	if ( is_author() || is_attachment() || is_date() || is_search() || is_feed() ) {
+	if ( is_author() || is_attachment() || is_date() || is_search() || is_feed() || is_comment_feed() ) {
 		wp_redirect( home_url() );
 		exit();
 	}
@@ -391,3 +391,91 @@ function ucfwp_kill_unused_widgets() {
 }
 
 add_action( 'widgets_init', 'ucfwp_kill_unused_widgets' );
+
+
+/**
+ * An opinionated set of overrides for this theme that disables comments,
+ * trackbacks, and pingbacks sitewide, and hides references to comments in the
+ * WordPress admin to reduce clutter.
+ *
+ * @since 0.3.0
+ * @author Jo Dickson
+ */
+function ucfwp_kill_comments() {
+	// Remove the X-Pingback HTTP header, if present.
+	add_filter( 'wp_headers', function( $headers ) {
+		if ( isset( $headers['X-Pingback'] ) ) {
+			unset( $headers['X-Pingback'] );
+		}
+		return $headers;
+	} );
+
+	// Remove native post type support for comments and trackbacks on all
+	// public-facing post types.
+	// NOTE: If an existing post already has comments posted to it, they'll
+	// still be viewable in the Comments metabox when editing the post.
+	$post_types = get_post_types( array( 'public' => true ), 'names' );
+	foreach ( $post_types as $pt ) {
+		if ( post_type_supports( $pt, 'comments' ) ) {
+			remove_post_type_support( $pt, 'comments' );
+		}
+		if ( post_type_supports( $pt, 'trackbacks' ) ) {
+			remove_post_type_support( $pt, 'trackbacks' );
+		}
+	}
+
+	// Disable comments and pingbacks on new posts (these are the primary
+	// default discussion settings under Settings > Discussion)
+	add_filter( 'option_default_pingback_flag', '__return_zero' );
+	add_filter( 'option_default_ping_status', '__return_zero' );
+	add_filter( 'option_default_comment_status', '__return_zero' );
+
+	// Close ability to add new comments and pingbacks on existing posts.
+	add_filter( 'comments_open', '__return_false' );
+	add_filter( 'pings_open', '__return_false' );
+
+	// Remove admin bar link for comments
+	add_action( 'wp_before_admin_bar_render', function() {
+		global $wp_admin_bar;
+		$wp_admin_bar->remove_menu( 'comments' );
+	} );
+
+	// Remove Comments and Settings > Discussion links from the admin menu.
+	// NOTE: Both of these admin views are still accessible if requested
+	// directly.
+	add_action( 'admin_menu', function() {
+		remove_menu_page( 'edit-comments.php' );
+		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
+	} );
+
+	// Remove the recent comments box from the admin dashboard.
+	add_action( 'wp_dashboard_setup', function() {
+		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+	} );
+
+	// Hide comment count and other inline references to comments in the
+	// admin dashboard and user profile view.
+	$admin_css = '';
+	ob_start();
+?>
+	<style>
+		#dashboard_right_now .comment-count,
+		#dashboard_right_now .comment-mod-count,
+		#latest-comments,
+		#welcome-panel .welcome-comments,
+		.user-comment-shortcuts-wrap {
+			display: none !important;
+		}
+	</style>
+<?php
+	$admin_css = ob_get_clean();
+	add_action( 'admin_print_styles-index.php', function() use ( $admin_css ) {
+		echo $admin_css;
+	} );
+	add_action( 'admin_print_styles-profile.php', function() use ( $admin_css ) {
+		echo $admin_css;
+	} );
+}
+
+add_action( 'init', 'ucfwp_kill_comments' );
+
