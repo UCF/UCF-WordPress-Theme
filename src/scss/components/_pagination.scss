@@ -2,14 +2,12 @@
 // any great means of overriding it.  So, we apply Athena pagination styles
 // to what's given to us instead.
 
-.loop-navigation-wrap {
+.loop-navigation {
+  // sass-lint:disable-block no-qualifying-elements
   display: flex;
+  flex-direction: column;
   margin-bottom: 2rem;
   margin-top: 1.5rem;
-}
-
-.navigation {
-  // sass-lint:disable-block no-qualifying-elements
 
   .nav-links {
     // Inner wrapper element around .page-numbers, .nav-previous/.nav-next

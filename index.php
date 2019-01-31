@@ -16,9 +16,7 @@
 		</article>
 		<?php endwhile; ?>
 
-		<div class="loop-navigation-wrap">
-			<?php ucfwp_the_posts_pagination(); ?>
-		</div>
+		<?php ucfwp_the_posts_pagination(); ?>
 	<?php else: ?>
 		<p>No results found.</p>
 	<?php endif; ?>

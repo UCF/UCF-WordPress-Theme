@@ -154,7 +154,7 @@ function ucfwp_pagination_wrapper_markup( $template, $class ) {
 
 	ob_start();
 ?>
-	<nav class="navigation <?php echo $wrapper_class; ?>" role="navigation" aria-label="%2$s">
+	<nav class="loop-navigation <?php echo $wrapper_class; ?>" role="navigation" aria-label="%2$s">
         <div class="nav-links">%3$s</div>
     </nav>
 <?php
@@ -200,6 +200,9 @@ function ucfwp_get_the_posts_pagination( $args=array() ) {
 	// Generate paginated link markup based on our defaults and forced values:
 	$args  = array_merge( $args, $forced_values );
 	$links = paginate_links( $args );
+
+	// If there's no links to return, exit now
+	if ( ! $links ) return '';
 
 	// If the user wanted previous/next links, re-add them:
 	if ( $prev_next ) {
