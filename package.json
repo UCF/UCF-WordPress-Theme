@@ -1,29 +1,29 @@
 {
   "private": true,
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "babel-eslint": "^10.0.1",
     "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
-    "browser-sync": "^2.24.6",
-    "eslint": "^5.2.0",
+    "browser-sync": "^2.26.3",
+    "eslint": "^5.13.0",
     "font-awesome": "github:FortAwesome/Font-Awesome#v4.7.0",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^3.9.4",
+    "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^5.0.0",
     "gulp-eslint-if-fixed": "^1.0.0",
     "gulp-include": "^2.3.1",
     "gulp-rename": "^1.4.0",
-    "gulp-sass": "~4.0.1",
+    "gulp-sass": "~4.0.2",
     "gulp-sass-lint": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
     "js-cookie": "^2.2.0",
-    "merge": "^1.2.0",
-    "ucf-athena-framework": "^1.0.1"
+    "merge": "^1.2.1",
+    "ucf-athena-framework": "^1.0.2"
   },
   "browserslist": [
     "last 2 versions"
