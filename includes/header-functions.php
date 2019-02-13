@@ -559,7 +559,8 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
  **/
 if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 	function ucfwp_get_header_markup() {
-		$obj = get_queried_object();
+		$retval = '';
+		$obj    = get_queried_object();
 
 		if ( !$obj && is_404() ) {
 			$page = get_page_by_title( '404' );
@@ -571,12 +572,18 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 		$videos = ucfwp_get_header_videos( $obj );
 		$images = ucfwp_get_header_images( $obj );
 
+		$retval = apply_filters( 'ucfwp_get_header_markup_before', $retval, $obj, $videos, $images );
+		// Return early if alternate markup was provided:
+		if ( $retval ) { return $retval; }
+
 		if ( $videos || $images ) {
-			echo ucfwp_get_header_media_markup( $obj, $videos, $images );
+			$retval = ucfwp_get_header_media_markup( $obj, $videos, $images );
 		}
 		else {
-			echo ucfwp_get_header_default_markup( $obj );
+			$retval = ucfwp_get_header_default_markup( $obj );
 		}
+
+		return apply_filters( 'ucfwp_get_header_markup_after', $retval, $obj, $videos, $images );
 	}
 }
 
@@ -603,7 +610,7 @@ if ( !function_exists( 'ucfwp_get_subnav_markup' ) ) {
 		$include_subnav = get_field( 'page_header_include_subnav', $field_id );
 
 		if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
-			echo do_shortcode( '[section-menu]' );
+			return do_shortcode( '[section-menu]' );
 		}
 	}
 }
