@@ -81,6 +81,41 @@ function ucfwp_get_header_videos( $obj ) {
 
 
 /**
+ * Returns an array of src's for a page header's media background
+ * <picture> <source>s, by breakpoint.  Will return a unique set of src's
+ * depending on the page's header height.
+ *
+ * @author Jo Dickson
+ * @since 0.2.1
+ * @param string $header_height Name of the header's height
+ * @param array $images Assoc. array of image size names and attachment IDs (expects a return value from ucfwp_get_header_images())
+ * @return array Assoc. array of breakpoint names and image urls (see ucfwp_get_media_background_picture_srcs())
+ */
+if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
+	function ucfwp_get_header_media_picture_srcs( $header_height, $images ) {
+		$bg_image_srcs = array();
+
+		switch ( $header_height ) {
+			case 'header-media-fullscreen':
+				$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
+				$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
+
+				if ( isset( $bg_image_src_xs['xs'] ) ) {
+					$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
+				}
+
+				break;
+			default:
+				$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
+				break;
+		}
+
+		return $bg_image_srcs;
+	}
+}
+
+
+/**
  * Returns texturized title text for use in the page header.
  *
  * @author Jo Dickson
@@ -228,171 +263,19 @@ if ( ! function_exists( 'ucfwp_get_header_type' ) ) {
  * @param mixed $obj A queried object (e.g. WP_Post, WP_Term), or null
  * @return string The content type name
  */
-function ucfwp_get_header_content_type( $obj ) {
-	$content_type = get_field( 'page_header_content_type', $obj ) ?: '';
-	$header_type  = ucfwp_get_header_type( $obj );
+if ( ! function_exists( 'ucfwp_get_header_content_type' ) ) {
+	function ucfwp_get_header_content_type( $obj ) {
+		$content_type = get_field( 'page_header_content_type', $obj ) ?: '';
+		$header_type  = ucfwp_get_header_type( $obj );
 
-	// Required for compatibility with existing content type names:
-	// set $header_content_type to an empty string to force the 'default'
-	// header_content partial to be returned
-	if ( $header_type === '' && $content_type === 'title_subtitle' ) {
-		$content_type = '';
-	}
-
-	return apply_filters( 'ucfwp_get_header_content_type', $content_type, $obj );
-}
-
-
-/**
- * Returns inner navbar markup for ucf.edu's primary site navigation.
- *
- * TODO move markup to template part
- *
- * @since 0.0.0
- * @author Jo Dickson
- * @return string HTML markup
- */
-if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
-	function ucfwp_get_mainsite_menu( $image=true ) {
-		global $wp_customize;
-		$customizing    = isset( $wp_customize );
-		$feed_url       = get_theme_mod( 'mainsite_nav_url' ) ?: UCFWP_MAINSITE_NAV_URL;
-		$transient_name = 'ucfwp_mainsite_nav_json';
-		$result         = get_transient( $transient_name );
-
-		if ( empty( $result ) || $customizing ) {
-			// Try fetching the theme mod value or default
-			$result = ucfwp_fetch_json( $feed_url );
-
-			// If the theme mod value failed and it's not what we set as our
-			// default, try again using the default
-			if ( !$result && $feed_url !== UCFWP_MAINSITE_NAV_URL ) {
-				$result = ucfwp_fetch_json( UCFWP_MAINSITE_NAV_URL );
-			}
-
-			if ( ! $customizing ) {
-				set_transient( $transient_name, $result, (60 * 60 * 24) );
-			}
+		// Required for compatibility with existing content type names:
+		// set $header_content_type to an empty string to force the 'default'
+		// header_content partial to be returned
+		if ( $header_type === '' && $content_type === 'title_subtitle' ) {
+			$content_type = '';
 		}
 
-		if ( !$result ) { return ''; }
-		$menu = $result;
-
-		ob_start();
-	?>
-	<nav class="navbar navbar-toggleable-md navbar-mainsite py-2<?php echo $image ? ' py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3 py-lg-4'; ?>" role="navigation" aria-label="Site navigation">
-		<div class="container">
-			<button class="navbar-toggler ml-auto collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-text">Navigation</span>
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="header-menu">
-				<ul id="menu-header-menu" class="nav navbar-nav nav-fill">
-					<?php foreach ( $menu->items as $item ): ?>
-					<li class="menu-item nav-item">
-						<a href="<?php echo $item->url; ?>" target="<?php echo $item->target; ?>" class="nav-link">
-							<?php echo $item->title; ?>
-						</a>
-					</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<?php
-		return ob_get_clean();
-	}
-}
-
-
-/**
- * Returns HTML markup for the primary site navigation.  Falls back to the
- * ucf.edu primary navigation if a header menu is not set.
- *
- * TODO move markup to template part
- *
- * @author Jo Dickson
- * @since 0.0.0
- * @param bool $image Whether or not a media background is present in the page header.
- * @return string Nav HTML
- **/
-if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
-	function ucfwp_get_nav_markup( $image=true ) {
-		$title_elem = ( is_home() || is_front_page() ) ? 'h1' : 'span';
-
-		ob_start();
-
-		if ( has_nav_menu( 'header-menu' ) ) {
-	?>
-		<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation" aria-label="Site navigation">
-			<div class="container d-flex flex-row flex-nowrap justify-content-between">
-				<<?php echo $title_elem; ?> class="mb-0">
-					<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
-				</<?php echo $title_elem; ?>>
-				<button class="navbar-toggler ml-auto align-self-start collapsed" type="button" data-toggle="collapse" data-target="#header-menu" aria-controls="header-menu" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-text">Navigation</span>
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<?php
-				$container_class = 'collapse navbar-collapse';
-				if ( !$image ) {
-					$container_class = $container_class . ' align-self-lg-stretch';
-				}
-				wp_nav_menu( array(
-					'container'       => 'div',
-					'container_class' => $container_class,
-					'container_id'    => 'header-menu',
-					'depth'           => 2,
-					'fallback_cb'     => 'bs4Navwalker::fallback',
-					'menu_class'      => 'nav navbar-nav ml-md-auto',
-					'theme_location'  => 'header-menu',
-					'walker'          => new bs4Navwalker()
-				) );
-				?>
-			</div>
-		</nav>
-	<?php
-		}
-		else {
-			echo ucfwp_get_mainsite_menu( $image );
-		}
-
-		return ob_get_clean();
-	}
-}
-
-
-/**
- * Returns an array of src's for a page header's media background
- * <picture> <source>s, by breakpoint.  Will return a unique set of src's
- * depending on the page's header height.
- *
- * @author Jo Dickson
- * @since 0.2.1
- * @param string $header_height Name of the header's height
- * @param array $images Assoc. array of image size names and attachment IDs (expects a return value from ucfwp_get_header_images())
- * @return array Assoc. array of breakpoint names and image urls (see ucfwp_get_media_background_picture_srcs())
- */
-if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
-	function ucfwp_get_header_media_picture_srcs( $header_height, $images ) {
-		$bg_image_srcs = array();
-
-		switch ( $header_height ) {
-			case 'header-media-fullscreen':
-				$bg_image_srcs = ucfwp_get_media_background_picture_srcs( null, $images['header_image'], 'bg-img' );
-				$bg_image_src_xs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], null, 'header-img' );
-
-				if ( isset( $bg_image_src_xs['xs'] ) ) {
-					$bg_image_srcs['xs'] = $bg_image_src_xs['xs'];
-				}
-
-				break;
-			default:
-				$bg_image_srcs = ucfwp_get_media_background_picture_srcs( $images['header_image_xs'], $images['header_image'], 'header-img' );
-				break;
-		}
-
-		return $bg_image_srcs;
+		return apply_filters( 'ucfwp_get_header_content_type', $content_type, $obj );
 	}
 }
 
@@ -419,24 +302,5 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 		$retval = ob_get_clean();
 
 		return apply_filters( 'ucfwp_get_header_markup', $retval, $obj );
-	}
-}
-
-
-/**
- * Returns subnavigation markup for the current object.
- *
- * @author Jo Dickson
- * @since 0.0.0
- * @return string HTML for the page header
- **/
-if ( !function_exists( 'ucfwp_get_subnav_markup' ) ) {
-	function ucfwp_get_subnav_markup() {
-		$obj = ucfwp_get_queried_object();
-		$include_subnav = get_field( 'page_header_include_subnav', $obj );
-
-		if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
-			return do_shortcode( '[section-menu]' );
-		}
 	}
 }

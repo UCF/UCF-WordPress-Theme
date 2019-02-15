@@ -1,5 +1,74 @@
 <?php
 
+/**
+ * Returns the nav type for the given page's header.
+ * The value returned will represent an equivalent template part's name.
+ *
+ * @author Jo Dickson
+ * @since TODO
+ * @return string The nav type name
+ */
+if ( !function_exists( 'ucfwp_get_nav_type' ) ) {
+	function ucfwp_get_nav_type() {
+		$nav_type = '';
+
+		// Fall back to the ucf.edu primary navigation if a
+		// header menu is not set.
+		if ( ! has_nav_menu( 'header-menu' ) ) {
+			$nav_type = 'mainsite';
+		}
+
+		return apply_filters( 'ucfwp_get_nav_type', $nav_type );
+	}
+}
+
+
+/**
+ * Returns HTML markup for the primary site navigation.
+ *
+ * @author Jo Dickson
+ * @since 0.0.0
+ * @param bool $image Whether or not a media background is present in the page header.
+ * @return string Nav HTML
+ **/
+if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
+	function ucfwp_get_nav_markup( $image=true ) {
+		$retval = '';
+		$template_part_name = ucfwp_get_nav_type();
+
+		set_query_var( 'ucfwp_image_behind_nav', $image );
+
+		ob_start();
+		get_template_part( ucfwp_get_template_part_slug( 'nav' ), $template_part_name );
+		$retval = ob_get_clean();
+
+		return apply_filters( 'ucfwp_get_nav_markup', $retval );
+	}
+}
+
+
+/**
+ * Returns subnavigation markup for the current object.
+ *
+ * @author Jo Dickson
+ * @since 0.0.0
+ * @return string HTML for the page header
+ **/
+if ( !function_exists( 'ucfwp_get_subnav_markup' ) ) {
+	function ucfwp_get_subnav_markup() {
+		$obj = ucfwp_get_queried_object();
+		$include_subnav = get_field( 'page_header_include_subnav', $obj );
+
+		if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
+			return do_shortcode( '[section-menu]' );
+		}
+	}
+}
+
+
+/**
+ * Nav walker class compatible with BS4-alpha/Athena Framework
+ */
 if ( !class_exists( 'bs4Navwalker' ) ) {
 
 	/**

@@ -132,3 +132,21 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
 		return ob_get_clean();
 	}
 }
+
+
+/**
+ * Returns inner navbar markup for ucf.edu's primary site navigation.
+ *
+ * @since 0.0.0
+ * @author Jo Dickson
+ * @return string HTML markup
+ */
+if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
+	function ucfwp_get_mainsite_menu( $image=true ) {
+		set_query_var( 'ucfwp_image_behind_nav', $image );
+
+		ob_start();
+		get_template_part( ucfwp_get_template_part_slug( 'header' ), 'mainsite' );
+		return ob_get_clean();
+	}
+}
