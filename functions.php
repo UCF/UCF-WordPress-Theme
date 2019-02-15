@@ -1,4 +1,7 @@
 <?php
+// Deprecated functions
+include_once 'includes/deprecated.php';
+
 // Activation checks
 include_once 'includes/activate.php';
 
