@@ -6,4 +6,4 @@ $exclude_nav         = get_field( 'page_header_exclude_nav', $obj );
 
 <?php if ( ! $exclude_nav ) { echo ucfwp_get_nav_markup( false ); } ?>
 
-<?php get_template_part( ucfwp_get_template_part_slug( 'header_content' ), $header_content_type ); ?>
+<?php _ucfwp_get_template_part( ucfwp_get_template_part_slug( 'header_content' ), $header_content_type ); ?>

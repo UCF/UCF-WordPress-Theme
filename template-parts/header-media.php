@@ -35,7 +35,7 @@ $exclude_nav         = get_field( 'page_header_exclude_nav', $obj );
 	?>
 	<div class="header-content">
 		<div class="header-content-flexfix">
-			<?php get_template_part( ucfwp_get_template_part_slug( 'header_content' ), $header_content_type ); ?>
+			<?php _ucfwp_get_template_part( ucfwp_get_template_part_slug( 'header_content' ), $header_content_type ); ?>
 		</div>
 	</div>
 
