@@ -93,7 +93,7 @@ function ucfwp_is_content_empty($str) {
  * Ideally in a next major release, this function will be replaceable
  * with get_template_part().
  *
- * @since TODO
+ * @since 0.4.0
  * @author Jo Dickson
  * @param string $template_part_slug The template part slug to fetch
  * @param string $template_part_name The template part name to fetch
@@ -146,7 +146,7 @@ function _ucfwp_get_template_part( $template_part_slug, $template_part_name ) {
  * $slug param in get_template_part().
  *
  * @author Jo Dickson
- * @since TODO
+ * @since 0.4.0
  * @param string $subpath An optional subdirectory within the template parts directory
  * @return string The desired template part slug (for this theme and child themes)
  */
@@ -167,7 +167,7 @@ if ( ! function_exists( 'ucfwp_get_template_part_slug' ) ) {
  *
  * @see https://codex.wordpress.org/Function_Reference/get_queried_object
  *
- * @since TODO
+ * @since 0.4.0
  * @author Jo Dickson
  * @return mixed The queried object, or null if no valid object was queried
  */

@@ -8,7 +8,7 @@
  * The value returned will represent an equivalent template part's name.
  *
  * @author Jo Dickson
- * @since TODO
+ * @since 0.4.0
  * @param mixed $obj A queried object (e.g. WP_Post, WP_Term), or null
  * @return string The footer type name
  */
