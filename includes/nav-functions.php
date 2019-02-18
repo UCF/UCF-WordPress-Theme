@@ -5,7 +5,7 @@
  * The value returned will represent an equivalent template part's name.
  *
  * @author Jo Dickson
- * @since TODO
+ * @since 0.4.0
  * @return string The nav type name
  */
 if ( !function_exists( 'ucfwp_get_nav_type' ) ) {
