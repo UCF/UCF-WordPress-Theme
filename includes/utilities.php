@@ -162,6 +162,8 @@ if ( ! function_exists( 'ucfwp_get_template_part_slug' ) ) {
 
 /**
  * Wrapper for get_queried_object() with opinionated overrides for this theme.
+ * Sets a `ucfwp_obj` query var on the global $wp_query object for fast
+ * reference in subsequent requests for the queried object.
  *
  * @see https://codex.wordpress.org/Function_Reference/get_queried_object
  *
@@ -170,6 +172,17 @@ if ( ! function_exists( 'ucfwp_get_template_part_slug' ) ) {
  * @return mixed The queried object, or null if no valid object was queried
  */
 function ucfwp_get_queried_object() {
+	// If ucfwp_obj is already a set query param, return it.
+	// Note that a set value may still be null, but valid.
+	//
+	// We reference $wp_query here directly because we have no
+	// other means of determining the difference between an
+	// unset value and a set, but empty/null, value.
+	global $wp_query;
+	if ( $wp_query && array_key_exists( 'ucfwp_obj', $wp_query->query_vars ) ) {
+		return $wp_query->query_vars['ucfwp_obj'];
+	}
+
 	$obj = get_queried_object();
 
 	if ( !$obj && is_404() ) {
@@ -178,6 +191,10 @@ function ucfwp_get_queried_object() {
 			$obj = $page;
 		}
 	}
+
+	// Store as a query var on $wp_query for reference in
+	// subsequent queried object requests:
+	set_query_var( 'ucfwp_obj', $obj );
 
 	return $obj;
 }

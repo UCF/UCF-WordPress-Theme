@@ -1,5 +1,5 @@
 <?php
-$obj           = get_query_var( 'ucfwp_obj', ucfwp_get_queried_object() );
+$obj           = ucfwp_get_queried_object();
 $title         = ucfwp_get_header_title( $obj );
 $subtitle      = ucfwp_get_header_subtitle( $obj );
 $h1            = ucfwp_get_header_h1_option( $obj );

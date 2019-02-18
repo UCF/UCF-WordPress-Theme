@@ -1,5 +1,5 @@
 <?php
-$obj                 = get_query_var( 'ucfwp_obj', ucfwp_get_queried_object() );
+$obj                 = ucfwp_get_queried_object();
 $header_content_type = ucfwp_get_header_content_type( $obj );
 $exclude_nav         = get_field( 'page_header_exclude_nav', $obj );
 ?>

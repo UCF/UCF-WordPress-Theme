@@ -1,5 +1,5 @@
 <?php
-$obj        = get_query_var( 'ucfwp_obj', ucfwp_get_queried_object() );
+$obj        = ucfwp_get_queried_object();
 $videos     = ucfwp_get_header_videos( $obj );
 $images     = ucfwp_get_header_images( $obj );
 $video_loop = get_field( 'page_header_video_loop', $obj );

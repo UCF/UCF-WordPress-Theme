@@ -295,8 +295,6 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 		$template_part_slug = ucfwp_get_template_part_slug( 'header' );
 		$template_part_name = ucfwp_get_header_type( $obj );
 
-		set_query_var( 'ucfwp_obj', $obj );
-
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
 		$retval = ob_get_clean();
