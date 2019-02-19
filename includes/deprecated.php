@@ -13,6 +13,7 @@
  * or null.
  *
  * @since 0.0.0
+ * @deprecated 0.4.0
  * @author Jo Dickson
  * @param mixed $obj A queried object (e.g. WP_Post, WP_Term), or null
  * @return mixed Post or Term object ID integer, or null on failure
@@ -37,6 +38,7 @@ function ucfwp_get_object_id( $obj ) {
  *
  * @see https://www.advancedcustomfields.com/resources/get_field/ ACF get_field() docs (scroll to "Get a value from different objects")
  * @since 0.0.0
+ * @deprecated 0.4.0 Pass the entire queried object to get_field() instead
  * @author Jo Dickson
  * @param object $obj WP_Post or WP_Term object
  * @return mixed ACF $post_id argument for the Post or Term, or null on failure
@@ -61,6 +63,7 @@ function ucfwp_get_object_field_id( $obj ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
+ * @deprecated 0.4.0 Use get_template_part()
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the page title + subtitle
  **/
@@ -80,6 +83,7 @@ if ( !function_exists( 'ucfwp_get_header_content_title_subtitle' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
+ * @deprecated 0.4.0 Use get_template_part()
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the custom page header contents
  **/
@@ -99,6 +103,7 @@ if ( !function_exists( 'ucfwp_get_header_content_custom' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
+ * @deprecated 0.4.0 Use get_template_part()
  * @param object $obj A WP_Post or WP_Term object
  * @param array $videos Deprecated
  * @param array $images Deprecated
@@ -120,6 +125,7 @@ if ( !function_exists( 'ucfwp_get_header_media_markup' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
+ * @deprecated 0.4.0 Use get_template_part()
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the page header
  **/
@@ -137,8 +143,9 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
 /**
  * Returns inner navbar markup for ucf.edu's primary site navigation.
  *
- * @since 0.0.0
  * @author Jo Dickson
+ * @since 0.0.0
+ * @deprecated 0.4.0 Use get_template_part()
  * @return string HTML markup
  */
 if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {

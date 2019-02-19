@@ -95,6 +95,7 @@ function ucfwp_is_content_empty($str) {
  *
  * @since 0.4.0
  * @author Jo Dickson
+ * @internal
  * @param string $template_part_slug The template part slug to fetch
  * @param string $template_part_name The template part name to fetch
  */
