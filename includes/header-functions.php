@@ -255,6 +255,30 @@ if ( ! function_exists( 'ucfwp_get_header_type' ) ) {
 
 
 /**
+ * Returns header markup for the current object.
+ *
+ * @author Jo Dickson
+ * @since 0.0.0
+ * @return string HTML for the page header
+ **/
+if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
+	function ucfwp_get_header_markup() {
+		$retval = '';
+		$obj    = ucfwp_get_queried_object();
+
+		$template_part_slug = ucfwp_get_template_part_slug( 'header' );
+		$template_part_name = ucfwp_get_header_type( $obj );
+
+		ob_start();
+		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
+		$retval = ob_get_clean();
+
+		return apply_filters( 'ucfwp_get_header_markup', $retval, $obj );
+	}
+}
+
+
+/**
  * Returns the header content type for the given page's header.
  * The value returned will represent an equivalent template part's name.
  *
@@ -281,24 +305,24 @@ if ( ! function_exists( 'ucfwp_get_header_content_type' ) ) {
 
 
 /**
- * Returns header markup for the current object.
+ * Returns header content markup for the current object.
  *
  * @author Jo Dickson
- * @since 0.0.0
- * @return string HTML for the page header
- **/
-if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
-	function ucfwp_get_header_markup() {
+ * @since 0.4.0
+ * @return string HTML for the page header's inner contents
+ */
+if ( !function_exists( 'ucfwp_get_header_content_markup' ) ) {
+	function ucfwp_get_header_content_markup() {
 		$retval = '';
 		$obj    = ucfwp_get_queried_object();
 
-		$template_part_slug = ucfwp_get_template_part_slug( 'header' );
-		$template_part_name = ucfwp_get_header_type( $obj );
+		$template_part_slug = ucfwp_get_template_part_slug( 'header_content' );
+		$template_part_name = ucfwp_get_header_content_type( $obj );
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
 		$retval = ob_get_clean();
 
-		return apply_filters( 'ucfwp_get_header_markup', $retval, $obj );
+		return apply_filters( 'ucfwp_get_header_content_markup', $retval, $obj );
 	}
 }

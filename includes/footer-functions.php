@@ -32,10 +32,11 @@ if ( !function_exists( 'ucfwp_get_footer_markup' ) ) {
 		$retval = '';
 		$obj    = ucfwp_get_queried_object();
 
+		$template_part_slug = ucfwp_get_template_part_slug( 'footer' );
 		$template_part_name = ucfwp_get_footer_type( $obj );
 
 		ob_start();
-		get_template_part( ucfwp_get_template_part_slug( 'footer' ), $template_part_name );
+		get_template_part( $template_part_slug, $template_part_name );
 		$retval = ob_get_clean();
 
 		return apply_filters( 'ucfwp_get_footer_markup', $retval, $obj );

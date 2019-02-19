@@ -63,7 +63,7 @@ function ucfwp_get_object_field_id( $obj ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
- * @deprecated 0.4.0 Use get_template_part()
+ * @deprecated 0.4.0 Use ucfwp_get_header_content_markup()
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the page title + subtitle
  **/
@@ -83,7 +83,7 @@ if ( !function_exists( 'ucfwp_get_header_content_title_subtitle' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
- * @deprecated 0.4.0 Use get_template_part()
+ * @deprecated 0.4.0 Use ucfwp_get_header_content_markup()
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the custom page header contents
  **/
@@ -103,7 +103,7 @@ if ( !function_exists( 'ucfwp_get_header_content_custom' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
- * @deprecated 0.4.0 Use get_template_part()
+ * @deprecated 0.4.0 Use ucfwp_get_header_markup()
  * @param object $obj A WP_Post or WP_Term object
  * @param array $videos Deprecated
  * @param array $images Deprecated
@@ -125,7 +125,7 @@ if ( !function_exists( 'ucfwp_get_header_media_markup' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
- * @deprecated 0.4.0 Use get_template_part()
+ * @deprecated 0.4.0 Use ucfwp_get_header_markup()
  * @param object $obj A WP_Post or WP_Term object
  * @return string HTML for the page header
  **/
@@ -145,7 +145,7 @@ if ( !function_exists( 'ucfwp_get_header_default_markup' ) ) {
  *
  * @author Jo Dickson
  * @since 0.0.0
- * @deprecated 0.4.0 Use get_template_part()
+ * @deprecated 0.4.0 Use ucfwp_get_nav_markup()
  * @return string HTML markup
  */
 if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
