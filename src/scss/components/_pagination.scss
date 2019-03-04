@@ -1,0 +1,83 @@
+// WordPress's generated pagination markup is a hot mess, but we don't have
+// any great means of overriding it.  So, we apply Athena pagination styles
+// to what's given to us instead.
+
+.loop-navigation {
+  // sass-lint:disable-block no-qualifying-elements
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  margin-top: 1.5rem;
+
+  .nav-links {
+    // Inner wrapper element around .page-numbers, .nav-previous/.nav-next
+    @extend .pagination;
+  }
+
+  ul.page-numbers {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+
+  a.page-numbers,
+  span.page-numbers,
+  ul.page-numbers > li > a,
+  ul.page-numbers > li > span {
+    @extend .page-link;
+
+    @include media-breakpoint-down(sm) {
+      padding-left: .6rem;
+      padding-right: .6rem;
+    }
+
+    &.current {
+      // Copied from Athena `.pagination .page-item.active .page-link`:
+      background-color: $pagination-active-bg;
+      border-color: $pagination-active-border;
+      color: $pagination-active-color;
+      z-index: 2;
+    }
+
+    &.dots {
+      // (Mostly) copied from Athena `.pagination .page-item.disabled .page-link`:
+      background-color: $pagination-disabled-bg;
+      border-color: transparent transparent transparent $pagination-disabled-border;
+      color: transparent;
+      cursor: $cursor-disabled;
+      padding-left: 0;
+      padding-right: 0;
+      pointer-events: none;
+      width: .5rem;
+    }
+  }
+
+  // Try to accommodate people that use the_posts_pagination() directly
+  // with prev/next links enabled
+  .nav-links > a:first-child[class~='prev'],
+  ul.page-numbers > li:first-child > a.prev {
+    margin-right: 1rem;
+  }
+
+  .nav-links > a:last-child[class~='next'],
+  ul.page-numbers > li:last-child > a.next {
+    margin-left: 1rem;
+  }
+
+  // the_posts_navigation() support
+  .nav-previous,
+  .nav-next {
+    display: flex;
+
+    a {
+      @extend .page-link;
+      align-self: stretch;
+    }
+  }
+
+  .nav-next {
+    margin-left: auto;
+  }
+}

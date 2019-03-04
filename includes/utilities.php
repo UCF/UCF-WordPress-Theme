@@ -82,7 +82,7 @@ function ucfwp_get_theme_mod_or_default( $theme_mod, $defaults=UCFWP_THEME_CUSTO
  * @since 0.2.2
  **/
 function ucfwp_is_content_empty($str) {
-    return trim( str_replace( '&nbsp;', '', strip_tags( $str ) ) ) === '';
+	return trim( str_replace( '&nbsp;', '', strip_tags( $str ) ) ) === '';
 }
 
 
