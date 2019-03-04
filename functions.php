@@ -14,6 +14,7 @@ include_once 'includes/media-backgrounds.php';
 include_once 'includes/nav-functions.php';
 include_once 'includes/header-functions.php';
 include_once 'includes/footer-functions.php';
+include_once 'includes/pagination-functions.php';
 
 // Plugin extras/overrides
 
