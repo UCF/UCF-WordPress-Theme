@@ -132,12 +132,10 @@ if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
 		return wptexturize( $title );
 	}
 
-	if ( ! $obj ) {
+	if ( is_404() ) {
 		// We intentionally don't add a fallback title for 404s;
 		// this allows us to add a custom h1 to the default 404 template.
-		if ( ! is_404() ) {
-			$title = get_bloginfo( 'name', 'display' );
-		}
+		$title = '';
 	}
 	else {
 		// Checks listed below are copied directly from WP core
