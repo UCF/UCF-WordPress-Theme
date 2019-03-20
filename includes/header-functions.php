@@ -342,8 +342,8 @@ if ( !function_exists( 'ucfwp_check_header_custom_content' ) ) {
 
 		if ( $content_type === "custom" && empty( $custom_content ) ) {
 			return false;
-		} else {
-			return true;
 		}
+		
+		return true;
 	}
 }
