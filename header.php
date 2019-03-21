@@ -8,10 +8,12 @@
 		<div id="ucfhb"></div>
 
 		<?php do_action( 'after_body_open' ); ?>
-
+		
+		<?php if ( ucfwp_check_header_custom_content() ) : ?>
 		<header class="site-header">
 			<?php echo ucfwp_get_header_markup(); ?>
 		</header>
+		<?php endif; ?>
 
 		<main class="site-main">
 			<?php echo ucfwp_get_subnav_markup(); ?>
