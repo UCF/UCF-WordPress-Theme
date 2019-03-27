@@ -207,7 +207,7 @@ function ucfwp_gallery_display_thumbnails( $gallery_id, $attachments, $attr ) {
 					</a>
 					<?php endif; ?>
 
-					<?php if ( $attr['thumbnail_captions'] ): ?>
+					<?php if ( filter_var( $attr['thumbnail_captions'], FILTER_VALIDATE_BOOLEAN ) ): ?>
 					<figcaption class="figure-caption">
 						<?php echo $excerpt; ?>
 					</figcaption>
