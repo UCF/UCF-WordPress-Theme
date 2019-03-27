@@ -37,12 +37,25 @@ function ucfwp_get_attachment_src_by_size( $id, $size ) {
  */
 function ucfwp_get_attachment_image( $attachment_id, $size='thumbnail', $icon=false, $attr='' ) {
 	$use_filter = true;
-	if ( ! $size || $size === 'full' || ( is_array( $size ) && intval( $size[0] ) === 0 ) ) {
+	$max_srcset_width = 0;
+
+	if ( is_array( $size ) ) {
+		$max_srcset_width = intval( $size[0] );
+	}
+	else {
+		$max_srcset_width = intval( get_option( $size . '_size_w' ) );
+	}
+
+	if (
+		! $max_srcset_width
+		|| ! $size
+		|| $size === 'full'
+	) {
 		$use_filter = false;
 	}
 
-	$custom_filter = function( $width ) use ( $thumb_size_dims ) {
-		return $thumb_size_dims[0];
+	$custom_filter = function( $width ) use ( $max_srcset_width ) {
+		return $max_srcset_width;
 	};
 
 	if ( $use_filter ) {
