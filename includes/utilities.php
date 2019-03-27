@@ -37,14 +37,7 @@ function ucfwp_get_attachment_src_by_size( $id, $size ) {
  */
 function ucfwp_get_attachment_image( $attachment_id, $size='thumbnail', $icon=false, $attr='' ) {
 	$use_filter = true;
-	$max_srcset_width = 0;
-
-	if ( is_array( $size ) ) {
-		$max_srcset_width = intval( $size[0] );
-	}
-	else {
-		$max_srcset_width = intval( get_option( $size . '_size_w' ) );
-	}
+	$max_srcset_width = is_array( $size ) ? intval( $size[0] ) : intval( get_option( $size . '_size_w' ) );
 
 	if (
 		! $max_srcset_width
