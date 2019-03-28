@@ -201,13 +201,13 @@ function ucfwp_gallery_display_thumbnails( $gallery_id, $attachments, $attr ) {
 					<a href="<?php echo $img_url_full; ?>">
 					<?php endif; ?>
 
-						<?php echo wp_get_attachment_image( $attachment->ID, $attr['size'], false, array( 'class' => 'img-fluid' ) ); ?>
+						<?php echo ucfwp_get_attachment_image( $attachment->ID, $attr['size'], false, array( 'class' => 'img-fluid' ) ); ?>
 
 					<?php if ( $attr['link'] !== 'none' ): ?>
 					</a>
 					<?php endif; ?>
 
-					<?php if ( $attr['thumbnail_captions'] ): ?>
+					<?php if ( filter_var( $attr['thumbnail_captions'], FILTER_VALIDATE_BOOLEAN ) ): ?>
 					<figcaption class="figure-caption">
 						<?php echo $excerpt; ?>
 					</figcaption>
