@@ -23,12 +23,15 @@
 }
 
 .header-media {
-  background-color: $gray;
   height: 100%;
   position: relative;
 
   @include media-breakpoint-down(xs) {
     min-height: ($header-img-xs-height / $header-img-xs-width) * 100vw;
+  }
+
+  &:not([class*='bg-']) {
+    background-color: $gray;
   }
 }
 
