@@ -44,7 +44,7 @@ if ( !function_exists( 'ucfwp_alert_display_faicon' ) ) {
 		<div class="container">
 			<div class="row no-gutters">
 				<div class="col col-lg-8 offset-lg-2">
-					<a class="ucf-alert-content" href="<?php echo UCF_Alert_Config::get_option_or_default( 'alerts_url' ); ?>">
+					<a class="ucf-alert-content">
 						<div class="row no-gutters">
 							<div class="col-auto">
 								<span class="ucf-alert-icon fa" aria-hidden="true"></span>
@@ -52,9 +52,7 @@ if ( !function_exists( 'ucfwp_alert_display_faicon' ) ) {
 							<div class="col">
 								<strong class="ucf-alert-title h4"></strong>
 								<div class="ucf-alert-body"></div>
-								<div class="ucf-alert-cta">
-									<?php echo UCF_Alert_Config::get_option_or_default( 'cta' ); ?>
-								</div>
+								<div class="ucf-alert-cta"></div>
 							</div>
 						</div>
 					</a>
