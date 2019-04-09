@@ -269,7 +269,7 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_header_markup', $retval, $obj );
 	}
@@ -319,31 +319,8 @@ if ( !function_exists( 'ucfwp_get_header_content_markup' ) ) {
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_header_content_markup', $retval, $obj );
-	}
-}
-
-
-/**
- * Checks whether the header's custom content is empty.
- *
- * @author Cadie Brown
- * @since 0.5.0
- * @return bool Boolean value for header content check
- */
-if ( !function_exists( 'ucfwp_check_header_custom_content' ) ) {
-	function ucfwp_check_header_custom_content() {
-		$obj = ucfwp_get_queried_object();
-
-		$content_type   = get_field( 'page_header_content_type', $obj ) ?: '';
-		$custom_content = get_field( 'page_header_content', $obj ) ?: '';
-
-		if ( $content_type === "custom" && empty( $custom_content ) ) {
-			return false;
-		}
-		
-		return true;
 	}
 }
