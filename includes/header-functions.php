@@ -269,7 +269,7 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_header_markup', $retval, $obj );
 	}
@@ -319,7 +319,7 @@ if ( !function_exists( 'ucfwp_get_header_content_markup' ) ) {
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_header_content_markup', $retval, $obj );
 	}

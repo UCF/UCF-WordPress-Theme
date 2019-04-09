@@ -40,7 +40,7 @@ if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
 
 		ob_start();
 		get_template_part( ucfwp_get_template_part_slug( 'nav' ), $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_nav_markup', $retval );
 	}
