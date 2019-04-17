@@ -37,7 +37,7 @@ if ( !function_exists( 'ucfwp_get_footer_markup' ) ) {
 
 		ob_start();
 		get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_footer_markup', $retval, $obj );
 	}

@@ -132,12 +132,10 @@ if ( ! function_exists( 'ucfwp_get_header_media_picture_srcs' ) ) {
 		return wptexturize( $title );
 	}
 
-	if ( ! $obj ) {
+	if ( is_404() ) {
 		// We intentionally don't add a fallback title for 404s;
 		// this allows us to add a custom h1 to the default 404 template.
-		if ( ! is_404() ) {
-			$title = get_bloginfo( 'name', 'display' );
-		}
+		$title = '';
 	}
 	else {
 		// Checks listed below are copied directly from WP core
@@ -271,7 +269,7 @@ if ( !function_exists( 'ucfwp_get_header_markup' ) ) {
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_header_markup', $retval, $obj );
 	}
@@ -321,7 +319,7 @@ if ( !function_exists( 'ucfwp_get_header_content_markup' ) ) {
 
 		ob_start();
 		_ucfwp_get_template_part( $template_part_slug, $template_part_name );
-		$retval = ob_get_clean();
+		$retval = trim( ob_get_clean() );
 
 		return apply_filters( 'ucfwp_get_header_content_markup', $retval, $obj );
 	}

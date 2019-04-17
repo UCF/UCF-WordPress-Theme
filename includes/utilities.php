@@ -23,6 +23,49 @@ function ucfwp_get_attachment_src_by_size( $id, $size ) {
 
 
 /**
+ * Shim for `wp_get_attachment_image()` that forces the maximum
+ * width in the image's generated srcset to not exceed the requested
+ * image dimensions.
+ *
+ * @since 0.5.0
+ * @author Jo Dickson
+ * @param int $attachment_id Image attachment ID.
+ * @param mixed $size String or array representing an image size
+ * @param bool $icon (Optional) Whether the image should be treated as an icon
+ * @param mixed $attr String or array of attributes for the image markup
+ * @return string HTML img element or empty string on failure.
+ */
+function ucfwp_get_attachment_image( $attachment_id, $size='thumbnail', $icon=false, $attr='' ) {
+	$use_filter = true;
+	$max_srcset_width = is_array( $size ) ? intval( $size[0] ) : intval( get_option( $size . '_size_w' ) );
+
+	if (
+		! $max_srcset_width
+		|| ! $size
+		|| $size === 'full'
+	) {
+		$use_filter = false;
+	}
+
+	$custom_filter = function( $width ) use ( $max_srcset_width ) {
+		return $max_srcset_width;
+	};
+
+	if ( $use_filter ) {
+		add_filter( 'max_srcset_image_width', $custom_filter );
+	}
+
+	$image = wp_get_attachment_image( $attachment_id, $size, $icon, $attr );
+
+	if ( $use_filter ) {
+		remove_filter( 'max_srcset_image_width', $custom_filter );
+	}
+
+	return $image;
+}
+
+
+/**
  * Returns a JSON object from the provided URL.  Detects undesirable status
  * codes and returns false if the response doesn't look valid.
  *
@@ -82,7 +125,7 @@ function ucfwp_get_theme_mod_or_default( $theme_mod, $defaults=UCFWP_THEME_CUSTO
  * @since 0.2.2
  **/
 function ucfwp_is_content_empty($str) {
-    return trim( str_replace( '&nbsp;', '', strip_tags( $str ) ) ) === '';
+	return trim( str_replace( '&nbsp;', '', strip_tags( $str ) ) ) === '';
 }
 
 
