@@ -42,3 +42,35 @@
     width: 4rem;
   }
 }
+
+
+//
+// "News" post lists
+//
+.ucfwp-post-list-news {
+  .newsitem-link {
+    @include hover-focus {
+      text-decoration: none;
+
+      .newsitem-heading {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .newsitem-heading {
+    font-size: $font-size-base-md;
+
+    @include media-breakpoint-up(md) {
+      font-size: $font-size-base-md;
+    }
+  }
+
+  .newsitem-excerpt {
+    font-size: $font-size-xs;
+
+    @include media-breakpoint-up(md) {
+      font-size: $font-size-sm;
+    }
+  }
+}
