@@ -41,3 +41,7 @@ if ( class_exists( 'UCF_Events_Common' ) ) {
 if ( class_exists( 'UCF_Acad_Cal_Common' ) ) {
 	include_once 'includes/acad-cal-functions.php';
 }
+
+if ( class_exists( 'UCF_Post_List_Common' ) ) {
+	include_once 'includes/post-list-functions.php';
+}
