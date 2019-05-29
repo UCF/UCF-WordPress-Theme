@@ -196,8 +196,26 @@ if ( ! function_exists( 'ucfwp_post_list_display_news' ) ) {
 				$item_excerpt = apply_filters( 'ucfwp_post_list_news_excerpt', ucfwp_get_excerpt( $item, $excerpt_length ), $item, $posts, $atts );
 			}
 			if ( filter_var( $atts['show_subhead'], FILTER_VALIDATE_BOOLEAN ) ) {
-				$item_subhead = apply_filters( 'ucfwp_post_list_news_subhead', date( 'M d', strtotime( $item->post_date ) ), $item, $posts, $atts );
+				if ( $item->post_type === 'ucf_resource_link' ) {
+					$resource_sources = wp_get_post_terms( $item->ID, 'sources', array( 'fields' => 'names' ) );
+					if ( ! empty( $resource_sources ) && is_array( $resource_sources ) )  {
+						$item_subhead = wptexturize( $resource_sources[0] );
+					}
+				}
+				else {
+					$item_subhead = date( 'M d', strtotime( $item->post_date ) );
+				}
+				$item_subhead = apply_filters( 'ucfwp_post_list_news_subhead', $item_subhead, $item, $posts, $atts );
 			}
+
+			$item_link = '';
+			if ( $item->post_type === 'ucf_resource_link' ) {
+				$item_link = get_post_meta( $item->ID, 'ucf_resource_link_url', true );
+			}
+			else {
+				$item_link = get_permalink( $item );
+			}
+			$item_link = apply_filters( 'ucfwp_post_list_news_link', $item_link, $item, $posts, $atts );
 
 			$item_img = $item_img_srcset = null;
 			if ( $atts['show_image'] ) {
@@ -212,7 +230,12 @@ if ( ! function_exists( 'ucfwp_post_list_display_news' ) ) {
 
 			<div class="<?php echo $item_col; ?> mb-4 ucf-post-list-item">
 				<article>
-					<a class="d-block text-secondary newsitem-link" href="<?php echo get_permalink( $item ); ?>">
+					<?php if ( $item_link ) : ?>
+					<a class="d-block text-secondary newsitem-link" href="<?php echo $item_link; ?>">
+					<?php else: ?>
+					<div class="text-default">
+					<?php endif; ?>
+
 						<div class="row">
 							<?php if ( $item_img ) : ?>
 							<div class="col-3 col-md-2 pr-0">
@@ -232,7 +255,12 @@ if ( ! function_exists( 'ucfwp_post_list_display_news' ) ) {
 								<?php endif; ?>
 							</div>
 						</div>
+
+					<?php if ( $item_link ): ?>
 					</a>
+					<?php else: ?>
+					</div>
+					<?php endif; ?>
 				</article>
 			</div>
 
