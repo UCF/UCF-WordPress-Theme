@@ -480,3 +480,15 @@ function ucfwp_kill_comments() {
 
 add_action( 'init', 'ucfwp_kill_comments' );
 
+
+/**
+ * Modifies the string printed at the end of excerpts.
+ *
+ * @since 0.5.2
+ * @author Jo Dickson
+ */
+function ucfwp_excerpt_more( $more ) {
+	return '&hellip;';
+}
+
+add_filter( 'excerpt_more', 'ucfwp_excerpt_more' );
