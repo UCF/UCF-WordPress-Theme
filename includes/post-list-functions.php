@@ -29,7 +29,6 @@ add_filter( 'ucf_post_list_get_layouts', 'ucfwp_post_list_layouts' );
  */
 if ( ! function_exists( 'ucfwp_post_list_sc_atts' ) ) {
 	function ucfwp_post_list_sc_atts( $atts, $layout ) {
-		// Add new attributes for "news" layout:
 		if ( $layout === 'news' ) {
 			// Create new `show_subhead` attribute to
 			// toggle the post's subhead text
@@ -38,6 +37,10 @@ if ( ! function_exists( 'ucfwp_post_list_sc_atts' ) ) {
 			// Create new `show_excerpt` attribute that toggles
 			// the post's excerpt display
 			$atts['show_excerpt'] = true;
+
+			// Force a sane posts_per_row value, since these
+			// lists are more horizontal
+			$atts['posts_per_row'] = 1;
 		}
 
 		return $atts;
