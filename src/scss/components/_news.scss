@@ -36,8 +36,14 @@
     margin-left: -$grid-gutter-width-base / 2;
     margin-right: -$grid-gutter-width-base / 2;
 
+    @include hover-focus-active {
+      background-color: rgba($gray-light, .25);
+      transition: $link-transition;
+    }
+
     a {
       @extend .media;
+      color: inherit;
     }
   }
 
@@ -65,14 +71,37 @@
 
   .ucf-news-item-title {
     @extend .h5;
-    color: $brand-secondary;
+    color: inherit;
   }
 
   .ucf-news-item-excerpt {
+    color: inherit;
     font-size: $font-size-xs;
 
     @include media-breakpoint-up(md) {
       font-size: $font-size-sm;
     }
+  }
+}
+
+
+//
+// Card layout
+//
+.ucf-news.card-layout {
+  .ucf-news-card {
+    background-color: transparent;
+    border-color: rgba($brand-default, .25);
+
+    @include hover-focus-active {
+      .ucf-news-card-title {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .ucf-news-card-link {
+    color: inherit;
+    text-decoration: none;
   }
 }
