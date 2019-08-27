@@ -56,11 +56,46 @@ if ( !function_exists( 'ucfwp_get_nav_markup' ) ) {
  **/
 if ( !function_exists( 'ucfwp_get_subnav_markup' ) ) {
 	function ucfwp_get_subnav_markup() {
-		$obj = ucfwp_get_queried_object();
-		$include_subnav = get_field( 'page_header_include_subnav', $obj );
+		$obj               = ucfwp_get_queried_object();
+		$include_subnav    = get_field( 'page_header_include_subnav', $obj );
+		$subnav_population = get_field( 'page_header_subnav_link_population', $obj );
 
 		if ( class_exists( 'Section_Menus_Common' ) && $include_subnav ) {
-			return do_shortcode( '[section-menu]' );
+			$menu_sc_markup = '[section-menu]';
+
+			if ( $subnav_population === 'custom' && have_rows( 'page_header_subnav_links' ) ) {
+				while ( have_rows( 'page_header_subnav_links' ) ) : the_row();
+
+					$content        = get_sub_field( 'link_text' );
+					$atts           = array();
+
+					if ( $content ) {
+						$atts['href']       = esc_attr( get_sub_field( 'href' ) );
+						$atts['new_window'] = esc_attr( get_sub_field( 'new_window' ) );
+						$atts['rel']        = esc_attr( get_sub_field( 'rel' ) );
+						$atts['li_class']   = esc_attr( get_sub_field( 'li_class' ) );
+						$atts['a_class']    = esc_attr( get_sub_field( 'a_class' ) );
+						$atts['layout']     = esc_attr( get_sub_field( 'layout' ) );
+
+						$atts = array_filter( $atts );
+						if ( ! empty( $atts ) && isset( $atts['href'] ) ) {
+							$item_sc_markup = '[section-menu-item';
+
+							foreach ( $atts as $attr => $val ) {
+								$item_sc_markup .= " {$attr}=\"{$val}\"";
+							}
+
+							$item_sc_markup .= ']' . $content . '[/section-menu-item]';
+							$menu_sc_markup .= $item_sc_markup;
+						}
+					}
+
+				endwhile;
+
+				$menu_sc_markup .= '[/section-menu]';
+			}
+
+			return do_shortcode( $menu_sc_markup );
 		}
 	}
 }
