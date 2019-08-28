@@ -400,8 +400,13 @@ function ucfwp_modify_attachment_links( $link, $post_id ) {
 	}
 
 	if ( $do_rewrites ) {
-		return wp_get_attachment_url( $post_id );
+		$attachment_url = wp_get_attachment_url( $post_id );
+		if ( $attachment_url ) {
+			$link = $attachment_url;
+		}
 	}
+
+	return $link;
 }
 
 add_filter( 'attachment_link', 'ucfwp_modify_attachment_links', 20, 2 );
