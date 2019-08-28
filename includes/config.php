@@ -379,6 +379,24 @@ add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );
 
 
 /**
+ *
+ */
+function ucfwp_modify_attachment_links( $link, $post_id ) {
+	$do_rewrites = has_action( 'template_redirect', 'ucfwp_kill_unused_templates' ) !== false ? true : false;
+	// Let child themes/plugins override this behavior:
+	if ( has_filter( 'ucfwp_enable_attachment_link_rewrites' ) !== false ) {
+		$do_rewrites = filter_var( apply_filters( 'ucfwp_enable_attachment_link_rewrites', $do_rewrites ), FILTER_VALIDATE_BOOLEAN );
+	}
+
+	if ( $do_rewrites ) {
+		return wp_get_attachment_url( $post_id );
+	}
+}
+
+add_filter( 'attachment_link', 'ucfwp_modify_attachment_links', 20, 2 );
+
+
+/**
  * Disable widgets that aren't supported by this theme.
  */
 function ucfwp_kill_unused_widgets() {
