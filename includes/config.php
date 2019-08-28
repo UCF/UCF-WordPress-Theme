@@ -379,7 +379,18 @@ add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );
 
 
 /**
+ * Modifies attachment links to point directly to individual files instead of
+ * single attachment views.
  *
+ * Takes effect only when the `ucfwp_kill_unused_templates` hook is registered,
+ * and/or if the `ucfwp_enable_attachment_link_rewrites` hook has been passed a
+ * custom value.
+ *
+ * @since 0.6.0
+ * @author Jo Dickson
+ * @param string $link Existing URL to attachment page
+ * @param int $post_id Attachment post ID
+ * @return string Modified attachment URL
  */
 function ucfwp_modify_attachment_links( $link, $post_id ) {
 	$do_rewrites = has_action( 'template_redirect', 'ucfwp_kill_unused_templates' ) !== false ? true : false;
