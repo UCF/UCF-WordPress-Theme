@@ -379,6 +379,40 @@ add_action( 'template_redirect', 'ucfwp_kill_unused_templates' );
 
 
 /**
+ * Modifies attachment links to point directly to individual files instead of
+ * single attachment views.
+ *
+ * Takes effect only when the `ucfwp_kill_unused_templates` hook is registered,
+ * and/or if the `ucfwp_enable_attachment_link_rewrites` hook has been passed a
+ * custom value.
+ *
+ * @since 0.6.0
+ * @author Jo Dickson
+ * @param string $link Existing URL to attachment page
+ * @param int $post_id Attachment post ID
+ * @return string Modified attachment URL
+ */
+function ucfwp_modify_attachment_links( $link, $post_id ) {
+	$do_rewrites = has_action( 'template_redirect', 'ucfwp_kill_unused_templates' ) !== false ? true : false;
+	// Let child themes/plugins override this behavior:
+	if ( has_filter( 'ucfwp_enable_attachment_link_rewrites' ) !== false ) {
+		$do_rewrites = filter_var( apply_filters( 'ucfwp_enable_attachment_link_rewrites', $do_rewrites ), FILTER_VALIDATE_BOOLEAN );
+	}
+
+	if ( $do_rewrites ) {
+		$attachment_url = wp_get_attachment_url( $post_id );
+		if ( $attachment_url ) {
+			$link = $attachment_url;
+		}
+	}
+
+	return $link;
+}
+
+add_filter( 'attachment_link', 'ucfwp_modify_attachment_links', 20, 2 );
+
+
+/**
  * Disable widgets that aren't supported by this theme.
  */
 function ucfwp_kill_unused_widgets() {
