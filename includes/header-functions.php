@@ -239,7 +239,7 @@ if ( !function_exists( 'ucfwp_get_header_h1_option' ) ) {
  */
 if ( ! function_exists( 'ucfwp_get_header_type' ) ) {
 	function ucfwp_get_header_type( $obj ) {
-		$header_type  = '';
+		$header_type = '';
 
 		$videos = ucfwp_get_header_videos( $obj );
 		$images = ucfwp_get_header_images( $obj );

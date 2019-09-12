@@ -203,6 +203,9 @@ function _ucfwp_get_template_part( $template_part_slug, $template_part_name ) {
 				case 'title_subtitle':
 					$shim_retval = ucfwp_get_header_content_title_subtitle( $obj );
 					break;
+				case 'custom':
+					$shim_retval = ucfwp_get_header_content_custom( $obj );
+					break;
 				default:
 					break;
 			}
