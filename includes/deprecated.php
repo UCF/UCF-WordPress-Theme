@@ -92,7 +92,7 @@ if ( !function_exists( 'ucfwp_get_header_content_custom' ) ) {
 		set_query_var( 'ucfwp_obj', $obj );
 
 		ob_start();
-		get_template_part( ucfwp_get_template_part_slug( 'header' ), 'custom' );
+		get_template_part( ucfwp_get_template_part_slug( 'header_content' ), 'custom' );
 		return ob_get_clean();
 	}
 }
