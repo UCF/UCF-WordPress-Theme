@@ -239,12 +239,15 @@ if ( !function_exists( 'ucfwp_get_header_h1_option' ) ) {
  */
 if ( ! function_exists( 'ucfwp_get_header_type' ) ) {
 	function ucfwp_get_header_type( $obj ) {
-		$header_type = '';
+		$content_type = get_field( 'page_header_content_type', $obj ) ?: '';
+		$header_type  = '';
 
 		$videos = ucfwp_get_header_videos( $obj );
 		$images = ucfwp_get_header_images( $obj );
 		if ( $videos || $images ) {
 			$header_type = 'media';
+		} elseif ( $content_type === 'custom' ) {
+			$header_type = 'custom';
 		}
 
 		return apply_filters( 'ucfwp_get_header_type', $header_type, $obj );
