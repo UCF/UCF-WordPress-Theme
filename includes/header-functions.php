@@ -243,8 +243,12 @@ if ( ! function_exists( 'ucfwp_get_header_type' ) ) {
 
 		$videos = ucfwp_get_header_videos( $obj );
 		$images = ucfwp_get_header_images( $obj );
+		$header_content_type = get_field( 'page_header_content_type' );
+
 		if ( $videos || $images ) {
 			$header_type = 'media';
+		} elseif ( $header_content_type === 'custom' ) {
+			$header_type = 'custom';
 		}
 
 		return apply_filters( 'ucfwp_get_header_type', $header_type, $obj );

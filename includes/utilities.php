@@ -195,9 +195,16 @@ function _ucfwp_get_template_part( $template_part_slug, $template_part_name ) {
 				case 'media':
 					$shim_retval = ucfwp_get_header_media_markup( $obj, $videos, $images );
 					break;
+				case 'custom':
+					set_query_var( 'ucfwp_obj', $obj );
+					ob_start();
+					get_template_part( ucfwp_get_template_part_slug( 'header' ), $template_part_name );
+					$shim_retval = ob_get_clean();
+					break;
 				default:
 					break;
 			}
+			break;
 		case ucfwp_get_template_part_slug( 'header_content' ):
 			switch ( $template_part_name ) {
 				case 'title_subtitle':
@@ -209,6 +216,7 @@ function _ucfwp_get_template_part( $template_part_slug, $template_part_name ) {
 				default:
 					break;
 			}
+			break;
 		default:
 			break;
 	}

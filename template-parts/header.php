@@ -14,7 +14,7 @@ $exclude_nav = get_field( 'page_header_exclude_nav', $obj );
 
     <?php
     // Display the site nav
-    if ( ! $exclude_nav ) { echo ucfwp_get_nav_markup(); }
+    if ( ! $exclude_nav ) { echo ucfwp_get_nav_markup( false ); }
     ?>
 
     <?php
