@@ -30,10 +30,6 @@
     background-color: $gray-lighter;
   }
 
-  .header-gradient {
-    @include gradient-y(rgba($black, .7), transparent);
-  }
-
   .header-content {
     margin-bottom: 1.5rem;
     margin-top: 3rem;
