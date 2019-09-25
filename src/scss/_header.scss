@@ -22,6 +22,29 @@
   }
 }
 
+.header-default {
+  height: 100%;
+  position: relative;
+
+  &:not([class*='bg-']) {
+    background-color: $gray-lighter;
+  }
+
+  .header-content {
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .header-title {
+    font-weight: bold;
+    padding: 0;
+  }
+
+  .header-subtitle {
+    padding: 0;
+  }
+}
+
 .header-media {
   height: 100%;
   position: relative;
