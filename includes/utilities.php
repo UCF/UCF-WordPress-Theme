@@ -198,7 +198,6 @@ function _ucfwp_get_template_part( $template_part_slug, $template_part_name ) {
 				default:
 					break;
 			}
-			break;
 		case ucfwp_get_template_part_slug( 'header_content' ):
 			switch ( $template_part_name ) {
 				case 'title_subtitle':
@@ -210,7 +209,6 @@ function _ucfwp_get_template_part( $template_part_slug, $template_part_name ) {
 				default:
 					break;
 			}
-			break;
 		default:
 			break;
 	}
