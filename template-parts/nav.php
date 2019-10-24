@@ -20,7 +20,7 @@ $menu = wp_nav_menu( array(
 ) );
 ?>
 
-<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" role="navigation" aria-label="Site navigation">
+<nav class="navbar navbar-toggleable-md navbar-custom<?php echo $image ? ' py-2 py-sm-4 navbar-inverse header-gradient' : ' navbar-inverse bg-inverse-t-3'; ?>" aria-label="Site navigation">
 	<div class="container d-flex flex-row flex-nowrap justify-content-between">
 		<<?php echo $title_elem; ?> class="mb-0">
 			<a class="navbar-brand mr-lg-5" href="<?php echo get_home_url(); ?>"><?php echo bloginfo( 'name' ); ?></a>
