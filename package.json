@@ -22,7 +22,7 @@
     "gulp-uglify": "^3.0.2",
     "js-cookie": "^2.2.1",
     "merge": "^1.2.1",
-    "ucf-athena-framework": "^1.0.6"
+    "ucf-athena-framework": "^1.0.7"
   },
   "browserslist": [
     "last 2 versions"
