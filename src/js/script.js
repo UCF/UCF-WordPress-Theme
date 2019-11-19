@@ -11,4 +11,5 @@
 //
 
 // =require media-background-video.js
+// =require media-background-lazyload.js
 // =require count-up.js
