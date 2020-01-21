@@ -251,18 +251,18 @@ if ( function_exists( 'athena_sc_tinymce_init' ) ) {
  **/
 function ucfwp_kses_allowed_html( $tags, $context ) {
 	$global_attrs = array(
-		'aria-describedby' => array(),
-		'aria-details'     => array(),
-		'aria-label'       => array(),
-		'aria-labelledby'  => array(),
-		'aria-hidden'      => array(),
-		'class'            => array(),
-		'data-*'           => array(),
-		'hidden'           => array( 'valueless' => 'y' ),
-		'id'               => array(),
-		'role'             => array(),
-		'style'            => array(),
-		'title'            => array(),
+		'aria-describedby' => true,
+		'aria-details'     => true,
+		'aria-label'       => true,
+		'aria-labelledby'  => true,
+		'aria-hidden'      => true,
+		'class'            => true,
+		'data-*'           => true,
+		'hidden'           => array( 'valueless', 'y' ),
+		'id'               => true,
+		'role'             => true,
+		'style'            => true,
+		'title'            => true,
 	);
 
 	//
@@ -272,24 +272,24 @@ function ucfwp_kses_allowed_html( $tags, $context ) {
 	$tags['input'] = array_merge(
 		$global_attrs,
 		array(
-			'name'  => array(),
-			'type'  => array(),
-			'value' => array()
+			'name'  => true,
+			'type'  => true,
+			'value' => true
 		)
 	);
 
 	$tags['select'] = array_merge(
 		$global_attrs,
 		array(
-			'name' => array()
+			'name' => true
 		)
 	);
 
 	$tags['option'] = array_merge(
 		$global_attrs,
 		array(
-			'name'  => array(),
-			'value' => array()
+			'name'  => true,
+			'value' => true
 		)
 	);
 
@@ -300,42 +300,42 @@ function ucfwp_kses_allowed_html( $tags, $context ) {
 	$tags['iframe'] = array_merge(
 		$global_attrs,
 		array(
-			'allowfullscreen' => array(),
-			'frameborder'     => array(),
-			'height'          => array(),
-			'name'            => array(),
-			'src'             => array(),
-			'type'            => array(),
-			'value'           => array(),
-			'width'           => array()
+			'allowfullscreen' => true,
+			'frameborder'     => true,
+			'height'          => true,
+			'name'            => true,
+			'src'             => true,
+			'type'            => true,
+			'value'           => true,
+			'width'           => true
 		)
 	);
 
 	$tags['object'] = array_merge(
 		$global_attrs,
 		array(
-			'height' => array(),
-			'width'  => array()
+			'height' => true,
+			'width'  => true
 		)
 	);
 
 	$tags['param'] = array_merge(
 		$global_attrs,
 		array(
-			'name'  => array(),
-			'value' => array()
+			'name'  => true,
+			'value' => true
 		)
 	);
 
 	$tags['embed'] = array_merge(
 		$global_attrs,
 		array(
-			'allowfullscreen'   => array(),
-			'allowscriptaccess' => array(),
-			'height'            => array(),
-			'src'               => array(),
-			'type'              => array(),
-			'width'             => array()
+			'allowfullscreen'   => true,
+			'allowscriptaccess' => true,
+			'height'            => true,
+			'src'               => true,
+			'type'              => true,
+			'width'             => true
 		)
 	);
 
@@ -344,11 +344,11 @@ function ucfwp_kses_allowed_html( $tags, $context ) {
 	$tags['source'] = array_merge(
 		$global_attrs,
 		array(
-			'media'  => array(),
-			'sizes'  => array(),
-			'src'    => array(),
-			'srcset' => array(),
-			'type'   => array()
+			'media'  => true,
+			'sizes'  => true,
+			'src'    => true,
+			'srcset' => true,
+			'type'   => true
 		)
 	);
 
@@ -360,27 +360,27 @@ function ucfwp_kses_allowed_html( $tags, $context ) {
 	// they're assigned to, but that's intentional for
 	// backward compatibility:
 	$div_a_btn_attrs = array(
-		'width'  => array(),
-		'height' => array(),
+		'width'  => true,
+		'height' => true,
 
-		'align'          => array(),
-		'autocomplete'   => array(),
-		'autofocus'      => array(),
-		'dir'            => array(),
-		'disabled'       => array(),
-		'form'           => array(),
-		'formaction'     => array(),
-		'formenctype'    => array(),
-		'formmethod'     => array(),
-		'formonvalidate' => array(),
-		'formtarget'     => array(),
-		'href'           => array(),
-		'name'           => array(),
-		'rel'            => array(),
-		'rev'            => array(),
-		'target'         => array(),
-		'type'           => array(),
-		'value'          => array(),
+		'align'          => true,
+		'autocomplete'   => true,
+		'autofocus'      => true,
+		'dir'            => true,
+		'disabled'       => true,
+		'form'           => true,
+		'formaction'     => true,
+		'formenctype'    => true,
+		'formmethod'     => true,
+		'formonvalidate' => true,
+		'formtarget'     => true,
+		'href'           => true,
+		'name'           => true,
+		'rel'            => true,
+		'rev'            => true,
+		'target'         => true,
+		'type'           => true,
+		'value'          => true,
 	);
 
 	$tags['div'] = array_merge(
@@ -404,7 +404,7 @@ function ucfwp_kses_allowed_html( $tags, $context ) {
 	return $tags;
 }
 
-add_filter( 'wp_kses_allowed_html', 'ucfwp_kses_allowed_html', 999, 2 );
+add_filter( 'wp_kses_allowed_html', 'ucfwp_kses_allowed_html', 10, 2 );
 
 
 /**
