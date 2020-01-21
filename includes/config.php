@@ -245,117 +245,166 @@ if ( function_exists( 'athena_sc_tinymce_init' ) ) {
 
 
 /**
- * Allow special tags in post bodies that would get stripped otherwise for most users.
+ * Allow special tags in post bodies that would get stripped
+ * otherwise for most users.
  * Modifies $allowedposttags defined in wp-includes/kses.php
  **/
 function ucfwp_kses_allowed_html( $tags, $context ) {
-	$tags['input'] = array(
-		'type' => array(),
-		'value' => array(),
-		'id' => array(),
-		'name' => array(),
-		'class' => array()
-	);
-	$tags['select'] = array(
-		'id' => array(),
-		'name' => array()
-	);
-	$tags['option'] = array(
-		'id' => array(),
-		'name' => array(),
-		'value' => array()
-	);
-	$tags['iframe'] = array(
-		'type' => array(),
-		'value' => array(),
-		'id' => array(),
-		'name' => array(),
-		'class' => array(),
-		'src' => array(),
-		'height' => array(),
-		'width' => array(),
-		'allowfullscreen' => array(),
-		'frameborder' => array()
-	);
-	$tags['object'] = array(
-		'height' => array(),
-		'width' => array()
+	$global_attrs = array(
+		'aria-describedby' => array(),
+		'aria-details'     => array(),
+		'aria-label'       => array(),
+		'aria-labelledby'  => array(),
+		'aria-hidden'      => array(),
+		'class'            => array(),
+		'data-*'           => array(),
+		'hidden'           => array( 'valueless' => 'y' ),
+		'id'               => array(),
+		'role'             => array(),
+		'style'            => array(),
+		'title'            => array(),
 	);
 
-	$tags['param'] = array(
-		'name' => array(),
-		'value' => array()
+	//
+	// Forms
+	//
+
+	$tags['input'] = array_merge(
+		$global_attrs,
+		array(
+			'name'  => array(),
+			'type'  => array(),
+			'value' => array()
+		)
 	);
 
-	$tags['embed'] = array(
-		'src' => array(),
-		'type' => array(),
-		'allowfullscreen' => array(),
-		'allowscriptaccess' => array(),
-		'height' => array(),
-		'width' => array()
+	$tags['select'] = array_merge(
+		$global_attrs,
+		array(
+			'name' => array()
+		)
 	);
-	// Most of these attributes aren't actually valid for some of
-	// the tags they're assigned to, but whatever:
-	$tags['div'] =
-	$tags['a'] =
-	$tags['button'] = array(
-		'id' => array(),
-		'class' => array(),
-		'style' => array(),
-		'width' => array(),
+
+	$tags['option'] = array_merge(
+		$global_attrs,
+		array(
+			'name'  => array(),
+			'value' => array()
+		)
+	);
+
+	//
+	// Embedded content
+	//
+
+	$tags['iframe'] = array_merge(
+		$global_attrs,
+		array(
+			'allowfullscreen' => array(),
+			'frameborder'     => array(),
+			'height'          => array(),
+			'name'            => array(),
+			'src'             => array(),
+			'type'            => array(),
+			'value'           => array(),
+			'width'           => array()
+		)
+	);
+
+	$tags['object'] = array_merge(
+		$global_attrs,
+		array(
+			'height' => array(),
+			'width'  => array()
+		)
+	);
+
+	$tags['param'] = array_merge(
+		$global_attrs,
+		array(
+			'name'  => array(),
+			'value' => array()
+		)
+	);
+
+	$tags['embed'] = array_merge(
+		$global_attrs,
+		array(
+			'allowfullscreen'   => array(),
+			'allowscriptaccess' => array(),
+			'height'            => array(),
+			'src'               => array(),
+			'type'              => array(),
+			'width'             => array()
+		)
+	);
+
+	$tags['picture'] = $global_attrs;
+
+	$tags['source'] = array_merge(
+		$global_attrs,
+		array(
+			'media'  => array(),
+			'sizes'  => array(),
+			'src'    => array(),
+			'srcset' => array(),
+			'type'   => array()
+		)
+	);
+
+	//
+	// Extensions of other, already-whitelisted elements
+	//
+
+	// Some of these attrs won't be valid on the elements
+	// they're assigned to, but that's intentional for
+	// backward compatibility:
+	$div_a_btn_attrs = array(
+		'width'  => array(),
 		'height' => array(),
 
-		'align' => array(),
-		'aria-hidden' => array(),
-		'aria-labelledby' => array(),
-		'autofocus' => array(),
-		'dir' => array(),
-		'disabled' => array(),
-		'form' => array(),
-		'formaction' => array(),
-		'formenctype' => array(),
-		'formmethod' => array(),
+		'align'          => array(),
+		'autocomplete'   => array(),
+		'autofocus'      => array(),
+		'dir'            => array(),
+		'disabled'       => array(),
+		'form'           => array(),
+		'formaction'     => array(),
+		'formenctype'    => array(),
+		'formmethod'     => array(),
 		'formonvalidate' => array(),
-		'formtarget' => array(),
-		'hidden' => array(),
-		'href' => array(),
-		'name' => array(),
-		'rel' => array(),
-		'rev' => array(),
-		'role' => array(),
-		'target' => array(),
-		'type' => array(),
-		'title' => array(),
-		'value' => array(),
+		'formtarget'     => array(),
+		'href'           => array(),
+		'name'           => array(),
+		'rel'            => array(),
+		'rev'            => array(),
+		'target'         => array(),
+		'type'           => array(),
+		'value'          => array(),
+	);
 
-		// Bootstrap JS stuff:
-		'data-dismiss' => array(),
-		'data-toggle' => array(),
-		'data-target' => array(),
-		'data-backdrop' => array(),
-		'data-spy' => array(),
-		'data-offset' => array(),
-		'data-animation' => array(),
-		'data-html' => array(),
-		'data-placement' => array(),
-		'data-selector' => array(),
-		'data-title' => array(),
-		'data-trigger' => array(),
-		'data-delay' => array(),
-		'data-content' => array(),
-		'data-offset' => array(),
-		'data-offset-top' => array(),
-		'data-loading-text' => array(),
-		'data-complete-text' => array(),
-		'autocomplete' => array(),
-		'data-parent' => array(),
+	$tags['div'] = array_merge(
+		$tags['div'] ?? array(),
+		$global_attrs,
+		$div_a_btn_attrs
+	);
+
+	$tags['a'] = array_merge(
+		$tags['a'] ?? array(),
+		$global_attrs,
+		$div_a_btn_attrs
+	);
+
+	$tags['button'] = array_merge(
+		$tags['button'] ?? array(),
+		$global_attrs,
+		$div_a_btn_attrs
 	);
 
 	return $tags;
 }
 
-add_filter( 'wp_kses_allowed_html', 'ucfwp_kses_allowed_html', 10, 2 );
+add_filter( 'wp_kses_allowed_html', 'ucfwp_kses_allowed_html', 999, 2 );
 
 
 /**
