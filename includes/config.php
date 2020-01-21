@@ -247,112 +247,115 @@ if ( function_exists( 'athena_sc_tinymce_init' ) ) {
 /**
  * Allow special tags in post bodies that would get stripped otherwise for most users.
  * Modifies $allowedposttags defined in wp-includes/kses.php
- *
- * http://wordpress.org/support/topic/div-ids-being-stripped-out
- * http://wpquicktips.wordpress.com/2010/03/12/how-to-change-the-allowed-html-tags-for-wordpress/
  **/
-$allowedposttags['input'] = array(
-	'type' => array(),
-	'value' => array(),
-	'id' => array(),
-	'name' => array(),
-	'class' => array()
-);
-$allowedposttags['select'] = array(
-	'id' => array(),
-	'name' => array()
-);
-$allowedposttags['option'] = array(
-	'id' => array(),
-	'name' => array(),
-	'value' => array()
-);
-$allowedposttags['iframe'] = array(
-	'type' => array(),
-	'value' => array(),
-	'id' => array(),
-	'name' => array(),
-	'class' => array(),
-	'src' => array(),
-	'height' => array(),
-	'width' => array(),
-	'allowfullscreen' => array(),
-	'frameborder' => array()
-);
-$allowedposttags['object'] = array(
-	'height' => array(),
-	'width' => array()
-);
+function ucfwp_kses_allowed_html( $tags, $context ) {
+	$tags['input'] = array(
+		'type' => array(),
+		'value' => array(),
+		'id' => array(),
+		'name' => array(),
+		'class' => array()
+	);
+	$tags['select'] = array(
+		'id' => array(),
+		'name' => array()
+	);
+	$tags['option'] = array(
+		'id' => array(),
+		'name' => array(),
+		'value' => array()
+	);
+	$tags['iframe'] = array(
+		'type' => array(),
+		'value' => array(),
+		'id' => array(),
+		'name' => array(),
+		'class' => array(),
+		'src' => array(),
+		'height' => array(),
+		'width' => array(),
+		'allowfullscreen' => array(),
+		'frameborder' => array()
+	);
+	$tags['object'] = array(
+		'height' => array(),
+		'width' => array()
+	);
 
-$allowedposttags['param'] = array(
-	'name' => array(),
-	'value' => array()
-);
+	$tags['param'] = array(
+		'name' => array(),
+		'value' => array()
+	);
 
-$allowedposttags['embed'] = array(
-	'src' => array(),
-	'type' => array(),
-	'allowfullscreen' => array(),
-	'allowscriptaccess' => array(),
-	'height' => array(),
-	'width' => array()
-);
-// Most of these attributes aren't actually valid for some of
-// the tags they're assigned to, but whatever:
-$allowedposttags['div'] =
-$allowedposttags['a'] =
-$allowedposttags['button'] = array(
-	'id' => array(),
-	'class' => array(),
-	'style' => array(),
-	'width' => array(),
-	'height' => array(),
+	$tags['embed'] = array(
+		'src' => array(),
+		'type' => array(),
+		'allowfullscreen' => array(),
+		'allowscriptaccess' => array(),
+		'height' => array(),
+		'width' => array()
+	);
+	// Most of these attributes aren't actually valid for some of
+	// the tags they're assigned to, but whatever:
+	$tags['div'] =
+	$tags['a'] =
+	$tags['button'] = array(
+		'id' => array(),
+		'class' => array(),
+		'style' => array(),
+		'width' => array(),
+		'height' => array(),
 
-	'align' => array(),
-	'aria-hidden' => array(),
-	'aria-labelledby' => array(),
-	'autofocus' => array(),
-	'dir' => array(),
-	'disabled' => array(),
-	'form' => array(),
-	'formaction' => array(),
-	'formenctype' => array(),
-	'formmethod' => array(),
-	'formonvalidate' => array(),
-	'formtarget' => array(),
-	'hidden' => array(),
-	'href' => array(),
-	'name' => array(),
-	'rel' => array(),
-	'rev' => array(),
-	'role' => array(),
-	'target' => array(),
-	'type' => array(),
-	'title' => array(),
-	'value' => array(),
+		'align' => array(),
+		'aria-hidden' => array(),
+		'aria-labelledby' => array(),
+		'autofocus' => array(),
+		'dir' => array(),
+		'disabled' => array(),
+		'form' => array(),
+		'formaction' => array(),
+		'formenctype' => array(),
+		'formmethod' => array(),
+		'formonvalidate' => array(),
+		'formtarget' => array(),
+		'hidden' => array(),
+		'href' => array(),
+		'name' => array(),
+		'rel' => array(),
+		'rev' => array(),
+		'role' => array(),
+		'target' => array(),
+		'type' => array(),
+		'title' => array(),
+		'value' => array(),
 
-	// Bootstrap JS stuff:
-	'data-dismiss' => array(),
-	'data-toggle' => array(),
-	'data-target' => array(),
-	'data-backdrop' => array(),
-	'data-spy' => array(),
-	'data-offset' => array(),
-	'data-animation' => array(),
-	'data-html' => array(),
-	'data-placement' => array(),
-	'data-selector' => array(),
-	'data-title' => array(),
-	'data-trigger' => array(),
-	'data-delay' => array(),
-	'data-content' => array(),
-	'data-offset' => array(),
-	'data-offset-top' => array(),
-	'data-loading-text' => array(),
-	'data-complete-text' => array(),
-	'autocomplete' => array(),
-	'data-parent' => array(),
-);
+		// Bootstrap JS stuff:
+		'data-dismiss' => array(),
+		'data-toggle' => array(),
+		'data-target' => array(),
+		'data-backdrop' => array(),
+		'data-spy' => array(),
+		'data-offset' => array(),
+		'data-animation' => array(),
+		'data-html' => array(),
+		'data-placement' => array(),
+		'data-selector' => array(),
+		'data-title' => array(),
+		'data-trigger' => array(),
+		'data-delay' => array(),
+		'data-content' => array(),
+		'data-offset' => array(),
+		'data-offset-top' => array(),
+		'data-loading-text' => array(),
+		'data-complete-text' => array(),
+		'autocomplete' => array(),
+		'data-parent' => array(),
+	);
+
+	return $tags;
+}
+
+add_filter( 'wp_kses_allowed_html', 'ucfwp_kses_allowed_html', 10, 2 );
 
 
 /**
