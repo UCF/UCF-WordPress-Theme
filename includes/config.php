@@ -245,114 +245,166 @@ if ( function_exists( 'athena_sc_tinymce_init' ) ) {
 
 
 /**
- * Allow special tags in post bodies that would get stripped otherwise for most users.
+ * Allow special tags in post bodies that would get stripped
+ * otherwise for most users.
  * Modifies $allowedposttags defined in wp-includes/kses.php
- *
- * http://wordpress.org/support/topic/div-ids-being-stripped-out
- * http://wpquicktips.wordpress.com/2010/03/12/how-to-change-the-allowed-html-tags-for-wordpress/
  **/
-$allowedposttags['input'] = array(
-	'type' => array(),
-	'value' => array(),
-	'id' => array(),
-	'name' => array(),
-	'class' => array()
-);
-$allowedposttags['select'] = array(
-	'id' => array(),
-	'name' => array()
-);
-$allowedposttags['option'] = array(
-	'id' => array(),
-	'name' => array(),
-	'value' => array()
-);
-$allowedposttags['iframe'] = array(
-	'type' => array(),
-	'value' => array(),
-	'id' => array(),
-	'name' => array(),
-	'class' => array(),
-	'src' => array(),
-	'height' => array(),
-	'width' => array(),
-	'allowfullscreen' => array(),
-	'frameborder' => array()
-);
-$allowedposttags['object'] = array(
-	'height' => array(),
-	'width' => array()
-);
+function ucfwp_kses_allowed_html( $tags, $context ) {
+	$global_attrs = array(
+		'aria-describedby' => true,
+		'aria-details'     => true,
+		'aria-label'       => true,
+		'aria-labelledby'  => true,
+		'aria-hidden'      => true,
+		'class'            => true,
+		'data-*'           => true,
+		'hidden'           => array( 'valueless', 'y' ),
+		'id'               => true,
+		'role'             => true,
+		'style'            => true,
+		'title'            => true,
+	);
 
-$allowedposttags['param'] = array(
-	'name' => array(),
-	'value' => array()
-);
+	//
+	// Forms
+	//
 
-$allowedposttags['embed'] = array(
-	'src' => array(),
-	'type' => array(),
-	'allowfullscreen' => array(),
-	'allowscriptaccess' => array(),
-	'height' => array(),
-	'width' => array()
-);
-// Most of these attributes aren't actually valid for some of
-// the tags they're assigned to, but whatever:
-$allowedposttags['div'] =
-$allowedposttags['a'] =
-$allowedposttags['button'] = array(
-	'id' => array(),
-	'class' => array(),
-	'style' => array(),
-	'width' => array(),
-	'height' => array(),
+	$tags['input'] = array_merge(
+		$global_attrs,
+		array(
+			'name'  => true,
+			'type'  => true,
+			'value' => true
+		)
+	);
 
-	'align' => array(),
-	'aria-hidden' => array(),
-	'aria-labelledby' => array(),
-	'autofocus' => array(),
-	'dir' => array(),
-	'disabled' => array(),
-	'form' => array(),
-	'formaction' => array(),
-	'formenctype' => array(),
-	'formmethod' => array(),
-	'formonvalidate' => array(),
-	'formtarget' => array(),
-	'hidden' => array(),
-	'href' => array(),
-	'name' => array(),
-	'rel' => array(),
-	'rev' => array(),
-	'role' => array(),
-	'target' => array(),
-	'type' => array(),
-	'title' => array(),
-	'value' => array(),
+	$tags['select'] = array_merge(
+		$global_attrs,
+		array(
+			'name' => true
+		)
+	);
 
-	// Bootstrap JS stuff:
-	'data-dismiss' => array(),
-	'data-toggle' => array(),
-	'data-target' => array(),
-	'data-backdrop' => array(),
-	'data-spy' => array(),
-	'data-offset' => array(),
-	'data-animation' => array(),
-	'data-html' => array(),
-	'data-placement' => array(),
-	'data-selector' => array(),
-	'data-title' => array(),
-	'data-trigger' => array(),
-	'data-delay' => array(),
-	'data-content' => array(),
-	'data-offset' => array(),
-	'data-offset-top' => array(),
-	'data-loading-text' => array(),
-	'data-complete-text' => array(),
-	'autocomplete' => array(),
-	'data-parent' => array(),
-);
+	$tags['option'] = array_merge(
+		$global_attrs,
+		array(
+			'name'  => true,
+			'value' => true
+		)
+	);
+
+	//
+	// Embedded content
+	//
+
+	$tags['iframe'] = array_merge(
+		$global_attrs,
+		array(
+			'allowfullscreen' => true,
+			'frameborder'     => true,
+			'height'          => true,
+			'name'            => true,
+			'src'             => true,
+			'type'            => true,
+			'value'           => true,
+			'width'           => true
+		)
+	);
+
+	$tags['object'] = array_merge(
+		$global_attrs,
+		array(
+			'height' => true,
+			'width'  => true
+		)
+	);
+
+	$tags['param'] = array_merge(
+		$global_attrs,
+		array(
+			'name'  => true,
+			'value' => true
+		)
+	);
+
+	$tags['embed'] = array_merge(
+		$global_attrs,
+		array(
+			'allowfullscreen'   => true,
+			'allowscriptaccess' => true,
+			'height'            => true,
+			'src'               => true,
+			'type'              => true,
+			'width'             => true
+		)
+	);
+
+	$tags['picture'] = $global_attrs;
+
+	$tags['source'] = array_merge(
+		$global_attrs,
+		array(
+			'media'  => true,
+			'sizes'  => true,
+			'src'    => true,
+			'srcset' => true,
+			'type'   => true
+		)
+	);
+
+	//
+	// Extensions of other, already-whitelisted elements
+	//
+
+	// Some of these attrs won't be valid on the elements
+	// they're assigned to, but that's intentional for
+	// backward compatibility:
+	$div_a_btn_attrs = array(
+		'width'  => true,
+		'height' => true,
+
+		'align'          => true,
+		'autocomplete'   => true,
+		'autofocus'      => true,
+		'dir'            => true,
+		'disabled'       => true,
+		'form'           => true,
+		'formaction'     => true,
+		'formenctype'    => true,
+		'formmethod'     => true,
+		'formonvalidate' => true,
+		'formtarget'     => true,
+		'href'           => true,
+		'name'           => true,
+		'rel'            => true,
+		'rev'            => true,
+		'target'         => true,
+		'type'           => true,
+		'value'          => true,
+	);
+
+	$tags['div'] = array_merge(
+		$tags['div'] ?? array(),
+		$global_attrs,
+		$div_a_btn_attrs
+	);
+
+	$tags['a'] = array_merge(
+		$tags['a'] ?? array(),
+		$global_attrs,
+		$div_a_btn_attrs
+	);
+
+	$tags['button'] = array_merge(
+		$tags['button'] ?? array(),
+		$global_attrs,
+		$div_a_btn_attrs
+	);
+
+	return $tags;
+}
+
+add_filter( 'wp_kses_allowed_html', 'ucfwp_kses_allowed_html', 10, 2 );
 
 
 /**
