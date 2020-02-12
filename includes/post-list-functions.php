@@ -97,7 +97,7 @@ if ( class_exists( 'UCF_People_PostType' ) ) {
 					<a class="person-link" href="<?php echo get_permalink( $item->ID ); ?>">
 					<?php } ?>
 						<?php echo ucfwp_get_person_thumbnail( $item ); ?>
-						<h3 class="mt-2 mb-1 person-name"><?php echo ucfwp_get_person_name( $item ); ?></h3>
+						<strong class="mt-2 mb-1 d-block person-name"><?php echo ucfwp_get_person_name( $item ); ?></strong>
 						<?php if ( $job_title = get_field( 'person_jobtitle', $item->ID ) ): ?>
 						<div class="font-italic person-job-title">
 							<?php echo $job_title; ?>
