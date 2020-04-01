@@ -24,6 +24,74 @@ if ( !function_exists( 'ucfwp_get_nav_type' ) ) {
 
 
 /**
+ * Returns whether or not the active nav template includes the site title.
+ * Used when determining a page's heading element.
+ *
+ * Child themes should override the `ucfwp_nav_has_title` hook if they
+ * define a custom nav template part that does *not* include the site title.
+ *
+ * @since 0.6.3
+ * @author Jo Dickson
+ * @return boolean True if the nav template part includes the site's title, False if not
+ */
+if ( ! function_exists( 'ucfwp_nav_has_title' ) ) {
+	function ucfwp_nav_has_title() {
+		$has_title = true;
+		$nav_type = ucfwp_get_nav_type();
+
+		if ( $nav_type === 'mainsite' ) {
+			$has_title = false;
+		}
+
+		return apply_filters( 'ucfwp_nav_has_title', $has_title, $nav_type );
+	}
+}
+
+
+/**
+ * Returns what element should be used to wrap the site title
+ * within the active nav template part.
+ *
+ * @since 0.6.3
+ * @author Jo Dickson
+ * @return mixed HTML element name (string), or null if the nav template part doesn't incorporate the site title
+ */
+if ( ! function_exists( 'ucfwp_get_nav_title_elem' ) ) {
+	function ucfwp_get_nav_title_elem() {
+		if ( ! ucfwp_nav_has_title() ) return null;
+
+		$title_elem = 'span';
+		$obj = ucfwp_get_queried_object();
+
+		// We only need to adjust the title elem on the homepage/front page:
+		if ( ! $obj ) {
+			$show_on_front = get_option( 'show_on_front' );
+			$homepage_id = get_option( 'page_on_front' );
+
+			if (
+				$show_on_front === 'posts'
+				|| ( $show_on_front === 'page' && ! $homepage_id )
+			) {
+				$title_elem = 'h1';
+			}
+		}
+		elseif ( $obj instanceof WP_Post && $obj->post_type === 'page' ) {
+			$show_on_front = get_option( 'show_on_front' );
+			$homepage_id = (int)get_option( 'page_on_front' );
+
+			if ( $show_on_front === 'page' ) {
+				if ( $obj->ID === $homepage_id ) {
+					$title_elem = 'h1';
+				}
+			}
+		}
+
+		return apply_filters( 'ucfwp_get_nav_title_elem', $title_elem, $obj );
+	}
+}
+
+
+/**
  * Returns HTML markup for the primary site navigation.
  *
  * @author Jo Dickson
