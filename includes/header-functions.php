@@ -241,11 +241,12 @@ if ( ! function_exists( 'ucfwp_get_header_h1_elem' ) ) {
 	function ucfwp_get_header_h1_elem( $obj ) {
 		$elem = 'h1';
 
-		if ( ucfwp_get_nav_title_elem() === 'h1' ) {
+		$nav_title_elem = ucfwp_get_nav_title_elem();
+		if ( $nav_title_elem === 'h1' ) {
 			$elem = 'h2';
 		}
 
-		return apply_filters( 'ucfwp_get_header_h1_elem', $elem, $obj );
+		return apply_filters( 'ucfwp_get_header_h1_elem', $elem, $nav_title_elem, $obj );
 	}
 }
 
