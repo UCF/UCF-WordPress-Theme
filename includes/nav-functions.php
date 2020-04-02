@@ -54,35 +54,35 @@ if ( ! function_exists( 'ucfwp_nav_has_title' ) ) {
  *
  * @since 0.6.3
  * @author Jo Dickson
- * @return mixed HTML element name (string), or null if the nav template part doesn't incorporate the site title
+ * @return mixed HTML element name (string), or null if the nav template part doesn't incorporate the site title, or is disabled
  */
 if ( ! function_exists( 'ucfwp_get_nav_title_elem' ) ) {
 	function ucfwp_get_nav_title_elem() {
+		// If the active nav template part doesn't incorporate the
+		// site title at all, back out now:
 		if ( ! ucfwp_nav_has_title() ) return null;
 
+		// The title elem should render as a `span` by default in all
+		// cases, except for on the homepage/front page:
 		$title_elem = 'span';
 		$obj = ucfwp_get_queried_object();
 
-		// We only need to adjust the title elem on the homepage/front page:
-		if ( ! $obj ) {
-			$show_on_front = get_option( 'show_on_front' );
-			$homepage_id = get_option( 'page_on_front' );
-
-			if (
-				$show_on_front === 'posts'
-				|| ( $show_on_front === 'page' && ! $homepage_id )
-			) {
-				$title_elem = 'h1';
-			}
+		// If we're on the "home" view and $obj is null, assume that
+		// "Your homepage displays" is set to "Your latest posts",
+		// OR is set to "A static page", but the "Homepage" value
+		// is left blank:
+		if ( ! $obj && is_home() ) {
+			$title_elem = 'h1';
 		}
-		elseif ( $obj instanceof WP_Post && $obj->post_type === 'page' ) {
-			$show_on_front = get_option( 'show_on_front' );
-			$homepage_id = (int)get_option( 'page_on_front' );
-
-			if ( $show_on_front === 'page' ) {
-				if ( $obj->ID === $homepage_id ) {
-					$title_elem = 'h1';
-				}
+		// An actual, valid page is set as the homepage:
+		elseif ( $obj && is_front_page() ) {
+			// Account for when the front page opts to exclude
+			// the primary site navigation from the header:
+			if ( get_field( 'page_header_exclude_nav', $obj ) === true ) {
+				$title_elem = null;
+			}
+			else {
+				$title_elem = 'h1';
 			}
 		}
 
