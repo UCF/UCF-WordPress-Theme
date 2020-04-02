@@ -232,7 +232,7 @@ if ( !function_exists( 'ucfwp_get_header_h1_option' ) ) {
  * Returns the HTML element that should surround the title text in
  * the header (the page "h1", though this nomenclature is misleading.)
  *
- * @since 1.0.0
+ * @since 0.6.3
  * @author Jo Dickson
  * @param mixed $obj A queried object (e.g. WP_Post, WP_Term), or null
  * @return string HTML element name
@@ -241,7 +241,6 @@ if ( ! function_exists( 'ucfwp_get_header_h1_elem' ) ) {
 	function ucfwp_get_header_h1_elem( $obj ) {
 		$elem = 'h1';
 
-		$nav_title_elem = ucfwp_get_nav_title_elem();
 		if ( ucfwp_get_nav_title_elem() === 'h1' ) {
 			$elem = 'h2';
 		}
