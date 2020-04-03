@@ -24,6 +24,74 @@ if ( !function_exists( 'ucfwp_get_nav_type' ) ) {
 
 
 /**
+ * Returns whether or not the active nav template includes the site title.
+ * Used when determining a page's heading element.
+ *
+ * Child themes should override the `ucfwp_nav_has_title` hook if they
+ * define a custom nav template part that does *not* include the site title.
+ *
+ * @since 0.6.3
+ * @author Jo Dickson
+ * @return boolean True if the nav template part includes the site's title, False if not
+ */
+if ( ! function_exists( 'ucfwp_nav_has_title' ) ) {
+	function ucfwp_nav_has_title() {
+		$has_title = true;
+		$nav_type = ucfwp_get_nav_type();
+
+		if ( $nav_type === 'mainsite' ) {
+			$has_title = false;
+		}
+
+		return apply_filters( 'ucfwp_nav_has_title', $has_title, $nav_type );
+	}
+}
+
+
+/**
+ * Returns what element should be used to wrap the site title
+ * within the active nav template part.
+ *
+ * @since 0.6.3
+ * @author Jo Dickson
+ * @return mixed HTML element name (string), or null if the nav template part doesn't incorporate the site title, or is disabled
+ */
+if ( ! function_exists( 'ucfwp_get_nav_title_elem' ) ) {
+	function ucfwp_get_nav_title_elem() {
+		// If the active nav template part doesn't incorporate the
+		// site title at all, back out now:
+		if ( ! ucfwp_nav_has_title() ) return null;
+
+		// The title elem should render as a `span` by default in all
+		// cases, except for on the homepage/front page:
+		$title_elem = 'span';
+		$obj = ucfwp_get_queried_object();
+
+		// If we're on the "home" view and $obj is null, assume that
+		// "Your homepage displays" is set to "Your latest posts",
+		// OR is set to "A static page", but the "Homepage" value
+		// is left blank:
+		if ( ! $obj && is_home() ) {
+			$title_elem = 'h1';
+		}
+		// An actual, valid page is set as the homepage:
+		elseif ( $obj && is_front_page() ) {
+			// Account for when the front page opts to exclude
+			// the primary site navigation from the header:
+			if ( get_field( 'page_header_exclude_nav', $obj ) === true ) {
+				$title_elem = null;
+			}
+			else {
+				$title_elem = 'h1';
+			}
+		}
+
+		return apply_filters( 'ucfwp_get_nav_title_elem', $title_elem, $obj );
+	}
+}
+
+
+/**
  * Returns HTML markup for the primary site navigation.
  *
  * @author Jo Dickson

@@ -1,6 +1,6 @@
 <?php
 $image      = (bool) get_query_var( 'ucfwp_image_behind_nav', false );
-$title_elem = ( is_home() || is_front_page() ) ? 'h1' : 'span';
+$title_elem = ucfwp_get_nav_title_elem();
 
 $menu_container_class = 'collapse navbar-collapse';
 if ( ! $image ) {
