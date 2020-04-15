@@ -8,15 +8,29 @@
  * Enqueue front-end css and js.
  **/
 function ucfwp_enqueue_frontend_assets() {
+	$theme = wp_get_theme( 'UCF-WordPress-Theme' );
+	$theme_version = ( $theme instanceof WP_Theme ) ? $theme->get( 'Version' ) : false;
+
 	// Register Cloud.Typography CSS Key
 	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
 		wp_enqueue_style( 'webfont', $fontkey );
 	}
 
-	// Register main theme stylesheet
-	$theme = wp_get_theme( 'UCF-WordPress-Theme' );
-	$theme_version = ( $theme instanceof WP_Theme ) ? $theme->get( 'Version' ) : false;
+	// Register Font Awesome stylesheet
+	$fa_version = get_theme_mod( 'font_awesome_version' );
+	switch ( $fa_version ) {
+		case 'none':
+			break;
+		case '5':
+			wp_enqueue_style( 'font-awesome-5', UCFWP_THEME_CSS_URL . '/font-awesome-5.min.css', null, $theme_version );
+			break;
+		case '4':
+		default:
+			wp_enqueue_style( 'font-awesome-4', UCFWP_THEME_CSS_URL . '/font-awesome-4.min.css', null, $theme_version );
+			break;
+	}
 
+	// Register main theme stylesheet
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
