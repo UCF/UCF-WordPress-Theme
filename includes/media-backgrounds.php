@@ -140,8 +140,8 @@ if ( ! function_exists( 'ucfwp_get_media_background_video' ) ) {
 			<?php endif; ?>
 		</video>
 		<button class="media-background-video-toggle btn play-enabled hidden-xs-up" type="button" data-toggle="button" aria-pressed="false" aria-label="Play or pause background videos">
-			<span class="fa fa-pause media-background-video-pause" aria-hidden="true"></span>
-			<span class="fa fa-play media-background-video-play" aria-hidden="true"></span>
+			<span class="media-background-video-pause" aria-hidden="true"></span>
+			<span class="media-background-video-play" aria-hidden="true"></span>
 		</button>
 	<?php
 		return ob_get_clean();

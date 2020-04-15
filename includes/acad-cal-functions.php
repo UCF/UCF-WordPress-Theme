@@ -18,7 +18,7 @@ if ( !function_exists( 'ucfwp_academic_calendar_modern_title' ) ) {
 		ob_start();
 		if ( isset( $args['title'] ) ) :
 	?>
-		<h2 class="mt-2 mb-4 mb-md-5 text-inverse"><span class="fa fa-calendar text-primary align-top" aria-hidden="true"></span> <?php echo $title; ?></h2>
+		<h2 class="mt-2 mb-4 mb-md-5 text-inverse"><span class="academic-calendar-title-icon align-middle" aria-hidden="true"></span> <?php echo $args['title']; ?></h2>
 	<?php
 		endif;
 		return ob_get_clean();

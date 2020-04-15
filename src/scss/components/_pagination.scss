@@ -81,3 +81,11 @@
     margin-left: auto;
   }
 }
+
+.pagination-icon-previous {
+  @include ucfwp-icon($icon-pagination-left);
+}
+
+.pagination-icon-next {
+  @include ucfwp-icon($icon-pagination-right);
+}
