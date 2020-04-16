@@ -23,12 +23,16 @@
 }
 
 .media-background-video-pause {
+  @include ucfwp-icon($icon-header-video-toggle-pause);
+
   .media-background-video-toggle.play-disabled & {
     display: none;
   }
 }
 
 .media-background-video-play {
+  @include ucfwp-icon($icon-header-video-toggle-play);
+
   .media-background-video-toggle.play-enabled & {
     display: none;
   }

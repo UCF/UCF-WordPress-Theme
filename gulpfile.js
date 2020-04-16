@@ -126,8 +126,13 @@ function serverServe(done) {
 
 // Copy Font Awesome files
 gulp.task('move-components-fontawesome', (done) => {
-  gulp.src(`${config.packagesPath}/font-awesome/fonts/**/*`)
-    .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome`));
+  // v4
+  gulp.src(`${config.packagesPath}/font-awesome-4/fonts/**/*`)
+    .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome-4`));
+
+  // v5
+  gulp.src(`${config.packagesPath}/@fortawesome/fontawesome-free/webfonts/**/*`)
+    .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome-5`));
   done();
 });
 
@@ -159,8 +164,23 @@ gulp.task('scss-build-theme', () => {
   return buildCSS(`${config.src.scssPath}/style.scss`);
 });
 
+// Compile Font Awesome v4 stylesheet
+gulp.task('scss-build-fa4', () => {
+  return buildCSS(`${config.src.scssPath}/font-awesome-4.scss`);
+});
+
+// Compile Font Awesome v5 stylesheet
+gulp.task('scss-build-fa5', () => {
+  return buildCSS(`${config.src.scssPath}/font-awesome-5.scss`);
+});
+
 // All theme css-related tasks
-gulp.task('css', gulp.series('scss-lint-theme', 'scss-build-theme'));
+gulp.task('css', gulp.series(
+  'scss-lint-theme',
+  'scss-build-theme',
+  'scss-build-fa4',
+  'scss-build-fa5'
+));
 
 
 //
