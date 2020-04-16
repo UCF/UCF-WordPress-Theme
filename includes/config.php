@@ -159,7 +159,7 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'icons',
 			'choices'     => array(
 				'4' => 'Version 4 (4.7.0)',
-				'5' => 'Version 5 (latest)',
+				'5' => 'Version 5',
 				'none' => 'None (do not load Font Awesome)'
 			)
 		)
