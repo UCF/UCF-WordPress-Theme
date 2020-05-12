@@ -6,7 +6,7 @@ if (
 	|| is_active_sidebar( 'footer-col-4' )
 ):
 ?>
-<footer class="site-footer bg-inverse pt-4 py-md-5">
+<footer class="site-footer bg-inverse pt-4 py-md-5" aria-label="Site footer">
 	<div class="container mt-4">
 		<div class="row">
 
