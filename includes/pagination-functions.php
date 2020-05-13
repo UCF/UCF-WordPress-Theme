@@ -52,8 +52,8 @@ function ucfwp_get_the_posts_pagination( $args=array() ) {
 	$pagination    = '';
 	$defaults      = array(
 		'mid_size'           => 1,
-		'prev_text'          => '<span class="fa fa-angle-double-left" aria-hidden="true"></span><span class="sr-only">Previous</span>',
-		'next_text'          => '<span class="fa fa-angle-double-right" aria-hidden="true"></span><span class="sr-only">Next</span>',
+		'prev_text'          => '<span class="pagination-icon-previous" aria-hidden="true"></span><span class="sr-only">Previous</span>',
+		'next_text'          => '<span class="pagination-icon-next" aria-hidden="true"></span><span class="sr-only">Next</span>',
 		'screen_reader_text' => __( 'Posts navigation' )
 	);
 	$forced_values = array(

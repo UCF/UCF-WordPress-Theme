@@ -23,3 +23,11 @@
     display: block;
   }
 }
+
+.academic-calendar-title-icon {
+  @include ucfwp-icon($icon-acad-calendar);
+
+  &::before {
+    display: inline-block;
+  }
+}

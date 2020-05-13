@@ -26,20 +26,20 @@
 
   &.ucf-alert-type-general,
   &.ucf-alert-type-update {
-    .ucf-alert-icon::before {
-      content: $fa-var-info-circle;
+    .ucf-alert-icon {
+      @include ucfwp-icon($icon-alert-general);
     }
   }
 
   &.ucf-alert-type-weather {
-    .ucf-alert-icon::before {
-      content: $fa-var-cloud;
+    .ucf-alert-icon {
+      @include ucfwp-icon($icon-alert-weather);
     }
   }
 
   &.ucf-alert-type-police {
-    .ucf-alert-icon::before {
-      content: $fa-var-exclamation-triangle;
+    .ucf-alert-icon {
+      @include ucfwp-icon($icon-alert-police);
     }
   }
 
@@ -55,17 +55,18 @@
       }
     }
 
-    .ucf-alert-icon::before {
-      content: $fa-var-info-circle;
+    .ucf-alert-icon {
+      @include ucfwp-icon($icon-alert-message);
     }
   }
 
   .ucf-alert-icon {
-    font-size: 2rem;
+    display: block;
+    font-size: 1.625rem;
     padding-right: 1rem;
 
     @include media-breakpoint-up(sm) {
-      font-size: 3rem;
+      font-size: 2.625rem;
       padding-right: 1.5rem;
     }
   }

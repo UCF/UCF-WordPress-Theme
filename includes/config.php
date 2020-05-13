@@ -91,6 +91,13 @@ function ucfwp_define_customizer_sections( $wp_customize ) {
 	);
 
 	$wp_customize->add_section(
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'icons',
+		array(
+			'title' => 'Icons'
+		)
+	);
+
+	$wp_customize->add_section(
 		UCFWP_THEME_CUSTOMIZER_PREFIX . 'webfonts',
 		array(
 			'title' => 'Web Fonts'
@@ -127,6 +134,34 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			'label'       => 'ucf.edu Primary Navigation JSON',
 			'description' => 'URL that points to a JSON feed of ucf.edu\'s primary navigation data.',
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'nav_settings'
+		)
+	);
+
+	// Icons
+	$wp_customize->add_setting(
+		'font_awesome_version',
+		array(
+			'default' => '4'
+		)
+	);
+
+	$wp_customize->add_control(
+		'font_awesome_version',
+		array(
+			'type'        => 'select',
+			'label'       => 'Font Awesome Version',
+			'description' => 'What version of <a href="https://fontawesome.com/">Font Awesome</a> to load throughout the site.
+								By default, this theme includes Font Awesome version 4.<br><br>
+								If you wish to load Font Awesome yourself using other means (e.g. CDN), or want to load it
+								via a third-party plugin, you should set this to "None".<br><br>
+								Once set, you should avoid changing this value to avoid breaking pages that use a different
+								version of Font Awesome icons.  This theme does not include v4 upgrade shims when v5 is in use.',
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'icons',
+			'choices'     => array(
+				'4' => 'Version 4 (4.7.0)',
+				'5' => 'Version 5',
+				'none' => 'None (do not load Font Awesome)'
+			)
 		)
 	);
 
