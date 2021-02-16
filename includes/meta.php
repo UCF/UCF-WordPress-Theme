@@ -34,7 +34,6 @@ function ucfwp_enqueue_frontend_assets() {
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
 
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
-	wp_enqueue_script( 'wp-a11y' );
 	wp_enqueue_script( 'tether', 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', null, null, true );
 	wp_enqueue_script( 'script', UCFWP_THEME_JS_URL . '/script.min.js', array( 'jquery', 'tether' ), $theme_version, true );
 
