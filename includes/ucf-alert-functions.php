@@ -4,7 +4,7 @@
  * Set required settings changes for UCF-Alert-Plugin
  **/
 add_filter( 'option_ucf_alert_include_css', '__return_false' ); // UCF WP Theme rolls its own alert layout/styles
-add_filter( 'option_ucf_alert_include_js', '__return_true' ); // UCF WP Theme uses vanilla UCF-Alert-Plugin js
+add_filter( 'option_ucf_alert_include_js_main', '__return_true' ); // UCF WP Theme uses vanilla UCF-Alert-Plugin js
 add_filter( 'option_ucf_alert_include_js_deps', '__return_false' ); // UCF WP Theme includes js-cookie; see below
 
 if ( !function_exists( 'ucfwp_alert_js_deps' ) ) {
