@@ -37,7 +37,10 @@ function ucfwp_enqueue_frontend_assets() {
 	// Register main theme stylesheet
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', $style_deps, $theme_version );
 
+	// Register UCF Header
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
+
+	// Register main theme scripts
 	wp_enqueue_script( 'tether', 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', null, null, true );
 	wp_enqueue_script( 'script', UCFWP_THEME_JS_URL . '/script.min.js', array( 'jquery', 'tether' ), $theme_version, true );
 
@@ -98,13 +101,13 @@ switch ( $fa_version ) {
 	case 'none':
 		break;
 	case '5':
-		$fa_fonts[] = THEME_FONT_URL . '/font-awesome-5/fa-regular-400.woff2';
-		$fa_fonts[] = THEME_FONT_URL . '/font-awesome-5/fa-solid-900.woff2';
-		$fa_fonts[] = THEME_FONT_URL . '/font-awesome-5/fa-brands-400.woff2';
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-regular-400.woff2';
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-solid-900.woff2';
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-brands-400.woff2';
 		break;
 	case '4':
 	default:
-		$fa_fonts[] = THEME_FONT_URL . '/font-awesome-4/fontawesome-webfont.woff2';
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-4/fontawesome-webfont.woff2';
 		break;
 }
 foreach ( $fa_fonts as $fa_font ) :
