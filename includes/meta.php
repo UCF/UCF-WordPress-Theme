@@ -283,3 +283,23 @@ function ucfwp_add_favicon_default() {
 }
 
 add_action( 'wp_head', 'ucfwp_add_favicon_default' );
+
+
+/**
+ * Appends additional URLs to WP's list of domains to generate
+ * <link rel="dns-prefetch"> tags for.
+ *
+ * @since 0.7.1
+ * @author Jo Dickson
+ * @return array
+ */
+function ucfwp_add_dns_prefetch_domains( $urls, $relation_type ) {
+	$new_urls = get_theme_mod( 'dns_prefetch_domains' );
+	if ( $new_urls && $relation_type === 'dns-prefetch' ) {
+		$new_urls = array_unique( array_filter( array_map( 'trim', explode( ',', $new_urls ) ) ) );
+		$urls = array_merge( $urls, $new_urls );
+	}
+	return $urls;
+}
+
+add_filter( 'wp_resource_hints', 'ucfwp_add_dns_prefetch_domains', 10, 2 );

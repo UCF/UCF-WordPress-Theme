@@ -111,6 +111,13 @@ function ucfwp_define_customizer_sections( $wp_customize ) {
 			'title' => 'Analytics'
 		)
 	);
+
+	$wp_customize->add_section(
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'performance',
+		array(
+			'title' => 'Performance'
+		)
+	);
 }
 
 add_action( 'customize_register', 'ucfwp_define_customizer_sections' );
@@ -252,6 +259,21 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			'label'       => 'Chartbeat Domain',
 			'description' => 'Example: <em>some.domain.com</em>',
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
+		)
+	);
+
+	// Performance Settings
+	$wp_customize->add_setting(
+		'dns_prefetch_domains',
+	);
+
+	$wp_customize->add_control(
+		'dns_prefetch_domains',
+		array(
+			'type'        => 'textarea',
+			'label'       => 'Additional Required Origins for DNS Prefetching',
+			'description' => 'Specify a comma-separated list of domains to third-party origins that should be prefetched using <code>&lt;link rel="dns-prefetch"&gt;</code> that WordPress doesn\'t already handle out-of-the-box.',
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'performance'
 		)
 	);
 }
