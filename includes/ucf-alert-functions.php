@@ -3,9 +3,9 @@
 /**
  * Set required settings changes for UCF-Alert-Plugin
  **/
-update_option( 'ucf_alert_include_css', false ); // Athena Theme rolls its own alert layout/styles
-update_option( 'ucf_alert_include_js', true ); // Athena Theme uses vanilla UCF-Alert-Plugin js
-update_option( 'ucf_alert_include_js_deps', false ); // Athena Theme includes js-cookie; see below
+add_filter( 'option_ucf_alert_include_css', '__return_false' ); // UCF WP Theme rolls its own alert layout/styles
+add_filter( 'option_ucf_alert_include_js', '__return_true' ); // UCF WP Theme uses vanilla UCF-Alert-Plugin js
+add_filter( 'option_ucf_alert_include_js_deps', '__return_false' ); // UCF WP Theme includes js-cookie; see below
 
 if ( !function_exists( 'ucfwp_alert_js_deps' ) ) {
 	function ucfwp_alert_js_deps() {
