@@ -87,11 +87,23 @@ if ( $gw_verify ):
 <?php endif; ?>
 
 <?php
-// Preload Cloud.Typography
+// Preload Cloud.Typography or fallback fonts
 if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) :
 ?>
 <link rel="preload" href="<?php echo $fontkey; ?>" as="style">
-<?php endif; ?>
+<?php
+else:
+	$fallback_fonts = (array) apply_filters( 'ucfwp_preload_athena_fallback_fonts', array(
+		UCFWP_THEME_FONT_URL . '/ucf-sans-serif-alt/ucfsansserifalt-medium-webfont.woff2',
+		UCFWP_THEME_FONT_URL . '/ucf-sans-serif-alt/ucfsansserifalt-bold-webfont.woff2',
+	) );
+	foreach ( $fallback_fonts as $fb_font ) :
+?>
+<link rel="preload" href="<?php echo $fb_font; ?>" as="font" type="font/woff2" crossorigin>
+<?php
+	endforeach;
+endif;
+?>
 
 <?php
 // Preload Font Awesome
