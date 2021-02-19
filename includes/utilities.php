@@ -281,3 +281,36 @@ function ucfwp_get_queried_object() {
 
 	return $obj;
 }
+
+
+/**
+ * Returns an array of JSON data for this theme's node dependencies.
+ *
+ * @since 0.7.1
+ * @author Jo Dickson
+ * @return mixed array or null
+ */
+function ucfwp_get_theme_packages() {
+	if ( ! file_exists( UCFWP_THEME_DIR . 'package-lock.json' ) ) return null;
+
+	$package_lock_str = file_get_contents( UCFWP_THEME_DIR . 'package-lock.json' );
+	if ( ! $package_lock_str ) return null;
+
+	$package_lock = json_decode( $package_lock_str, true );
+	return $package_lock['dependencies'] ?? null;
+}
+
+
+/**
+ * Returns a version number for a node dependency by package name.
+ *
+ * @since 0.7.1
+ * @author Jo Dickson
+ * @return mixed Version string or null
+ */
+function ucfwp_get_theme_package_version( $package_name ) {
+	$packages = ucfwp_get_theme_packages();
+	if ( ! $packages ) return null;
+
+	return $packages[$package_name]['version'] ?? null;
+}

@@ -113,15 +113,20 @@ switch ( $fa_version ) {
 	case 'none':
 		break;
 	case '5':
-		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-regular-400.woff2';
-		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-solid-900.woff2';
-		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-brands-400.woff2';
+		$fa_5_url = ucfwp_get_font_awesome_5_font_url();
+		if ( $fa_5_url ) {
+			$fa_fonts[] = $fa_5_url . '/fa-regular-400.woff2';
+			$fa_fonts[] = $fa_5_url . '/fa-solid-900.woff2';
+			$fa_fonts[] = $fa_5_url . '/fa-brands-400.woff2';
+		}
 		break;
 	case '4':
 	default:
 		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-4/fontawesome-webfont.woff2';
 		break;
 }
+$fa_fonts = (array) apply_filters( 'ucfwp_preload_font_awesome_fonts', $fa_fonts, $fa_version );
+
 foreach ( $fa_fonts as $fa_font ) :
 ?>
 <link rel="preload" href="<?php echo $fa_font; ?>" as="font" type="font/woff2" crossorigin>
@@ -315,3 +320,19 @@ function ucfwp_add_dns_prefetch_domains( $urls, $relation_type ) {
 }
 
 add_filter( 'wp_resource_hints', 'ucfwp_add_dns_prefetch_domains', 10, 2 );
+
+
+/**
+ * Convenience method that returns the static directory
+ * where Font Awesome v5.x font files are stored in the theme.
+ *
+ * @since 0.7.1
+ * @author Jo Dickson
+ * @return mixed URL dir string, or null if FA version not found
+ */
+function ucfwp_get_font_awesome_5_font_url() {
+	$fa_5_version = ucfwp_get_theme_package_version( '@fortawesome/fontawesome-free' );
+	if ( ! $fa_5_version ) return null;
+
+	return UCFWP_THEME_FONT_URL . '/font-awesome-5/' . $fa_5_version;
+}
