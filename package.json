@@ -1,8 +1,8 @@
 {
   "private": true,
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
+    "@babel/core": "^7.12.17",
+    "@babel/preset-env": "^7.12.17",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
