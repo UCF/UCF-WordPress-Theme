@@ -286,7 +286,7 @@ function ucfwp_get_queried_object() {
 /**
  * Returns an array of JSON data for this theme's node dependencies.
  *
- * @since TODO
+ * @since 0.7.1
  * @author Jo Dickson
  * @return mixed array or null
  */
@@ -304,7 +304,7 @@ function ucfwp_get_theme_packages() {
 /**
  * Returns a version number for a node dependency by package name.
  *
- * @since TODO
+ * @since 0.7.1
  * @author Jo Dickson
  * @return mixed Version string or null
  */

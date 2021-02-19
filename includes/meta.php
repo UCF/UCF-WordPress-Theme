@@ -314,7 +314,7 @@ add_filter( 'wp_resource_hints', 'ucfwp_add_dns_prefetch_domains', 10, 2 );
  * Convenience method that returns the static directory
  * where Font Awesome v5.x font files are stored in the theme.
  *
- * @since TODO
+ * @since 0.7.1
  * @author Jo Dickson
  * @return mixed URL dir string, or null if FA version not found
  */
