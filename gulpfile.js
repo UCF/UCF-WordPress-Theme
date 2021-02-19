@@ -10,8 +10,10 @@ const babel        = require('gulp-babel');
 const rename       = require('gulp-rename');
 const sass         = require('gulp-sass');
 const sassLint     = require('gulp-sass-lint');
+const sassVars     = require('gulp-sass-vars');
 const uglify       = require('gulp-uglify');
 const merge        = require('merge');
+const del          = require('del');
 
 
 let config = {
@@ -26,11 +28,15 @@ let config = {
   },
   devPath: './dev',
   packagesPath: './node_modules',
+  packageLock: {},
   sync: false,
   syncTarget: 'http://localhost/'
 };
 
 /* eslint-disable no-sync */
+if (fs.existsSync('./package-lock.json')) {
+  config.packageLock = JSON.parse(fs.readFileSync('./package-lock.json'));
+}
 if (fs.existsSync('./gulp-config.json')) {
   const overrides = JSON.parse(fs.readFileSync('./gulp-config.json'));
   config = merge(config, overrides);
@@ -42,6 +48,13 @@ if (fs.existsSync('./gulp-config.json')) {
 // Helper functions
 //
 
+// Convenience method that returns current
+// version of Font Awesome 5
+function getFA5Version() {
+  return config.packageLock['dependencies']['@fortawesome/fontawesome-free']['version'] || null;
+}
+
+
 // Base SCSS linting function
 function lintSCSS(src) {
   return gulp.src(src)
@@ -51,10 +64,12 @@ function lintSCSS(src) {
 }
 
 // Base SCSS compile function
-function buildCSS(src, dest) {
+function buildCSS(src, dest, vars) {
   dest = dest || config.dist.cssPath;
+  vars = vars || {};
 
   return gulp.src(src)
+    .pipe(sassVars(vars))
     .pipe(sass({
       includePaths: [config.src.scssPath, config.packagesPath]
     })
@@ -124,15 +139,27 @@ function serverServe(done) {
 // Installation of components/dependencies
 //
 
-// Copy Font Awesome files
-gulp.task('move-components-fontawesome', (done) => {
-  // v4
+// Copy Font Awesome 4 files
+gulp.task('move-components-fontawesome-4', (done) => {
   gulp.src(`${config.packagesPath}/font-awesome-4/fonts/**/*`)
     .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome-4`));
+  done();
+});
 
-  // v5
-  gulp.src(`${config.packagesPath}/@fortawesome/fontawesome-free/webfonts/**/*`)
-    .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome-5`));
+// Copy Font Awesome 5 files
+gulp.task('move-components-fontawesome-5', (done) => {
+  // Delete existing font files
+  del(`${config.dist.fontPath}/font-awesome-5/**/*`);
+
+  // Move font files
+  const fa5Version = getFA5Version();
+  if (fa5Version) {
+    gulp.src(`${config.packagesPath}/@fortawesome/fontawesome-free/webfonts/**/*`)
+      .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome-5/${fa5Version}`));
+  } else {
+    console.log('Could not move Font Awesome 5 fonts--version not found');
+  }
+
   done();
 });
 
@@ -145,7 +172,8 @@ gulp.task('move-components-athena-fonts', (done) => {
 
 // Run all component-related tasks
 gulp.task('components', gulp.parallel(
-  'move-components-fontawesome',
+  'move-components-fontawesome-4',
+  'move-components-fontawesome-5',
   'move-components-athena-fonts'
 ));
 
@@ -170,8 +198,20 @@ gulp.task('scss-build-fa4', () => {
 });
 
 // Compile Font Awesome v5 stylesheet
-gulp.task('scss-build-fa5', () => {
-  return buildCSS(`${config.src.scssPath}/font-awesome-5.scss`);
+gulp.task('scss-build-fa5', (done) => {
+  const fa5Version = getFA5Version();
+
+  if (!fa5Version) {
+    console.log('Could not build Font Awesome 5 CSS--version not found');
+    done();
+  }
+  return buildCSS(
+    `${config.src.scssPath}/font-awesome-5.scss`,
+    null,
+    {
+      'fa-font-path': `../fonts/font-awesome-5/${fa5Version}`
+    }
+  );
 });
 
 // All theme css-related tasks
