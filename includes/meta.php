@@ -125,7 +125,7 @@ switch ( $fa_version ) {
 		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-4/fontawesome-webfont.woff2';
 		break;
 }
-$fa_fonts = (array) apply_filters( 'ucfwp_preloaded_font_awesome_fonts', $fa_fonts, $fa_version );
+$fa_fonts = (array) apply_filters( 'ucfwp_preload_font_awesome_fonts', $fa_fonts, $fa_version );
 
 foreach ( $fa_fonts as $fa_font ) :
 ?>
