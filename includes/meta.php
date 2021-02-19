@@ -8,12 +8,14 @@
  * Enqueue front-end css and js.
  **/
 function ucfwp_enqueue_frontend_assets() {
-	$theme = wp_get_theme( 'UCF-WordPress-Theme' );
+	$theme         = wp_get_theme( 'UCF-WordPress-Theme' );
 	$theme_version = ( $theme instanceof WP_Theme ) ? $theme->get( 'Version' ) : false;
+	$style_deps    = array();
 
 	// Register Cloud.Typography CSS Key
 	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
-		wp_enqueue_style( 'webfont', $fontkey );
+		wp_enqueue_style( 'webfont', $fontkey, null, null );
+		$style_deps[] = 'webfont';
 	}
 
 	// Register Font Awesome stylesheet
@@ -23,18 +25,22 @@ function ucfwp_enqueue_frontend_assets() {
 			break;
 		case '5':
 			wp_enqueue_style( 'font-awesome-5', UCFWP_THEME_CSS_URL . '/font-awesome-5.min.css', null, $theme_version );
+			$style_deps[] = 'font-awesome-5';
 			break;
 		case '4':
 		default:
 			wp_enqueue_style( 'font-awesome-4', UCFWP_THEME_CSS_URL . '/font-awesome-4.min.css', null, $theme_version );
+			$style_deps[] = 'font-awesome-4';
 			break;
 	}
 
 	// Register main theme stylesheet
-	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', null, $theme_version );
+	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', $style_deps, $theme_version );
 
+	// Register UCF Header
 	wp_enqueue_script( 'ucf-header', '//universityheader.ucf.edu/bar/js/university-header.js?use-1200-breakpoint=1', null, null, true );
-	wp_enqueue_script( 'wp-a11y' );
+
+	// Register main theme scripts
 	wp_enqueue_script( 'tether', 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', null, null, true );
 	wp_enqueue_script( 'script', UCFWP_THEME_JS_URL . '/script.min.js', array( 'jquery', 'tether' ), $theme_version, true );
 
@@ -58,7 +64,7 @@ add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_frontend_assets' );
 function ucfwp_enqueue_jquery() {
 	// Deregister jquery and re-register newer version in the document head.
 	wp_deregister_script( 'jquery' );
-	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', null, null, false );
+	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', null, null, false );
 	wp_enqueue_script( 'jquery' );
 }
 
@@ -79,7 +85,37 @@ if ( $gw_verify ):
 ?>
 <meta name="google-site-verification" content="<?php echo htmlentities( $gw_verify ); ?>">
 <?php endif; ?>
+
 <?php
+// Preload Cloud.Typography
+if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) :
+?>
+<link rel="preload" href="<?php echo $fontkey; ?>" as="style">
+<?php endif; ?>
+
+<?php
+// Preload Font Awesome
+$fa_fonts   = array();
+$fa_version = get_theme_mod( 'font_awesome_version' );
+switch ( $fa_version ) {
+	case 'none':
+		break;
+	case '5':
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-regular-400.woff2';
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-solid-900.woff2';
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-5/fa-brands-400.woff2';
+		break;
+	case '4':
+	default:
+		$fa_fonts[] = UCFWP_THEME_FONT_URL . '/font-awesome-4/fontawesome-webfont.woff2';
+		break;
+}
+foreach ( $fa_fonts as $fa_font ) :
+?>
+<link rel="preload" href="<?php echo $fa_font; ?>" as="font" type="font/woff2" crossorigin>
+<?php
+endforeach;
+
 }
 
 add_action( 'wp_head', 'ucfwp_add_meta_tags', 1 );
@@ -247,3 +283,23 @@ function ucfwp_add_favicon_default() {
 }
 
 add_action( 'wp_head', 'ucfwp_add_favicon_default' );
+
+
+/**
+ * Appends additional URLs to WP's list of domains to generate
+ * <link rel="dns-prefetch"> tags for.
+ *
+ * @since 0.7.1
+ * @author Jo Dickson
+ * @return array
+ */
+function ucfwp_add_dns_prefetch_domains( $urls, $relation_type ) {
+	$new_urls = get_theme_mod( 'dns_prefetch_domains' );
+	if ( $new_urls && $relation_type === 'dns-prefetch' ) {
+		$new_urls = array_unique( array_filter( array_map( 'trim', explode( ',', $new_urls ) ) ) );
+		$urls = array_merge( $urls, $new_urls );
+	}
+	return $urls;
+}
+
+add_filter( 'wp_resource_hints', 'ucfwp_add_dns_prefetch_domains', 10, 2 );
