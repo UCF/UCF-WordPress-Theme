@@ -8,6 +8,7 @@ define( 'UCFWP_THEME_STATIC_URL', UCFWP_THEME_URL . '/static' );
 define( 'UCFWP_THEME_CSS_URL', UCFWP_THEME_STATIC_URL . '/css' );
 define( 'UCFWP_THEME_JS_URL', UCFWP_THEME_STATIC_URL . '/js' );
 define( 'UCFWP_THEME_IMG_URL', UCFWP_THEME_STATIC_URL . '/img' );
+define( 'UCFWP_THEME_FONT_URL', UCFWP_THEME_STATIC_URL . '/fonts' );
 define( 'UCFWP_THEME_TEMPLATE_PARTS_PATH', 'template-parts' );
 define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
 define( 'UCFWP_MAINSITE_NAV_URL', 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23' );
@@ -108,6 +109,13 @@ function ucfwp_define_customizer_sections( $wp_customize ) {
 		UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics',
 		array(
 			'title' => 'Analytics'
+		)
+	);
+
+	$wp_customize->add_section(
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'performance',
+		array(
+			'title' => 'Performance'
 		)
 	);
 }
@@ -251,6 +259,21 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			'label'       => 'Chartbeat Domain',
 			'description' => 'Example: <em>some.domain.com</em>',
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
+		)
+	);
+
+	// Performance Settings
+	$wp_customize->add_setting(
+		'dns_prefetch_domains',
+	);
+
+	$wp_customize->add_control(
+		'dns_prefetch_domains',
+		array(
+			'type'        => 'textarea',
+			'label'       => 'Additional Required Origins for DNS Prefetching',
+			'description' => 'Specify a comma-separated list of domains to third-party origins that should be prefetched using <code>&lt;link rel="dns-prefetch"&gt;</code> that WordPress doesn\'t already handle out-of-the-box.',
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'performance'
 		)
 	);
 }
