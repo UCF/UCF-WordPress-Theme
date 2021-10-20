@@ -47,7 +47,8 @@ function ucfwp_enqueue_frontend_assets() {
 	// Add localized script variables to the document
 	$site_url = parse_url( get_site_url() );
 	wp_localize_script( 'script', 'UCFWP', array(
-		'domain' => $site_url['host']
+		'domain' => $site_url['host'],
+		'mediaBgVideoViewportMin' => intval( apply_filters( 'ucfwp_media_background_video_viewport_min_width', 576 ) )
 	) );
 }
 
