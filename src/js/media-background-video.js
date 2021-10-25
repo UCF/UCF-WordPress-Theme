@@ -7,7 +7,7 @@
   const btnSelector = '.media-background-video-toggle';
   const videoSelector = '.media-background-video';
   const videoViewportMinThreshold = parseInt(UCFWP.mediaBgVideoViewportMin, 10); // px
-  const cookieName = 'ucfedu-autoplay-bg-videos';
+  const cookieName = 'ucfwp-autoplay-bg-videos';
   const cookieSettings = {
     expires: 365,
     domain: UCFWP.domain
