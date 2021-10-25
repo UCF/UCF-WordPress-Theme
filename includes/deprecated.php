@@ -157,3 +157,20 @@ if ( !function_exists( 'ucfwp_get_mainsite_menu' ) ) {
 		return ob_get_clean();
 	}
 }
+
+
+/**
+ * Helper action to echo markup or scripts immediately after the
+ * document's opening <body> tag.
+ *
+ * @author Jo Dickson
+ * @since 0.7.3
+ * @deprecated 0.7.3 Use wp_body_open action
+ */
+if ( ! function_exists( 'ucfwp_after_body_open' ) ) {
+	function ucfwp_after_body_open() {
+		do_action( 'after_body_open' );
+	}
+}
+
+add_action( 'wp_body_open', 'ucfwp_after_body_open' );
