@@ -65,7 +65,7 @@ add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_frontend_assets' );
 function ucfwp_enqueue_jquery() {
 	// Deregister jquery and re-register newer version in the document head.
 	wp_deregister_script( 'jquery' );
-	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', null, null, false );
+	wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', null, null, ! ( get_theme_mod( 'jquery_enqueue_location' ) ) );
 	wp_enqueue_script( 'jquery' );
 }
 
