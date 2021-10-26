@@ -264,6 +264,20 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 
 	// Performance Settings
 	$wp_customize->add_setting(
+		'jquery_enqueue_location'
+	);
+
+	$wp_customize->add_control(
+		'jquery_enqueue_location',
+		array(
+			'type'        => 'checkbox',
+			'label'       => 'jQuery Enqueue Location',
+			'description' => 'If checked the jQuery script tag will be included in the header instead of the footer.',
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'performance'
+		)
+	);
+
+	$wp_customize->add_setting(
 		'dns_prefetch_domains',
 	);
 
