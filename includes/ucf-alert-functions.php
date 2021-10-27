@@ -109,4 +109,4 @@ if ( !function_exists( 'ucfwp_display_alert' ) ) {
 		echo UCF_Alert_Common::display_alert( 'faicon', array() );
 	}
 }
-add_filter( 'after_body_open', 'ucfwp_display_alert', 1 );
+add_action( 'wp_body_open', 'ucfwp_display_alert', 1 );
