@@ -275,7 +275,6 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 		array(
 			'type'        => 'radio',
 			'label'       => 'jQuery Enqueue Location',
-			'default'     => false,
 			'choices'     => array(
 			   'top'      => 'Top',
 			   'bottom'   => 'Bottom'
