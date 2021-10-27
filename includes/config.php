@@ -280,6 +280,7 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			   'top'      => 'Top',
 			   'bottom'   => 'Bottom'
 			),
+			'description' => 'Loading jQuery at the bottom of the page will improve page performance by eliminating it as a render-blocking resource.',
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'performance'
 		)
 	);
