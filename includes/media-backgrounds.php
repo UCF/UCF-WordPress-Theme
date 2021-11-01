@@ -130,7 +130,7 @@ if ( ! function_exists( 'ucfwp_get_media_background_video' ) ) {
 
 		ob_start();
 	?>
-		<video class="hidden-xs-down media-background media-background-video object-fit-cover" autoplay muted <?php if ( $loop ) { ?>loop<?php } ?> <?php echo $object_position_attr; ?>>
+		<video class="hidden-xs-down media-background media-background-video object-fit-cover" aria-hidden="true" preload="none" muted <?php if ( $loop ) { ?>loop<?php } ?> <?php echo $object_position_attr; ?>>
 			<?php if ( isset( $videos['webm'] ) ) : ?>
 			<source src="<?php echo $videos['webm']; ?>" type="video/webm">
 			<?php endif; ?>

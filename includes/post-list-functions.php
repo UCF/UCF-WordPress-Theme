@@ -86,42 +86,79 @@ if ( class_exists( 'UCF_People_PostType' ) ) {
 	if ( ! function_exists( 'ucfwp_post_list_display_people' ) ) {
 		function ucfwp_post_list_display_people( $content, $items, $atts ) {
 			if ( ! is_array( $items ) && $items !== false ) { $items = array( $items ); }
+
+			$fa_version = get_theme_mod( 'font_awesome_version' );
+			$fa_email_icon = '';
+			$fa_phone_icon = '';
+			switch ( $fa_version ) {
+				case 'none':
+					break;
+				case '5':
+					$fa_email_icon = 'fas fa-envelope fa-fw';
+					$fa_phone_icon = 'fas fa-phone fa-fw';
+					break;
+				case '4':
+				default:
+					$fa_email_icon = 'fa fa-envelope fa-fw';
+					$fa_phone_icon = 'fa fa-phone fa-fw';
+					break;
+			}
+
 			ob_start();
 		?>
 			<?php if ( $items ): ?>
 			<ul class="list-unstyled row ucf-post-list-items">
-				<?php foreach ( $items as $item ): ?>
-				<?php $is_content_empty = ucfwp_is_content_empty( $item->post_content ); ?>
+				<?php
+				foreach ( $items as $item ):
+					$is_content_empty = ucfwp_is_content_empty( $item->post_content );
+				?>
 				<li class="col-6 col-sm-4 col-md-3 col-xl-2 mt-3 mb-2 ucf-post-list-item">
-					<?php if ( ! $is_content_empty ) { ?>
+
+					<?php if ( ! $is_content_empty ): ?>
 					<a class="person-link" href="<?php echo get_permalink( $item->ID ); ?>">
-					<?php } ?>
+					<?php endif; ?>
+
 						<?php echo ucfwp_get_person_thumbnail( $item ); ?>
-						<strong class="mt-2 mb-1 d-block person-name"><?php echo ucfwp_get_person_name( $item ); ?></strong>
+
+						<strong class="mt-2 mb-1 d-block person-name">
+							<?php echo ucfwp_get_person_name( $item ); ?>
+						</strong>
+
 						<?php if ( $job_title = get_field( 'person_jobtitle', $item->ID ) ): ?>
 						<div class="font-italic person-job-title">
 							<?php echo $job_title; ?>
 						</div>
 						<?php endif; ?>
-						<?php if ( $email = get_field( 'person_email', $item->ID ) ): ?>
-						<div class="person-email">
-							<?php if ( $is_content_empty ) { ?>
-							<a href="mailto:<?php echo $email; ?>">
-							<?php } ?>
-							<?php echo $email; ?>
-							<?php if ( $is_content_empty ) { ?>
-							</a>
-							<?php } ?>
-						</div>
-						<?php endif; ?>
-						<?php if ( $phone = get_field( 'person_phone', $item->ID ) ): ?>
-						<div class="person-job-title">
-							<?php echo $phone; ?>
-						</div>
-						<?php endif; ?>
-					<?php if ( ! $is_content_empty ) { ?>
+
+					<?php if ( ! $is_content_empty ): ?>
 					</a>
-					<?php } ?>
+					<?php endif; ?>
+
+					<?php
+					if ( $email = get_field( 'person_email', $item->ID ) ):
+
+					?>
+					<div class="person-email">
+						<a href="mailto:<?php echo $email; ?>">
+							<?php if ( $fa_email_icon ): ?>
+							<span class="<?php echo $fa_email_icon; ?>" aria-hidden="true"></span>
+							<?php endif; ?>
+
+							Email<span class="sr-only"> <?php echo $email; ?></span>
+						</a>
+					</div>
+					<?php endif; ?>
+
+					<?php if ( $phone = get_field( 'person_phone', $item->ID ) ): ?>
+					<div class="person-phone">
+						<?php if ( $fa_phone_icon ): ?>
+						<span class="<?php echo $fa_phone_icon; ?>" aria-hidden="true"></span>
+						<?php endif; ?>
+
+						<?php echo $phone; ?>
+					</div>
+					<?php endif; ?>
+
 				</li>
 				<?php endforeach; ?>
 			</ul>

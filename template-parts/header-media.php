@@ -13,13 +13,12 @@ $exclude_nav         = get_field( 'page_header_exclude_nav', $obj );
 		<div class="header-media-background media-background-container">
 			<?php
 			// Display the media background (video + picture)
-
-			if ( $videos ) {
-				echo ucfwp_get_media_background_video( $videos, $video_loop );
-			}
 			if ( $images ) {
 				$bg_image_srcs = ucfwp_get_header_media_picture_srcs( $header_height, $images );
 				echo ucfwp_get_media_background_picture( $bg_image_srcs );
+			}
+			if ( $videos ) {
+				echo ucfwp_get_media_background_video( $videos, $video_loop );
 			}
 			?>
 		</div>
