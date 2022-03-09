@@ -3,7 +3,12 @@
 //
 .ucfwp-post-list-people {
   .person-link {
-    color: $black;
+    color: inherit;
+    text-decoration: none;
+
+    .person-name {
+      text-decoration: underline;
+    }
   }
 
   .person-photo {
@@ -30,6 +35,11 @@
     margin-bottom: .4em;
   }
 
+  .person-phone a,
+  .person-email a {
+    color: inherit;
+  }
+
   .ucf-post-search .person-photo {
     height: 4rem;
     padding-bottom: 0;
@@ -43,9 +53,9 @@
 //
 .ucfwp-post-list-news {
   .newsitem-link {
-    @include hover-focus {
-      text-decoration: none;
+    text-decoration: none;
 
+    @include hover-focus {
       .newsitem-heading {
         text-decoration: underline;
       }
