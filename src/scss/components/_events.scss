@@ -42,10 +42,12 @@
 
   .ucf-event-link {
     color: inherit;
+    text-decoration: none;
   }
 
   .ucf-event-title {
     font-size: $font-size-base;
+    text-decoration: underline;
 
     @include media-breakpoint-up(md) {
       font-size: $font-size-base-md;
