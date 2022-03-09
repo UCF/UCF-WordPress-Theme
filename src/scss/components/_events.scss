@@ -42,10 +42,18 @@
 
   .ucf-event-link {
     color: inherit;
+    text-decoration: none;
+
+    @include hover-focus {
+      .ucf-event-title {
+        text-decoration: underline;
+      }
+    }
   }
 
   .ucf-event-title {
     font-size: $font-size-base;
+    font-weight: bold;
 
     @include media-breakpoint-up(md) {
       font-size: $font-size-base-md;
@@ -106,6 +114,11 @@
 
   .ucf-event-title {
     color: inherit;
+    text-decoration: none;
+
+    @include hover-focus {
+      text-decoration: underline;
+    }
   }
 
   .ucf-event-description-wrapper {
