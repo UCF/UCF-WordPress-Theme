@@ -94,13 +94,13 @@ if ( class_exists( 'UCF_People_PostType' ) ) {
 				case 'none':
 					break;
 				case '5':
-					$fa_email_icon = 'fas fa-envelope fa-fw';
-					$fa_phone_icon = 'fas fa-phone fa-fw';
+					$fa_email_icon = 'fas fa-envelope fa-fw mr-1';
+					$fa_phone_icon = 'fas fa-phone fa-fw mr-1';
 					break;
 				case '4':
 				default:
-					$fa_email_icon = 'fa fa-envelope fa-fw';
-					$fa_phone_icon = 'fa fa-phone fa-fw';
+					$fa_email_icon = 'fa fa-envelope fa-fw mr-1';
+					$fa_phone_icon = 'fa fa-phone fa-fw mr-1';
 					break;
 			}
 
@@ -120,12 +120,12 @@ if ( class_exists( 'UCF_People_PostType' ) ) {
 
 						<?php echo ucfwp_get_person_thumbnail( $item ); ?>
 
-						<strong class="mt-2 mb-1 d-block person-name">
+						<strong class="my-2 d-block person-name">
 							<?php echo ucfwp_get_person_name( $item ); ?>
 						</strong>
 
 						<?php if ( $job_title = get_field( 'person_jobtitle', $item->ID ) ): ?>
-						<div class="font-italic person-job-title">
+						<div class="mb-2 font-italic person-job-title">
 							<?php echo $job_title; ?>
 						</div>
 						<?php endif; ?>
@@ -140,22 +140,15 @@ if ( class_exists( 'UCF_People_PostType' ) ) {
 					?>
 					<div class="person-email">
 						<a href="mailto:<?php echo $email; ?>">
-							<?php if ( $fa_email_icon ): ?>
-							<span class="<?php echo $fa_email_icon; ?>" aria-hidden="true"></span>
-							<?php endif; ?>
-
-							Email<span class="sr-only"> <?php echo $email; ?></span>
+							<?php if ( $fa_email_icon ): ?><span class="<?php echo $fa_email_icon; ?>" aria-hidden="true"></span><?php endif; ?>Email
+							<span class="sr-only"> <?php echo $email; ?></span>
 						</a>
 					</div>
 					<?php endif; ?>
 
 					<?php if ( $phone = get_field( 'person_phone', $item->ID ) ): ?>
 					<div class="person-phone">
-						<?php if ( $fa_phone_icon ): ?>
-						<span class="<?php echo $fa_phone_icon; ?>" aria-hidden="true"></span>
-						<?php endif; ?>
-
-						<?php echo $phone; ?>
+						<?php if ( $fa_phone_icon ): ?><span class="<?php echo $fa_phone_icon; ?>" aria-hidden="true"></span><?php endif; ?><?php echo $phone; ?>
 					</div>
 					<?php endif; ?>
 
