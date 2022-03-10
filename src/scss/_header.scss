@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .header-content {
   display: flex;
   flex: 1 1 auto;
@@ -27,7 +29,7 @@
   position: relative;
 
   @include media-breakpoint-down(xs) {
-    min-height: ($header-img-xs-height / $header-img-xs-width) * 100vw;
+    min-height: math.div($header-img-xs-height, $header-img-xs-width) * 100vw;
   }
 
   &:not([class*='bg-']) {
@@ -161,7 +163,7 @@
     @include media-breakpoint-down(md) {
       margin-left: 0;
       margin-right: 0;
-      padding: $grid-gutter-width-base / 2;
+      padding: $grid-gutter-width-base * .5;
     }
 
     .nav-link {
