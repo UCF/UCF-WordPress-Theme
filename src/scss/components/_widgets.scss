@@ -47,6 +47,15 @@
     &:not(:last-child) {
       margin-bottom: $spacer-y * 1.25;
     }
+
+    a {
+      font-weight: bold;
+      text-decoration: none;
+
+      @include hover-focus {
+        text-decoration: underline;
+      }
+    }
   }
 
   .post-date {
@@ -60,10 +69,6 @@
 }
 
 .widget_rss {
-  .rss-widget-icon {
-    display: none;
-  }
-
   li {
     &:not(:last-child) {
       margin-bottom: $spacer-y * 1.5;
@@ -71,11 +76,18 @@
 
     .rsswidget {
       display: inline-block;
+      font-weight: bold;
       margin-bottom: $spacer-y * .25;
+
+      @include hover-focus {
+        text-decoration: underline;
+      }
     }
   }
 
   .rsswidget {
+    text-decoration: none;
+
     + .rssSummary {
       margin-top: 0;
     }
