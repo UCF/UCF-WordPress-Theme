@@ -408,6 +408,25 @@
                 "ui_off_text": ""
             },
             {
+                "key": "field_62e2e3cc31088",
+                "label": "Header Video Description",
+                "name": "page_header_video_description",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
                 "key": "field_5a564fecfb51d",
                 "label": "Navigation",
                 "name": "",
