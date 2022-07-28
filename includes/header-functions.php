@@ -57,6 +57,11 @@ function ucfwp_get_header_videos( $obj ) {
 
 	$retval = (array) apply_filters( 'ucfwp_get_header_videos_before', $retval, $obj );
 	$retval = array_filter( $retval );
+
+	if ( $obj_header_video_description = get_field( 'page_header_video_description', $obj ) ) {
+		$retval['description'] = $obj_header_video_description;
+	}
+
 	// Exit early if a 'mp4' value was provided early
 	if ( isset( $retval['mp4'] ) && $retval['mp4'] ) {
 		return $retval;
@@ -65,6 +70,7 @@ function ucfwp_get_header_videos( $obj ) {
 	if ( $obj_header_video_mp4 = get_field( 'page_header_mp4', $obj ) ) {
 		$retval['mp4'] = $obj_header_video_mp4;
 	}
+
 	if ( $obj_header_video_webm = get_field( 'page_header_webm', $obj ) ) {
 		$retval['webm'] = $obj_header_video_webm;
 	}
