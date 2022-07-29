@@ -121,7 +121,7 @@ if ( ! function_exists( 'ucfwp_get_media_background_picture' ) ) {
  * @return string
  **/
 if ( ! function_exists( 'ucfwp_get_media_background_video' ) ) {
-	function ucfwp_get_media_background_video( $videos, $loop=false ) {
+	function ucfwp_get_media_background_video( $videos, $loop=false, $desc=null ) {
 		// NOTE: if a child theme overrides the `ucfwp_media_background_video_object_position`
 		// hook, that theme must also provide a style override to
 		// `.media-background-video` to set the object-position property
@@ -139,8 +139,8 @@ if ( ! function_exists( 'ucfwp_get_media_background_video' ) ) {
 			<source src="<?php echo $videos['mp4']; ?>" type="video/mp4">
 			<?php endif; ?>
 
-			<?php if ( isset( $videos['description'] ) ) : ?>
-    		<meta itemprop="description" content="<?php echo $videos['description']; ?>">
+			<?php if ( isset( $desc ) ) : ?>
+			<meta itemprop="description" content="<?php echo $desc; ?>">
 			<?php endif; ?>
 		</video>
 		<button class="media-background-video-toggle btn play-enabled hidden-xs-up" type="button" data-toggle="button" aria-pressed="false" aria-label="Play or pause background videos">

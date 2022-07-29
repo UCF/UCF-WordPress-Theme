@@ -3,6 +3,7 @@ $obj        = ucfwp_get_queried_object();
 $videos     = ucfwp_get_header_videos( $obj );
 $images     = ucfwp_get_header_images( $obj );
 $video_loop = get_field( 'page_header_video_loop', $obj );
+$video_desc = get_field( 'page_header_video_description', $obj );
 $header_content_type = ucfwp_get_header_content_type( $obj );
 $header_height       = get_field( 'page_header_height', $obj );
 $exclude_nav         = get_field( 'page_header_exclude_nav', $obj );
@@ -18,7 +19,7 @@ $exclude_nav         = get_field( 'page_header_exclude_nav', $obj );
 				echo ucfwp_get_media_background_picture( $bg_image_srcs );
 			}
 			if ( $videos ) {
-				echo ucfwp_get_media_background_video( $videos, $video_loop );
+				echo ucfwp_get_media_background_video( $videos, $video_loop, $video_desc );
 			}
 			?>
 		</div>
