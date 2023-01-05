@@ -498,10 +498,18 @@ remove_filter( 'the_excerpt', 'wpautop' );
  * http://betterwp.net/wordpress-tips/disable-some-wordpress-pages/
  **/
 function ucfwp_kill_unused_templates() {
-	global $wp_query, $post;
+	global $wp, $wp_query, $post;
 
 	if ( is_author() || is_attachment() || is_date() || is_search() || is_feed() || is_comment_feed() ) {
-		wp_redirect( home_url() );
+
+		if ( is_feed() ) {
+			$url = home_url( $wp->request );
+			$url = trailingslashit( preg_replace( '/\/feed$/', '', $url ) );
+			wp_redirect( $url, 301 );
+			exit();
+		}
+
+		wp_redirect( trailingslashit( home_url() ), 301 );
 		exit();
 	}
 }
