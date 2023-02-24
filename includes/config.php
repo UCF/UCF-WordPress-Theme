@@ -316,14 +316,6 @@ add_filter( 'upload_mimes', 'ucfwp_custom_mimes' );
 
 
 /**
- * Enable TinyMCE formatting options in the Athena Shortcodes plugin.
- **/
-if ( function_exists( 'athena_sc_tinymce_init' ) ) {
-	add_filter( 'athena_sc_enable_tinymce_formatting', '__return_true' );
-}
-
-
-/**
  * Allow special tags in post bodies that would get stripped
  * otherwise for most users.
  * Modifies $allowedposttags defined in wp-includes/kses.php
