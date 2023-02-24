@@ -21,6 +21,14 @@ function ucfwp_activation_error_acf() {
 	echo ob_get_clean();
 }
 
+/***
+ * Sets the option for tinymce formatting to on by default when theme is activated
+ */
+function ucfwp_activation_default_settings() {
+	update_option( 'athena_sc_enable_tinymce_formatting', true );
+}
+
+add_action( 'after_switch_theme', 'ucfwp_activation_checks', 10, 0 );
 
 /**
  * Performs verification checks immediately upon theme activation
