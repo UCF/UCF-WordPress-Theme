@@ -1,0 +1,8 @@
+{
+    "name": "ucf/ucf-wordpress-theme",
+    "description": "A generic, responsive WordPress theme for UCF websites, built off of the Athena Framework. Suitable as a standalone theme or as a parent theme.",
+    "type": "wordpress-theme",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

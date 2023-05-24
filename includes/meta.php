@@ -212,24 +212,60 @@ add_action( 'wp_footer', 'ucfwp_add_chartbeat' );
  * Tag Manager ID is provided in the customizer, this hook will have no effect.
  **/
 function ucfwp_add_google_analytics() {
-	$ga_account = get_theme_mod( 'ga_account' );
-	$gtm_id     = get_theme_mod( 'gtm_id' );
-	if ( $ga_account && !$gtm_id ):
-?>
-<script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	ga('create', '<?php echo $ga_account; ?>', 'auto');
-	ga('send', 'pageview');
-</script>
-<?php
-	endif;
+	$ga_account  = get_theme_mod( 'ga_account' );
+	$ga4_account = get_theme_mod( 'ga4_account' );
+	$gtm_id      = get_theme_mod( 'gtm_id' );
+	if ( $ga4_account && !$gtm_id ) {
+		ucfwp_add_ga4_analytics( $ga4_account );
+	} else if ( $ga_account && !$gtm_id ) {
+		ucfwp_add_classic_analytics( $ga_account );
+	}
 }
 
 add_action( 'wp_head', 'ucfwp_add_google_analytics' );
+
+/**
+ * Adds the classic (UA) analytics snippet into the head.
+ *
+ * @author Jim Barnes
+ * @since v0.8.0
+ * @param  string $ga_account The Google Analytics property
+ * @return void
+ */
+function ucfwp_add_classic_analytics( $ga_account ) {
+?>
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', '<?php echo $ga_account; ?>', 'auto');
+		ga('send', 'pageview');
+	</script>
+<?php
+}
+
+/**
+ * Adds the GA4 code snippet.
+ *
+ * @author Jim Barnes
+ * @since v0.8.0
+ * @param  string $ga_account The Google Analytics version 4 property
+ * @return void
+ */
+function ucfwp_add_ga4_analytics( $ga_account ) {
+?>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $ga_account; ?>"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', '<?php echo $ga_account; ?>');
+	</script>
+<?php
+}
 
 
 /**
