@@ -12,12 +12,6 @@ function ucfwp_enqueue_frontend_assets() {
 	$theme_version = ( $theme instanceof WP_Theme ) ? $theme->get( 'Version' ) : false;
 	$style_deps    = array();
 
-	// Register Cloud.Typography CSS Key
-	if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) {
-		wp_enqueue_style( 'webfont', $fontkey, null, null );
-		$style_deps[] = 'webfont';
-	}
-
 	// Register Font Awesome stylesheet
 	$fa_version = get_theme_mod( 'font_awesome_version' );
 	switch ( $fa_version ) {
@@ -87,14 +81,7 @@ if ( $gw_verify ):
 ?>
 <meta name="google-site-verification" content="<?php echo htmlentities( $gw_verify ); ?>">
 <?php endif; ?>
-
 <?php
-// Preload Cloud.Typography or fallback fonts
-if ( $fontkey = get_theme_mod( 'cloud_typography_key' ) ) :
-?>
-<link rel="preload" href="<?php echo $fontkey; ?>" as="style">
-<?php
-else:
 	$fallback_fonts = (array) apply_filters( 'ucfwp_preload_athena_fallback_fonts', array(
 		UCFWP_THEME_FONT_URL . '/ucf-sans-serif-alt/ucfsansserifalt-medium-webfont.woff2',
 		UCFWP_THEME_FONT_URL . '/ucf-sans-serif-alt/ucfsansserifalt-bold-webfont.woff2',
