@@ -89,10 +89,7 @@ if ( $gw_verify ):
 	foreach ( $fallback_fonts as $fb_font ) :
 ?>
 <link rel="preload" href="<?php echo $fb_font; ?>" as="font" type="font/woff2" crossorigin>
-<?php
-	endforeach;
-endif;
-?>
+<?php endforeach; ?>
 
 <?php
 // Preload Font Awesome
