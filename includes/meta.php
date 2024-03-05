@@ -154,8 +154,27 @@ function ucfhb_script_handle( $tag, $handle, $src ) {
 	return $tag;
 }
 
-add_filter( 'script_loader_tag', 'ucfhb_script_handle', 10, 3 );
+if ( version_compare( $wp_version, '6.3.0', '>=' ) ) {
+	add_filter( 'script_loader_tag', 'ucfhb_script_handle', 10, 3 );
+}
 
+/**
+ * Adds ID attribute to UCF Header script.
+ **/
+function ucfwp_add_id_to_ucfhb( $url ) {
+	if (
+		( false !== strpos($url, 'bar/js/university-header.js' ) )
+		|| ( false !== strpos( $url, 'bar/js/university-header-full.js' ) )
+	) {
+      remove_filter( 'clean_url', 'ucfwp_add_id_to_ucfhb', 10, 3 );
+      return "$url' id='ucfhb-script";
+    }
+    return $url;
+}
+
+if ( version_compare( $wp_version, '6.3.0', '<' ) ) {
+	add_filter( 'clean_url', 'ucfwp_add_id_to_ucfhb', 10, 1 );
+}
 
 /**
  * Prints Chartbeat tracking code in the footer if a UID and Domain are set in
