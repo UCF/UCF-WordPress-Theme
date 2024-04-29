@@ -35,8 +35,5 @@
   ],
   "optionalDependencies": {
     "@fortawesome/fontawesome-pro": "^6.5.2"
-  },
-  "dependencies": {
-    "update": "^0.7.4"
   }
 }
