@@ -17,6 +17,10 @@ function ucfwp_enqueue_frontend_assets() {
 	switch ( $fa_version ) {
 		case 'none':
 			break;
+		case '6':
+			wp_enqueue_style( 'font-awesome-6', UCFWP_THEME_CSS_URL . '/font-awesome-6.min.css', null, $theme_version );
+			$style_deps[] = 'font-awesome-6';
+			break;
 		case '5':
 			wp_enqueue_style( 'font-awesome-5', UCFWP_THEME_CSS_URL . '/font-awesome-5.min.css', null, $theme_version );
 			$style_deps[] = 'font-awesome-5';
@@ -97,6 +101,22 @@ $fa_fonts   = array();
 $fa_version = get_theme_mod( 'font_awesome_version' );
 switch ( $fa_version ) {
 	case 'none':
+		break;
+	case '6':
+		$fa_6_url = ucfwp_get_font_awesome_6_font_url();
+		if ( $fa_6_url ) {
+			$fa_fonts[] = $fa_6_url . '/fa-thin-100.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-light-300.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-regular-400.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-solid-900.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-sharp-thin-100.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-sharp-light-300.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-sharp-regular-400.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-sharp-solid-900.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-brands-400.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-duotone-900.woff2';
+			$fa_fonts[] = $fa_6_url . '/fa-v4compatibility.woff2';
+		}
 		break;
 	case '5':
 		$fa_5_url = ucfwp_get_font_awesome_5_font_url();
@@ -381,4 +401,11 @@ function ucfwp_get_font_awesome_5_font_url() {
 	if ( ! $fa_5_version ) return null;
 
 	return UCFWP_THEME_FONT_URL . '/font-awesome-5/' . $fa_5_version;
+}
+
+function ucfwp_get_font_awesome_6_font_url() {
+	$fa_6_version = ucfwp_get_theme_package_version( '@fortawesome/fontawesome-pro' );
+	if ( ! $fa_6_version ) return null;
+
+	return UCFWP_THEME_FONT_URL . '/font-awesome-6/' . $fa_6_version;
 }

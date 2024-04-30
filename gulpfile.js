@@ -49,11 +49,15 @@ if (fs.existsSync('./gulp-config.json')) {
 //
 
 // Convenience method that returns current
+// version of Font Awesome 6 
+function getFA6Version() {
+  return config.packageLock['dependencies']['@fortawesome/fontawesome-pro']['version'] || null;
+}
+
 // version of Font Awesome 5
 function getFA5Version() {
   return config.packageLock['dependencies']['@fortawesome/fontawesome-free']['version'] || null;
 }
-
 
 // Base SCSS linting function
 function lintSCSS(src) {
@@ -163,6 +167,24 @@ gulp.task('move-components-fontawesome-5', (done) => {
   done();
 });
 
+// Copy Font Awesome 6 files
+gulp.task('move-components-fontawesome-6', (done) => {
+    const fa6Version = getFA6Version();
+    // Delete existing font files
+    del(`${config.dist.fontPath}/font-awesome-6/**/*`);
+
+    if(fa6Version){
+      gulp.src(`${config.packagesPath}/@fortawesome/fontawesome-pro/webfonts/**/*`)
+      .pipe(gulp.dest(`${config.dist.fontPath}/font-awesome-6/${fa6Version}`));
+    } else {
+      console.log('Could not move Font Awesome 6 fonts--version not found');
+    }
+
+    done();
+})
+
+
+
 // Athena Framework web font processing
 gulp.task('move-components-athena-fonts', (done) => {
   gulp.src([`${config.packagesPath}/ucf-athena-framework/dist/fonts/**/*`])
@@ -174,6 +196,7 @@ gulp.task('move-components-athena-fonts', (done) => {
 gulp.task('components', gulp.parallel(
   'move-components-fontawesome-4',
   'move-components-fontawesome-5',
+  'move-components-fontawesome-6',
   'move-components-athena-fonts'
 ));
 
@@ -214,12 +237,32 @@ gulp.task('scss-build-fa5', (done) => {
   );
 });
 
+// Compile Font Awesome v6 stylesheet
+gulp.task('scss-build-fa6', (done) => {
+  const fa6Version = getFA6Version();
+
+  if (!fa6Version) {
+    console.log('Could not build Font Awesome 6 CSS--version not found');
+    done();
+  }
+  return buildCSS(
+    `${config.src.scssPath}/font-awesome-6.scss`,
+    null,
+    {
+      'fa-font-path': `../fonts/font-awesome-6/${fa6Version}`
+    }
+  );
+});
+
+
+
 // All theme css-related tasks
 gulp.task('css', gulp.series(
   'scss-lint-theme',
   'scss-build-theme',
   'scss-build-fa4',
-  'scss-build-fa5'
+  'scss-build-fa5',
+  'scss-build-fa6'
 ));
 
 
