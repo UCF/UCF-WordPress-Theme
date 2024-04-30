@@ -54,13 +54,10 @@ function getFA6Version() {
   return config.packageLock['dependencies']['@fortawesome/fontawesome-pro']['version'] || null;
 }
 
-
-
 // version of Font Awesome 5
 function getFA5Version() {
   return config.packageLock['dependencies']['@fortawesome/fontawesome-free']['version'] || null;
 }
-
 
 // Base SCSS linting function
 function lintSCSS(src) {
