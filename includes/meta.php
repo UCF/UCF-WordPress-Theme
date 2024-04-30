@@ -99,7 +99,6 @@ if ( $gw_verify ):
 // Preload Font Awesome
 $fa_fonts   = array();
 $fa_version = get_theme_mod( 'font_awesome_version' );
-var_dump($fa_version);
 switch ( $fa_version ) {
 	case 'none':
 		break;
