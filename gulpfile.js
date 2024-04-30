@@ -50,17 +50,15 @@ if (fs.existsSync('./gulp-config.json')) {
 
 // Convenience method that returns current
 // version of Font Awesome 6 
-function getFA6Version () {
-  return config.pack
+function getFA6Version() {
+  return config.packageLock['dependencies']['@fortawesome/fontawesome-pro']['version'] || null;
 }
+
 
 
 // version of Font Awesome 5
 function getFA5Version() {
   return config.packageLock['dependencies']['@fortawesome/fontawesome-free']['version'] || null;
-}
-function getFA6Version() {
-  return config.packageLock['dependencies']['@fortawesome/fontawesome-pro']['version'] || null;
 }
 
 
