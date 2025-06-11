@@ -66,7 +66,7 @@ function ucfwp_get_media_background_picture_srcs( $attachment_xs_id, $attachment
  * @return string
  **/
 if ( ! function_exists( 'ucfwp_get_media_background_picture' ) ) {
-	function ucfwp_get_media_background_picture( $srcs ) {
+	function ucfwp_get_media_background_picture( $srcs, $image_alt = 'header background image' ) {
 		// NOTE: if a child theme overrides the `ucfwp_media_background_picture_object_position`
 		// hook, that theme must also provide a style override to
 		// `.media-background` to set the object-position property
@@ -98,7 +98,7 @@ if ( ! function_exists( 'ucfwp_get_media_background_picture' ) ) {
 			<source srcset="<?php echo $srcs['xs']; ?>" media="(max-width: 575px)">
 			<?php endif; ?>
 
-			<img class="media-background object-fit-cover" src="<?php echo $srcs['fallback']; ?>" alt="" <?php echo $object_position_attr; ?>>
+			<img class="media-background object-fit-cover" src="<?php echo $srcs['fallback']; ?>" alt="<?php echo $image_alt ?>" <?php echo $object_position_attr; ?>>
 		</picture>
 	<?php
 		endif;

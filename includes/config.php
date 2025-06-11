@@ -99,13 +99,6 @@ function ucfwp_define_customizer_sections( $wp_customize ) {
 	);
 
 	$wp_customize->add_section(
-		UCFWP_THEME_CUSTOMIZER_PREFIX . 'webfonts',
-		array(
-			'title' => 'Web Fonts'
-		)
-	);
-
-	$wp_customize->add_section(
 		UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics',
 		array(
 			'title' => 'Analytics'
@@ -168,26 +161,9 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			'choices'     => array(
 				'4' => 'Version 4 (4.7.0)',
 				'5' => 'Version 5',
+				'6' => 'Version 6',
 				'none' => 'None (do not load Font Awesome)'
 			)
-		)
-	);
-
-	// Web Fonts
-	$wp_customize->add_setting(
-		'cloud_typography_key'
-	);
-
-	$wp_customize->add_control(
-		'cloud_typography_key',
-		array(
-			'type'        => 'text',
-			'label'       => 'Cloud.Typography CSS Key URL',
-			'description' => 'The CSS Key provided by Cloud.Typography for this project.  <strong>Only include the value in the "href" portion of the link
-								tag provided; e.g. "//cloud.typography.com/000000/000000/css/fonts.css".</strong><br><br>NOTE: Make sure the Cloud.Typography
-								project has been configured to deliver fonts to this site\'s domain.<br>
-								See the <a target="_blank" href="http://www.typography.com/cloud/user-guide/managing-domains">Cloud.Typography docs on managing domains</a> for more info.',
-			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'webfonts'
 		)
 	);
 
