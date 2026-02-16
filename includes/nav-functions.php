@@ -397,3 +397,63 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 	}
 
 }
+
+/*
+ * Add a "Split dropdown" checkbox to menu items.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param int    $menu_item_id The menu item ID.
+ * @param object $item         The current menu item.
+ * @param int    $depth        Depth of menu item. Used for padding.
+ * @param array  $args         An array of {@see wp_nav_menu()} arguments.
+ * @return void
+ */
+add_action('wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $depth, $args) {
+	if ((int) $depth !== 0) { return; }
+
+	$value = get_post_meta( $menu_item_id, '_menu_item_split_dropdown', true );
+	?>
+	<p class="field-split-dropdown description description-wide">
+		<label for="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>">
+			<input type="checkbox"
+				id="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>"
+				name="menu-item-split-dropdown[<?php echo esc_attr( $menu_item_id ); ?>]"
+				value="1" <?php checked( $value, '1' ); ?> />
+			Split dropdown
+		</label>
+	</p>
+	<?php
+}, 10, 4 );
+
+/*
+ * Save the checkbox value.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param string $menu_id       Menu item ID.
+ * @param string $menu_id_db_id Menu item post ID (nav_menu_item ID).
+ * @param array  $args          An array of {@see wp_nav_menu()} arguments.
+ * @return void
+ */
+add_action('wp_update_nav_menu_item', function( $menu_id, $menu_item_db_id, $args) {
+   $is_set = isset($_POST['menu-item-split-dropdown'][ $menu_item_db_id ]) ? '1' : '';
+   if ($is_set !== '') {
+       update_post_meta($menu_item_db_id, '_menu_item_split_dropdown', '1');
+   } else {
+       delete_post_meta($menu_item_db_id, '_menu_item_split_dropdown');
+   }
+}, 10, 3 );
+
+/*
+ * Load the value onto the menu item object for the walker.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param  object $item Menu item object.
+ * @return object       Modified menu item object.
+ */
+add_filter( 'wp_setup_nav_menu_item', function( $item ) {
+   $item->split_dropdown = ( get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) === '1' );
+   return $item;
+});
