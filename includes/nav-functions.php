@@ -356,8 +356,6 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 			//
 			if($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) === '1')
 			{
-				$item_output .= '<div class="btn-group">';
-
 				$item_output .= '<a' . $attributes. '>';
 				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
 				$item_output .= '</a>';
@@ -378,9 +376,6 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 				}
 
 				$item_output .= '<a' . $toggle_attr_str . '></a>';
-				
-				$item_output .= '</div>';
-	
 			}
 			else
 			{
