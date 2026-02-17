@@ -442,11 +442,11 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
  * @return void
  */
 add_action('wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $depth, $args) {
-	if ((int) $depth !== 0) { return; }
+	if ((int) $depth !== 0){ return; }
 
 	$value = get_post_meta( $menu_item_id, '_menu_item_split_dropdown', true );
 	?>
-	<p class="field-split-dropdown description description-wide">
+	<p class="field-split-dropdown description">
 		<label for="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>">
 			<input type="checkbox"
 				id="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>"
@@ -488,4 +488,45 @@ add_action('wp_update_nav_menu_item', function( $menu_id, $menu_item_db_id, $arg
 add_filter( 'wp_setup_nav_menu_item', function( $item ) {
    $item->split_dropdown = ( get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) === '1' );
    return $item;
+});
+
+add_action('admin_enqueue_scripts', function( $hook ) {
+    if ($hook !== 'nav-menus.php'){ return; }
+
+    $css = <<<CSS
+    .menu-item-settings .field-link-target,
+    .menu-item-settings .field-split-dropdown {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        margin-bottom: 0;
+        width: auto;
+    }
+    CSS;
+
+    wp_add_inline_style('common', $css);
+
+    $js = <<<JS
+    jQuery(function($){
+        function repositionSplitDropdown(context){
+            $(context).find('.menu-item-settings').each(function(){
+                var \$settings = $(this);
+                var \$split  = \$settings.find('.field-split-dropdown');
+                var \$target = \$settings.find('.field-link-target'); // "Open link in a new tab"
+
+                if (\$split.length && \$target.length) {
+                    \$split.insertAfter(\$target);
+                }
+            });
+        }
+
+        repositionSplitDropdown(document);
+
+        $(document).on('menu-item-added menu-item-settings-expanded', function(e){
+            repositionSplitDropdown(e.target);
+        });
+    });
+    JS;
+
+    wp_add_inline_script('nav-menu', $js);
 });
