@@ -299,7 +299,7 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 				$atts['class'] = 'nav-link';
 			}
 
-			if ($depth === 0 && in_array('menu-item-has-children', $classes)) {
+			if ($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) !== '1') {
 				$atts['class']       .= ' dropdown-toggle';
 				$atts['data-toggle']  = 'dropdown';
 			}
@@ -354,10 +354,42 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 			}
 			*/
 			//
-			$item_output .= '<a'. $attributes .'>';
-			/** This filter is documented in wp-includes/post-template.php */
-			$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-			$item_output .= '</a>';
+			if($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) === '1')
+			{
+				$item_output .= '<div class="btn-group">';
+
+				$item_output .= '<a' . $attributes. '>';
+				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+				$item_output .= '</a>';
+				
+				// Toggle link (split control)
+				$toggle_atts = array(
+				    'href'           => '#',
+				    'class'          => 'nav-link dropdown-toggle dropdown-toggle-split',
+				    'data-toggle'    => 'dropdown',
+				    'aria-haspopup'  => 'true',
+				    'aria-expanded'  => 'false',
+				    'role'           => 'button'
+				);
+
+				$toggle_attr_str = '';
+				foreach ( $toggle_atts as $attr => $value ) {
+				    $toggle_attr_str .= ' ' . $attr . '="' . esc_attr( $value ) . '"';
+				}
+
+				$item_output .= '<a' . $toggle_attr_str . '></a>';
+				
+				$item_output .= '</div>';
+	
+			}
+			else
+			{
+				$item_output .= '<a'. $attributes .'>';
+				/** This filter is documented in wp-includes/post-template.php */
+				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+				$item_output .= '</a>';
+			}
+
 			$item_output .= $args->after;
 
 			/**
