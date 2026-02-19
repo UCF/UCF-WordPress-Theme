@@ -44,3 +44,11 @@ p:empty {
     }
   }
 }
+
+.font-condensed {
+  font-family: $font-family-condensed;
+  // sass-lint:disable no-important
+  font-weight: revert !important; // We only support one weight of Knockout--forcing !important here is necessary.
+  // sass-lint:disable no-important
+  letter-spacing: revert !important;
+}
