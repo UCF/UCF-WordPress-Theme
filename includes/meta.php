@@ -32,6 +32,10 @@ function ucfwp_enqueue_frontend_assets() {
 			break;
 	}
 
+	// Register the condensed font stylesheet
+	wp_enqueue_style( 'din-font-stylesheet', 'https://use.typekit.net/efd2jyc.css' );
+	$style_deps[] = 'din-font-stylesheet';
+
 	// Register main theme stylesheet
 	wp_enqueue_style( 'style', UCFWP_THEME_CSS_URL . '/style.min.css', $style_deps, $theme_version );
 
