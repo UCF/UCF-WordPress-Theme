@@ -299,7 +299,7 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 				$atts['class'] = 'nav-link';
 			}
 
-			if ($depth === 0 && in_array('menu-item-has-children', $classes)) {
+			if ($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) !== '1') {
 				$atts['class']       .= ' dropdown-toggle';
 				$atts['data-toggle']  = 'dropdown';
 			}
@@ -354,10 +354,37 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 			}
 			*/
 			//
-			$item_output .= '<a'. $attributes .'>';
-			/** This filter is documented in wp-includes/post-template.php */
-			$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-			$item_output .= '</a>';
+			if($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) === '1')
+			{
+				$item_output .= '<a' . $attributes. '>';
+				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+				$item_output .= '</a>';
+				
+				// Toggle link (split control)
+				$toggle_atts = array(
+				    'href'           => '#',
+				    'class'          => 'nav-link dropdown-toggle dropdown-toggle-split',
+				    'data-toggle'    => 'dropdown',
+				    'aria-haspopup'  => 'true',
+				    'aria-expanded'  => 'false',
+				    'role'           => 'button'
+				);
+
+				$toggle_attr_str = '';
+				foreach ( $toggle_atts as $attr => $value ) {
+				    $toggle_attr_str .= ' ' . $attr . '="' . esc_attr( $value ) . '"';
+				}
+
+				$item_output .= '<a' . $toggle_attr_str . '></a>';
+			}
+			else
+			{
+				$item_output .= '<a'. $attributes .'>';
+				/** This filter is documented in wp-includes/post-template.php */
+				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+				$item_output .= '</a>';
+			}
+
 			$item_output .= $args->after;
 
 			/**
@@ -397,3 +424,104 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 	}
 
 }
+
+/*
+ * Add a "Split dropdown" checkbox to menu items.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param int    $menu_item_id The menu item ID.
+ * @param object $item         The current menu item.
+ * @param int    $depth        Depth of menu item. Used for padding.
+ * @param array  $args         An array of {@see wp_nav_menu()} arguments.
+ * @return void
+ */
+add_action('wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $depth, $args) {
+	if ((int) $depth !== 0){ return; }
+
+	$value = get_post_meta( $menu_item_id, '_menu_item_split_dropdown', true );
+	?>
+	<p class="field-split-dropdown description">
+		<label for="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>">
+			<input type="checkbox"
+				id="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>"
+				name="menu-item-split-dropdown[<?php echo esc_attr( $menu_item_id ); ?>]"
+				value="1" <?php checked( $value, '1' ); ?> />
+			Split dropdown
+		</label>
+	</p>
+	<?php
+}, 10, 4 );
+
+/*
+ * Save the checkbox value.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param string $menu_id       Menu item ID.
+ * @param string $menu_id_db_id Menu item post ID (nav_menu_item ID).
+ * @param array  $args          An array of {@see wp_nav_menu()} arguments.
+ * @return void
+ */
+add_action('wp_update_nav_menu_item', function( $menu_id, $menu_item_db_id, $args) {
+   $is_set = isset($_POST['menu-item-split-dropdown'][ $menu_item_db_id ]) ? '1' : '';
+   if ($is_set !== '') {
+       update_post_meta($menu_item_db_id, '_menu_item_split_dropdown', '1');
+   } else {
+       delete_post_meta($menu_item_db_id, '_menu_item_split_dropdown');
+   }
+}, 10, 3 );
+
+/*
+ * Load the value onto the menu item object for the walker.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param  object $item Menu item object.
+ * @return object       Modified menu item object.
+ */
+add_filter( 'wp_setup_nav_menu_item', function( $item ) {
+   $item->split_dropdown = ( get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) === '1' );
+   return $item;
+});
+
+add_action('admin_enqueue_scripts', function( $hook ) {
+    if ($hook !== 'nav-menus.php'){ return; }
+
+    $css = <<<CSS
+    .menu-item-settings .field-link-target,
+    .menu-item-settings .field-split-dropdown {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        margin-bottom: 0;
+        width: auto;
+    }
+    CSS;
+
+    wp_add_inline_style('common', $css);
+
+    $js = <<<JS
+    jQuery(function($){
+        function repositionSplitDropdown(context){
+            $(context).find('.menu-item-settings').each(function(){
+                var \$settings = $(this);
+                var \$split  = \$settings.find('.field-split-dropdown');
+                var \$target = \$settings.find('.field-link-target'); // "Open link in a new tab"
+
+                if (\$split.length && \$target.length) {
+                    \$split.insertAfter(\$target);
+                }
+            });
+        }
+
+        repositionSplitDropdown(document);
+
+        $(document).on('menu-item-added menu-item-settings-expanded', function(e){
+            repositionSplitDropdown(e.target);
+        });
+    });
+    JS;
+
+    wp_add_inline_script('nav-menu', $js);
+});
