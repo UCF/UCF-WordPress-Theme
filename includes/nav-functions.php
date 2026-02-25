@@ -444,12 +444,14 @@ add_action( 'wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $d
 	if ( (int) $depth !== 0 ) { return; }
 
 	$value = get_post_meta( $menu_item_id, '_menu_item_split_dropdown', true );
+	$field_id  = 'edit-menu-item-split-dropdown-' . esc_attr( $menu_item_id );
+	$field_name = 'menu-item-split-dropdown[' . esc_attr( $menu_item_id ) . ']';
 	?>
 	<p class="field-split-dropdown description">
-		<label for="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>">
+		<label for="<?php echo esc_attr( $field_id ); ?>">
 			<input type="checkbox"
-				id="edit-menu-item-split-dropdown-<?php echo esc_attr( $menu_item_id ); ?>"
-				name="menu-item-split-dropdown[<?php echo esc_attr( $menu_item_id ); ?>]"
+				id="<?php echo esc_attr( $field_id ); ?>"
+				name="<?php echo esc_attr( $field_name ); ?>]"
 				value="1" <?php checked( $value, '1' ); ?> />
 			Split dropdown
 		</label>
@@ -468,12 +470,13 @@ add_action( 'wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $d
  * @return void
  */
 add_action( 'wp_update_nav_menu_item', function( $menu_id, $menu_item_db_id, $args ) {
-   $is_set = isset( $_POST['menu-item-split-dropdown'][ $menu_item_db_id ] ) ? '1' : '';
-   if ( $is_set !== '' ) {
-       update_post_meta( $menu_item_db_id, '_menu_item_split_dropdown', '1' );
-   } else {
-       delete_post_meta( $menu_item_db_id, '_menu_item_split_dropdown' );
-   }
+	$meta_key = '_menu_item_split_dropdown';
+	$is_set = isset( $_POST['menu-item-split-dropdown'][ $menu_item_db_id ] ) ? '1' : '';
+	if ( $is_set !== '' ) {
+	    update_post_meta( $menu_item_db_id, $meta_key, '1' );
+	} else {
+	    delete_post_meta( $menu_item_db_id, $meta_key );
+	}
 }, 10, 3 );
 
 /*
@@ -500,42 +503,42 @@ add_filter( 'wp_setup_nav_menu_item', function( $item ) {
  * @return void
  */
 add_action( 'admin_enqueue_scripts', function( $hook ) {
-    if ( $hook !== 'nav-menus.php' ){ return; }
+	if ( $hook !== 'nav-menus.php' ){ return; }
 
-    $css = <<<CSS
-    .menu-item-settings .field-link-target,
-    .menu-item-settings .field-split-dropdown {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 12px;
-        margin-bottom: 0;
-        width: auto;
-    }
-    CSS;
+	$css = <<<CSS
+	.menu-item-settings .field-link-target,
+	.menu-item-settings .field-split-dropdown {
+	    display: inline-block;
+	    margin-bottom: 0;
+	    margin-right: 12px;
+	    vertical-align: middle;
+	    width: auto;
+	}
+	CSS;
 
-    wp_add_inline_style( 'common', $css );
+	wp_add_inline_style( 'common', $css );
 
-    $js = <<<JS
-    jQuery(function($){
-        function repositionSplitDropdown(context){
-            $(context).find('.menu-item-settings').each(function(){
-                var \$settings = $(this);
-                var \$split  = \$settings.find('.field-split-dropdown');
-                var \$target = \$settings.find('.field-link-target'); // "Open link in a new tab"
+	$js = <<<JS
+	jQuery(function ($) {
+	  function repositionSplitDropdown(context) {
+	    $(context).find('.menu-item-settings').each(function () {
+	      var \$settings = $(this);
+	      var \$split = \$settings.find('.field-split-dropdown');
+	      var \$target = \$settings.find('.field-link-target'); // "Open link in a new tab"
 
-                if (\$split.length && \$target.length) {
-                    \$split.insertAfter(\$target);
-                }
-            });
-        }
+	      if (\$split.length && \$target.length) {
+	        \$split.insertAfter(\$target);
+	      }
+	    });
+	  }
 
-        repositionSplitDropdown(document);
+	  repositionSplitDropdown(document);
 
-        $(document).on('menu-item-added menu-item-settings-expanded', function(e){
-            repositionSplitDropdown(e.target);
-        });
-    });
-    JS;
+	  $(document).on('menu-item-added menu-item-settings-expanded', function (e) {
+	    repositionSplitDropdown(e.target);
+	  });
+	});
+	JS;
 
-    wp_add_inline_script( 'nav-menu', $js );
+	wp_add_inline_script( 'nav-menu', $js );
 });
