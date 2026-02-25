@@ -299,7 +299,7 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 				$atts['class'] = 'nav-link';
 			}
 
-			if ($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) !== '1') {
+			if ( $depth === 0 && in_array( 'menu-item-has-children', $classes ) && get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) !== '1' ) {
 				$atts['class']       .= ' dropdown-toggle';
 				$atts['data-toggle']  = 'dropdown';
 			}
@@ -354,9 +354,10 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 			}
 			*/
 			//
-			if($depth === 0 && in_array('menu-item-has-children', $classes) && get_post_meta($item->ID, '_menu_item_split_dropdown', true) === '1')
+			if( $depth === 0 && in_array( 'menu-item-has-children', $classes ) && get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) === '1' )
 			{
 				$item_output .= '<a' . $attributes. '>';
+				/** This filter is documented in wp-includes/post-template.php */
 				$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
 				$item_output .= '</a>';
 				
@@ -436,8 +437,8 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
  * @param array  $args         An array of {@see wp_nav_menu()} arguments.
  * @return void
  */
-add_action('wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $depth, $args) {
-	if ((int) $depth !== 0){ return; }
+add_action( 'wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $depth, $args ) {
+	if ( (int) $depth !== 0 ) { return; }
 
 	$value = get_post_meta( $menu_item_id, '_menu_item_split_dropdown', true );
 	?>
@@ -463,12 +464,12 @@ add_action('wp_nav_menu_item_custom_fields', function( $menu_item_id, $item, $de
  * @param array  $args          An array of {@see wp_nav_menu()} arguments.
  * @return void
  */
-add_action('wp_update_nav_menu_item', function( $menu_id, $menu_item_db_id, $args) {
-   $is_set = isset($_POST['menu-item-split-dropdown'][ $menu_item_db_id ]) ? '1' : '';
-   if ($is_set !== '') {
-       update_post_meta($menu_item_db_id, '_menu_item_split_dropdown', '1');
+add_action( 'wp_update_nav_menu_item', function( $menu_id, $menu_item_db_id, $args ) {
+   $is_set = isset( $_POST['menu-item-split-dropdown'][ $menu_item_db_id ] ) ? '1' : '';
+   if ( $is_set !== '' ) {
+       update_post_meta( $menu_item_db_id, '_menu_item_split_dropdown', '1' );
    } else {
-       delete_post_meta($menu_item_db_id, '_menu_item_split_dropdown');
+       delete_post_meta( $menu_item_db_id, '_menu_item_split_dropdown' );
    }
 }, 10, 3 );
 
@@ -485,8 +486,18 @@ add_filter( 'wp_setup_nav_menu_item', function( $item ) {
    return $item;
 });
 
-add_action('admin_enqueue_scripts', function( $hook ) {
-    if ($hook !== 'nav-menus.php'){ return; }
+
+/*
+ * Ensures that the custom "Split dropdown" field is visually aligned
+ * with the existing "Open link in a new tab" field.
+ * @author Jhon Tabio
+ * @since unknown
+ *
+ * @param string $hook Current admin page hook suffix.
+ * @return void
+ */
+add_action( 'admin_enqueue_scripts', function( $hook ) {
+    if ( $hook !== 'nav-menus.php' ){ return; }
 
     $css = <<<CSS
     .menu-item-settings .field-link-target,
@@ -499,7 +510,7 @@ add_action('admin_enqueue_scripts', function( $hook ) {
     }
     CSS;
 
-    wp_add_inline_style('common', $css);
+    wp_add_inline_style( 'common', $css );
 
     $js = <<<JS
     jQuery(function($){
@@ -523,5 +534,5 @@ add_action('admin_enqueue_scripts', function( $hook ) {
     });
     JS;
 
-    wp_add_inline_script('nav-menu', $js);
+    wp_add_inline_script( 'nav-menu', $js );
 });
