@@ -280,6 +280,9 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 			$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
 			$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
+			$has_children = in_array( 'menu-item-has-children', $classes, true );
+			$split_enabled = ( get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) === '1' );
+
 			// New
 			if ($depth === 0) {
 				$output .= $indent . '<li' . $id . $class_names .'>';
@@ -299,7 +302,7 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 				$atts['class'] = 'nav-link';
 			}
 
-			if ( $depth === 0 && in_array( 'menu-item-has-children', $classes ) && get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) !== '1' ) {
+			if ( $depth === 0 && $has_children && ! $split_enabled ) {
 				$atts['class']       .= ' dropdown-toggle';
 				$atts['data-toggle']  = 'dropdown';
 			}
@@ -354,7 +357,7 @@ if ( !class_exists( 'bs4Navwalker' ) ) {
 			}
 			*/
 			//
-			if( $depth === 0 && in_array( 'menu-item-has-children', $classes ) && get_post_meta( $item->ID, '_menu_item_split_dropdown', true ) === '1' )
+			if( $depth === 0 && $has_children && $split_enabled )
 			{
 				$item_output .= '<a' . $attributes. '>';
 				/** This filter is documented in wp-includes/post-template.php */
